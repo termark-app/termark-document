@@ -7,6 +7,25 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.0.46 (2026-07-03)
+
+### Added
+
+- Added a quick-connect shortcut for hosts.
+- Quick Connect now supports NextTerminal SSH assets.
+- AI can now read command snippets on demand.
+
+### Fixed
+
+- Fixed lock screen background transparency.
+- Fixed host ordering changing after editing a host.
+
+### Changed
+
+- Improved background image transparency and terminal split-pane spacing.
+- Improved debounce behavior for terminal size synchronization.
+- Improved newly added data IDs and the AI context format.
+
 ## v1.0.45 (2026-07-02)
 
 ### Added
