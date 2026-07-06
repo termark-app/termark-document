@@ -7,6 +7,24 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.0.47 (2026-07-07)
+
+### Added
+
+- Added a shortcut for toggling the sidebar.
+- Workspace sidebar collapsed state is now remembered.
+
+### Fixed
+
+- Fixed stale state remaining after canceling an AI command.
+- Fixed terminal font name parsing errors.
+- Fixed Chinese IME compatibility for `@` mentions in the AI input box.
+
+### Changed
+
+- Refactored lock-screen startup theme initialization.
+- Terminal command snippet groups are now collapsed by default.
+
 ## v1.0.46 (2026-07-03)
 
 ### Added
