@@ -7,6 +7,17 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.1.0 (2026-07-07)
+
+### Added
+
+- Added the Beta update channel.
+- Added support for Windows and Linux arm64.
+
+### Changed
+
+- Optimized the logo.
+
 ## v1.0.47 (2026-07-07)
 
 ### Added
