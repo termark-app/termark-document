@@ -1,11 +1,12 @@
-<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-    <!-- 背景 -->
-    <rect width="1024" height="1024" fill="#303031" rx="190"/>
+<svg width="1024" height="1024"
+     viewBox="0 0 1024 1024"
+     xmlns="http://www.w3.org/2000/svg">
 
-    <!-- Logo 放大 140% -->
-    <g transform="translate(512 544) scale(1.50) translate(-512 -512)">
+    <rect width="1024" height="1024" rx="190" fill="#000000"/>
+
+    <g transform="translate(512 544) scale(1.60) translate(-512 -512)">
         <path
-                fill="#e6edf3"
+                fill="#FFFFFF"
                 d="
             M345 319
             Q342 319 340 322
@@ -30,5 +31,4 @@
             "
         />
     </g>
-
 </svg>
