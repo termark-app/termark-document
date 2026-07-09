@@ -33,6 +33,7 @@ export default defineConfig({
                             text: 'Documentation',
                             items: [
                                 {text: 'SFTP CWD Tracking', link: '/usage/sftp-cwd-tracking'},
+                                {text: 'Keyword Highlight', link: '/usage/terminal-keyword-highlight'},
                                 {text: 'PowerShell Light Mode Display Issues', link: '/usage/powershell-light-theme'},
                                 {text: 'Windows Antivirus False Positive Notice', link: '/usage/windows-virus-warning'},
                                 {text: 'Local Encryption and Data Recovery', link: '/usage/local-encryption'},
@@ -90,6 +91,7 @@ export default defineConfig({
                             text: '使用文档',
                             items: [
                                 {text: 'SFTP 目录跟随配置', link: '/zh/usage/sftp-cwd-tracking'},
+                                {text: '关键字高亮', link: '/zh/usage/terminal-keyword-highlight'},
                                 {text: 'PowerShell 浅色模式显示异常', link: '/zh/usage/powershell-light-theme'},
                                 {text: 'Windows 下安全软件误报说明', link: '/zh/usage/windows-virus-warning'},
                                 {text: '本地加密与数据恢复说明', link: '/zh/usage/local-encryption'},
