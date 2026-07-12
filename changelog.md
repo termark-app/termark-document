@@ -7,6 +7,21 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.1.1 (2026-07-12)
+
+### Added
+
+- Added a copy button to AI Markdown code blocks.
+- Added a clear button to the asset tree search box.
+- Added an AI context toggle for host notes.
+- Added automatic detection and connection support for WSL distributions.
+
+### Fixed
+
+- Fixed the directory being reset after switching SFTP tabs.
+- Fixed styling issues in the AI settings section.
+- Fixed NextTerminal RemoteApp configurations being lost.
+
 ## v1.1.0 (2026-07-07)
 
 ### Added
