@@ -7,6 +7,29 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.1.2 (2026-07-18)
+
+### Added
+
+- Added manual refresh for authorization information.
+- Added AI retry status display and support for retrying failed requests.
+- Asset tree host tooltips now display host notes.
+
+### Fixed
+
+- Restored the create-folder action in SFTP and improved toolbar callback handling.
+- Fixed flickering when adjusting transparency while the language follows the system setting.
+- Fixed Option+Arrow word navigation on macOS.
+
+### Changed
+
+- Updated the login and authorization flow for the new authentication scheme, using a single-session token and authorization expiration to determine local feature availability.
+- Refactored frontend and backend asset loading to use the same origin and improved the Electron startup page.
+- Improved natural sorting in SFTP file lists.
+- Improved command snippet group expansion behavior.
+- Added a scrollbar to the AI input box.
+- Port forwarding and history action buttons are now always visible.
+
 ## v1.1.1 (2026-07-12)
 
 ### Added
