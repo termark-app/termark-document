@@ -7,6 +7,16 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.1.4 (2026-07-20)
+
+### Fixed
+
+- Switched to a fixed application protocol and fixed shortcut listener initialization.
+- Fixed text overlapping when the AI input box begins with spaces.
+- Fixed Starship icons not displaying correctly in Windows terminals.
+- Separated regular and batch terminal renderers and fixed the WebGL lifecycle.
+- Fixed custom host logos not being displayed.
+
 ## v1.1.2 (2026-07-18)
 
 ### Added
