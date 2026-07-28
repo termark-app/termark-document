@@ -7,6 +7,36 @@ description: Termark release notes and product updates.
 
 This page records Termark product updates, bug fixes, and behavior changes.
 
+## v1.1.5 (2026-07-28)
+
+### Added
+
+- Added support for viewing SFTP file information.
+- Added GitHub-based configuration sync with HTTP and SOCKS5 proxy support.
+- Added descriptions for commands executed by AI.
+- Added terminal latency display and a toggle to control it.
+
+### Fixed
+
+- Fixed terminal rendering artifacts caused by a shared WebGL texture atlas.
+- Fixed the source used to cache host names in Global AI.
+- Fixed the update window appearing when the latest version was already installed.
+- Fixed incorrect cancellation states while AI tools were running.
+- Fixed the application freezing when a mouse side button triggered Back.
+- Fixed cloud sync overriding the appearance mode.
+- Fixed the macOS local network permission declaration and its localization.
+
+### Changed
+
+- Improved host name display in Global AI and removed duplicate host names from tool details.
+- Unified terminal OSC status and notification handling.
+- Refactored AI tool execution and confirmation state management, and improved tool call parameters and output styling.
+- Distinguished base SSH titles from temporary Agent status titles.
+- Improved custom tab titles and task status display, and added support for renaming tabs by double-clicking.
+- Migrated sync configuration to a directory structure while preserving migration support for the legacy path.
+- Changed anonymous statistics reporting to once every four hours.
+- Improved the background styling of the terminal latency indicator.
+
 ## v1.1.4 (2026-07-20)
 
 ### Fixed
