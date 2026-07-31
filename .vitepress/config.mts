@@ -82,7 +82,13 @@ export default defineConfig({
                 logo,
                 nav: [
                     {text: '使用文档', link: '/zh/usage/sftp-cwd-tracking'},
-                    {text: '更新日志', link: '/zh/changelog'},
+                    {
+                        text: '更新日志',
+                        items: [
+                            {text: '桌面端更新日志', link: '/zh/changelog'},
+                            {text: '移动端更新日志', link: '/zh/mobile-changelog'}
+                        ]
+                    },
                     {text: '博客', link: '/zh/blog/termark-ssh-terminal-workbench'}
                 ],
                 sidebar: {
@@ -103,7 +109,17 @@ export default defineConfig({
                         {
                             text: '更新日志',
                             items: [
-                                {text: '更新日志', link: '/zh/changelog'}
+                                {text: '桌面端更新日志', link: '/zh/changelog'},
+                                {text: '移动端更新日志', link: '/zh/mobile-changelog'}
+                            ]
+                        }
+                    ],
+                    '/zh/mobile-changelog': [
+                        {
+                            text: '更新日志',
+                            items: [
+                                {text: '桌面端更新日志', link: '/zh/changelog'},
+                                {text: '移动端更新日志', link: '/zh/mobile-changelog'}
                             ]
                         }
                     ],

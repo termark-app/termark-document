@@ -1,11 +1,11 @@
 ---
-title: 更新日志
-description: Termark 版本更新记录。
+title: 桌面端更新日志
+description: Termark 桌面端版本更新记录。
 ---
 
-# 更新日志
+# 桌面端更新日志
 
-这里记录 Termark 的版本更新、问题修复和行为变更。
+这里记录 Termark 桌面端的版本更新、问题修复和行为变更。
 
 更早版本请查看[更新日志归档（v1.0.47 及更早版本）](/zh/changelog-archive)。
 
