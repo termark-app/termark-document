@@ -9,6 +9,35 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.2.0 (2026-08-05)
+
+### Added
+
+- Added configuration sync through generic HTTPS Git repositories.
+- Added systemd service management, including service lists and details.
+- Added cross-platform SSH Agent authentication and authorization checks before connecting.
+- Added terminal rendering engine settings with runtime switching support.
+- Added terminal process management.
+- Improved session history with directory organization, export, and archiving support.
+- Added team authorization information display in the desktop application.
+
+### Fixed
+
+- Fixed tmux session connection compatibility across different shells.
+- Fixed possible timeouts during the SSH interactive authentication handshake.
+- Fixed a race condition in automatic polling after cloud sync was paused.
+- Fixed focus not being restored after closing terminal search.
+- Fixed SSH Agent environment detection when launching from the macOS Dock.
+
+### Changed
+
+- Migrated terminal metrics collection and improved cross-platform Docker and tmux compatibility.
+- Improved the systemd service list and details styling.
+- Unified the destructive styling of Stop actions.
+- Improved process list presentation and start time formatting.
+- Unified session recording exports and improved history action buttons.
+- Added client-side sorting to SFTP file lists.
+
 ## v1.1.6 (2026-07-28)
 
 ### Changed
