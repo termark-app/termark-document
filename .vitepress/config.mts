@@ -127,6 +127,7 @@ export default defineConfig({
                         {
                             text: '博客',
                             items: [
+                                {text: '手机上到底能不能 SSH？', link: '/zh/blog/can-you-ssh-on-a-phone'},
                                 {text: '如果你经常连服务器，可以试试 Termark', link: '/zh/blog/termark-ssh-terminal-workbench'},
                                 {text: '我做了一个更顺手的 SSH 终端管理工具：Termark', link: '/zh/blog/wechat-promo-article'},
                                 {text: '独立开发一个桌面 SSH 工具：最麻烦的不是写代码', link: '/zh/blog/desktop-ssh-tool-indie-dev'},
