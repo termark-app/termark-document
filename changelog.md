@@ -9,6 +9,29 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.3.0 (2026-08-09)
+
+### Added
+
+- Added support for configuring local bind addresses and IPv6 addresses for port forwarding.
+- Added support for viewing active port-forwarding connections.
+
+### Fixed
+
+- Fixed SSH Agent authentication when multiple keys are available.
+- Fixed attaching to and switching tmux sessions on older tmux versions, and improved session exit handling and current-client detection.
+- Fixed authentication token rotation failures and improved automatic recovery from invalid sessions.
+- Fixed some requests to the official AI service failing.
+- Fixed the SFTP file list not refreshing when an upload completed while the panel was hidden.
+- Fixed several SFTP transfer progress and status display issues.
+- Fixed incorrect host ordering in the local asset tree.
+
+### Changed
+
+- Improved data collection and refresh performance for large process lists.
+- Improved scrolling while AI responses are streamed.
+- Added indicators to paid feature entry points and adjusted how professional operations and session history features are allocated between plans.
+
 ## v1.2.0 (2026-08-05)
 
 ### Added

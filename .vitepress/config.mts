@@ -24,7 +24,13 @@ export default defineConfig({
                 logo,
                 nav: [
                     {text: 'Docs', link: '/usage/sftp-cwd-tracking'},
-                    {text: 'Changelog', link: '/changelog'},
+                    {
+                        text: 'Changelog',
+                        items: [
+                            {text: 'Desktop Changelog', link: '/changelog'},
+                            {text: 'Mobile Changelog', link: '/mobile-changelog'}
+                        ]
+                    },
                     {text: 'Blog', link: '/blog/termark-ssh-terminal-workbench'}
                 ],
                 sidebar: {
@@ -45,7 +51,17 @@ export default defineConfig({
                         {
                             text: 'Release Notes',
                             items: [
-                                {text: 'Changelog', link: '/changelog'}
+                                {text: 'Desktop Changelog', link: '/changelog'},
+                                {text: 'Mobile Changelog', link: '/mobile-changelog'}
+                            ]
+                        }
+                    ],
+                    '/mobile-changelog': [
+                        {
+                            text: 'Release Notes',
+                            items: [
+                                {text: 'Desktop Changelog', link: '/changelog'},
+                                {text: 'Mobile Changelog', link: '/mobile-changelog'}
                             ]
                         }
                     ],
