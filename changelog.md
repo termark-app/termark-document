@@ -9,6 +9,40 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.4.0 (2026-08-13)
+
+### Added
+
+- Added a metrics monitoring status bar at the bottom of the terminal, with support for viewing and filtering network connections.
+- Added automatic interactive OTP authentication for hosts and improved authentication retries for multi-hop connections.
+- AI conversations now support queuing input while a response is in progress, sending queued messages immediately, and editing a previous message to restart the conversation from that point.
+- Added automatic context compression for AI conversations and on-demand access to SSH runtime context.
+- Added a diff preview before AI writes changes to files.
+- Added support for editing remote SFTP files with local applications.
+- Added multi-window support with isolated instances for different development environments.
+- Added manual Touch ID unlocking to the macOS application lock while retaining password-based unlocking.
+- Added a setting to remember local window size and position.
+
+### Fixed
+
+- Fixed focus switching in the terminal search box.
+- Fixed authentication tokens being refreshed unexpectedly when reading account status.
+- Fixed incomplete DeepSeek reasoning history being sent back to the model and ensured that complete conversation messages are preserved.
+- Fixed duplicate messages being appended when retrying a failed AI response.
+- Fixed the settings dialog not scrolling in small windows.
+- Fixed S3 object access tests failing when `HeadBucket` permission is unavailable.
+- Fixed SVG images not being accepted when uploading asset logos.
+- Fixed flickering in CLI file transfer progress and blocking during some connection shutdowns.
+
+### Changed
+
+- Redesigned the settings sidebar, account area, and AI Assistant page, and unified the layout and visual hierarchy across Appearance, Terminal, Keyword Highlighting, NextTerminal, Data Management, and other preference pages.
+- Improved the main interface and terminal sidebar layouts, and simplified the selected and empty states in the asset tree.
+- Reorganized cloud sync settings and actions, unified the official sync data and metadata formats, and improved WebDAV compatibility by adopting a standard SDK.
+- Improved lifecycle management for CLI file transfers and SSH connections.
+- Newly added hosts now appear at the top of the asset list by default; switching the active tab now clears the asset tree selection.
+- Authorization IDs are now displayed in the account status bar by default.
+
 ## v1.3.0 (2026-08-09)
 
 ### Added
