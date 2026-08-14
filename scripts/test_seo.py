@@ -21,6 +21,11 @@ else:
     for required in (
         "/zh/blog/windows-ssh-client-guide",
         "/zh/blog/mac-ssh-client-guide",
+        "/zh/blog/linux-ssh-client-guide",
+        "/zh/blog/ios-ssh-client-guide",
+        "/zh/blog/android-ssh-client-guide",
+        "/zh/blog/ssh-jump-host-guide",
+        "/zh/blog/ssh-port-forwarding-guide",
         "/zh/blog/sftp-client-guide",
         "/zh/blog/ssh-client-recommendation",
         "/zh/blog/can-you-ssh-on-a-phone",
@@ -33,6 +38,11 @@ else:
 priority_articles = {
     "windows-ssh-client-guide.md": "/zh-cn/windows-ssh-client/",
     "mac-ssh-client-guide.md": "/zh-cn/mac-ssh-client/",
+    "linux-ssh-client-guide.md": "/zh-cn/linux-ssh-client/",
+    "ios-ssh-client-guide.md": "/zh-cn/ios-ssh-client/",
+    "android-ssh-client-guide.md": "/zh-cn/android-ssh-client/",
+    "ssh-jump-host-guide.md": "/zh-cn/ssh-client/",
+    "ssh-port-forwarding-guide.md": "/zh-cn/ssh-client/",
     "ssh-client-recommendation.md": "/zh-cn/ssh-client/",
     "can-you-ssh-on-a-phone.md": "/zh-cn/ssh-client/",
     "termark-ai-design.md": "/zh-cn/ai-ssh-client/",
@@ -42,6 +52,10 @@ priority_articles = {
 required_article_images = {
     "windows-ssh-client-guide.md": "./images6/termark-new-ssh-host.png",
     "mac-ssh-client-guide.md": "./images2/sftp.png",
+    "ios-ssh-client-guide.md": "./images6/term.jpg",
+    "android-ssh-client-guide.md": "./images6/ai.jpg",
+    "ssh-jump-host-guide.md": "./images6/termark-new-ssh-host.png",
+    "ssh-port-forwarding-guide.md": "./images6/portforward-local.png",
     "sftp-client-guide.md": "./images6/fstp-file-actions.png",
 }
 for filename, product_link in priority_articles.items():
@@ -184,6 +198,11 @@ for filename in (source.name for source in blog_sources):
 tracked_blog_links = {
     "windows-ssh-client-guide.md": "utm_campaign=windows_ssh_guide",
     "mac-ssh-client-guide.md": "utm_campaign=mac_ssh_guide",
+    "linux-ssh-client-guide.md": "utm_campaign=linux_ssh_guide",
+    "ios-ssh-client-guide.md": "utm_campaign=ios_ssh_guide",
+    "android-ssh-client-guide.md": "utm_campaign=android_ssh_guide",
+    "ssh-jump-host-guide.md": "utm_campaign=ssh_jump_host_guide",
+    "ssh-port-forwarding-guide.md": "utm_campaign=ssh_port_forwarding_guide",
     "sftp-client-guide.md": "utm_campaign=sftp_client_guide",
     "termark-ai-design.md": "utm_campaign=ai_ssh_safety",
     "ssh-credential-security.md": "utm_campaign=ssh_credential_security",
