@@ -1,6 +1,9 @@
 ---
 title: AI SSH 客户端应该自动执行命令吗？Termark 的安全边界
 description: AI 可以读取终端上下文、解释日志和生成排查命令，但生产服务器需要明确的执行边界。本文说明 Termark 内置 Agent、命令确认和外部 CLI 的设计取舍。
+date: 2026-08-14
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # AI SSH 客户端应该自动执行命令吗？Termark 的安全边界

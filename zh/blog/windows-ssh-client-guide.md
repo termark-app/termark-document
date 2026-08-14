@@ -1,6 +1,9 @@
 ---
 title: Windows 上怎么选 SSH 客户端？OpenSSH、PuTTY 与图形化工具对比
 description: Windows SSH 客户端怎么选？本文按单机连接、多服务器资产、SFTP、跳板机、PowerShell、便携版和 AI 辅助等场景比较 OpenSSH、PuTTY、MobaXterm 与图形化 SSH 工作台。
+date: 2026-08-14
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # Windows 上怎么选 SSH 客户端？

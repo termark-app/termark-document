@@ -1,3 +1,11 @@
+---
+title: 独立开发一个桌面 SSH 工具：最麻烦的不是写代码
+description: 从安装、更新、签名、兼容、同步和用户反馈出发，记录独立开发跨平台桌面 SSH 客户端时遇到的工程与产品问题。
+date: 2026-06-05
+updated: 2026-08-14
+author: Termark Team
+---
+
 # 独立开发一个桌面 SSH 工具：最麻烦的不是写代码
 
 很多人看桌面软件，首先看界面。
@@ -160,6 +168,6 @@ AI 功能越强，命令确认、风险判断和用户可见性就越重要。�
 
 取舍慢慢也清晰了：本地核心功能尽量免费；持续成本和进阶能力再收费；界面保持简洁，底层尽量照顾真实服务器环境；AI 可以提高效率，但服务器控制权要留在用户手里。
 
-目前 Termark 支持 macOS、Windows 和 Linux，其中 Linux 版本目前主要支持 Ubuntu；基础功能免费使用，移动端也在开发中。如果需要批量执行、云同步等进阶能力，再购买授权。
+目前 Termark 桌面端支持 macOS、Windows 和 Linux，移动端提供 iOS 与 Android Beta。平台安装包和 Free/PRO 权益会随版本调整，请以[官网](https://www.termark.app)当前说明为准。
 
 官网：[https://www.termark.app](https://www.termark.app)

@@ -1,6 +1,9 @@
 ---
 title: SSH 客户端怎么选？Windows、macOS、Linux 工具选择指南
 description: 从系统支持、终端体验、SFTP、跳板机、凭据安全、移动端与 AI 边界出发，给经常连接服务器的用户一份可执行的 SSH 客户端选择清单。
+date: 2026-08-14
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # SSH 客户端怎么选？Windows、macOS、Linux 工具选择指南

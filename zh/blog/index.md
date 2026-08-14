@@ -21,6 +21,12 @@ description: 面向开发者和运维的 SSH 实用指南，涵盖 SSH 客户端
 
 手机适合告警响应和临时处理，不适合替代桌面工作。文章包含原生终端、后台连接、Docker/systemd 和移动交互的真实取舍。
 
+## SFTP 与文件传输
+
+### [SFTP 客户端怎么选？](/zh/blog/sftp-client-guide)
+
+通过上传配置、下载日志、在线编辑、双栏传输、目录跟随和复杂网络连接，判断一个 SFTP 客户端是否适合日常服务器工作。
+
 ## 安全与 AI
 
 ### [SSH 客户端保存密码和私钥安全吗？](/zh/blog/ssh-credential-security)

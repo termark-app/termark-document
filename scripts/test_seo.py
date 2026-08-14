@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """SEO acceptance checks for the generated VitePress site."""
 from pathlib import Path
+import json
 import re
 import sys
 import xml.etree.ElementTree as ET
@@ -17,6 +18,7 @@ else:
     index_body = blog_index.read_text(encoding="utf-8")
     for required in (
         "/zh/blog/windows-ssh-client-guide",
+        "/zh/blog/sftp-client-guide",
         "/zh/blog/ssh-client-recommendation",
         "/zh/blog/can-you-ssh-on-a-phone",
         "/zh/blog/termark-ai-design",
@@ -31,6 +33,7 @@ priority_articles = {
     "can-you-ssh-on-a-phone.md": "/zh-cn/ssh-client/",
     "termark-ai-design.md": "/zh-cn/ai-ssh-client/",
     "ssh-credential-security.md": "/zh-cn/ssh-client/",
+    "sftp-client-guide.md": "/zh-cn/sftp-client/",
 }
 for filename, product_link in priority_articles.items():
     source = ROOT / "zh" / "blog" / filename
@@ -40,6 +43,10 @@ for filename, product_link in priority_articles.items():
     body = source.read_text(encoding="utf-8")
     if not body.startswith("---\n") or "description:" not in body.split("---", 2)[1]:
         errors.append(f"priority article needs title and description frontmatter: {filename}")
+    frontmatter = body.split("---", 2)[1] if body.startswith("---\n") else ""
+    for required_field in ("date:", "updated:", "author:"):
+        if required_field not in frontmatter:
+            errors.append(f"priority article is missing {required_field[:-1]} frontmatter: {filename}")
     if product_link not in body:
         errors.append(f"priority article is missing contextual product link: {filename}")
 
@@ -64,9 +71,21 @@ stale_markers = (
     "TODO: 以下 3 条为占位文案",
     "活动截止 **2026 年 5 月 22 日**",
     "移动端计划下个月开始开发",
+    "已有 100+ 位付费用户",
+    "¥149",
+    "抽奖送授权",
+    "最近更新到了 v1.1.0",
+    "移动端也在开发中",
+    "SFTP Sudo 提权",
+    "SFTP 在线编辑器**                           | — | ✅",
 )
-for source in (ROOT / "zh" / "blog").glob("*.md"):
+blog_sources = [source for source in (ROOT / "zh" / "blog").glob("*.md") if source.name != "index.md"]
+for source in blog_sources:
     body = source.read_text(encoding="utf-8")
+    frontmatter = body.split("---", 2)[1] if body.startswith("---\n") else ""
+    for required_field in ("title:", "description:", "date:", "updated:", "author:"):
+        if required_field not in frontmatter:
+            errors.append(f"published article is missing {required_field[:-1]} frontmatter: {source.name}")
     for marker in stale_markers:
         if marker in body:
             errors.append(f"published article contains stale campaign content: {source.name}: {marker}")
@@ -116,6 +135,23 @@ for page, lang, route in samples:
         errors.append(f"hreflang cluster missing from {route}")
     if f'<html lang="{lang}"' not in body:
         errors.append(f"wrong HTML language for {route}")
+
+for filename in (source.name for source in blog_sources):
+    page = DIST / "zh" / "blog" / filename.replace(".md", ".html")
+    if not page.exists():
+        errors.append(f"generated priority blog page is missing: {filename}")
+        continue
+    body = page.read_text(encoding="utf-8")
+    scripts = re.findall(r'<script type="application/ld\+json">(.*?)</script>', body, re.S)
+    parsed = []
+    for script in scripts:
+        try:
+            parsed.append(json.loads(script))
+        except json.JSONDecodeError as exc:
+            errors.append(f"invalid JSON-LD in {filename}: {exc}")
+    types = {item.get("@type") for item in parsed if isinstance(item, dict)}
+    if not {"BlogPosting", "BreadcrumbList"}.issubset(types):
+        errors.append(f"blog schema is incomplete in {filename}: {sorted(str(value) for value in types)}")
 
 zh_home = DIST / "zh" / "index.html"
 if zh_home.exists():

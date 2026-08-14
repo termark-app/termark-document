@@ -1,6 +1,9 @@
 ---
 title: 手机上可以 SSH 吗？iOS 与 Android 的适用场景和限制
 description: 手机 SSH 适合告警响应、查看日志、重启服务和临时传文件，但不能替代桌面端。本文说明 iOS、Android 后台限制、移动终端交互和安全边界。
+date: 2026-08-14
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # 手机上可以 SSH 吗？iOS 与 Android 的适用场景和限制

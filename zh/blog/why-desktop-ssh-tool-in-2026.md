@@ -1,3 +1,11 @@
+---
+title: 有了 Xshell、MobaXterm、Termius，为什么我还要做 Termark？
+description: Termark 为什么仍要做桌面 SSH 工作台：重点不是重复连接功能，而是减少资产、终端、SFTP、同步和 AI 之间的工作流断点。
+date: 2026-07-08
+updated: 2026-08-14
+author: Termark Team
+---
+
 # 有了 Xshell、MobaXterm、Termius，为什么我还要做 Termark？
 
 做 Termark 之后，经常有人问我：
@@ -71,7 +79,7 @@ Termark 不想走这条路。
 - 支持多设备同步，让资产、凭证、配置和命令片段可以跟着用户走。
 - 接入 AI 辅助，但保留命令执行确认和风险边界。
 
-Termark 的移动端也在开发中，但我不想只用“有没有移动端”来定义产品差异。移动端解决的是入口覆盖问题，桌面端解决的是高频工作流问题。
+Termark 目前提供 iOS 和 Android Beta。移动端解决的是告警响应与临时操作等入口覆盖问题，桌面端仍然承担高频、多窗口和长时间工作的主流程。
 
 ## 本地客户端和 Web SSH 不是二选一
 
@@ -87,29 +95,8 @@ Termark 解决的是另一层：个人桌面上的高频远程操作。
 
 一个偏组织视角，一个偏个人工作流视角。它们可以连接起来，而不是互相替代。
 
-## 最近的 v1.1.0
+## 当前的平台支持
 
-Termark 最近更新到了 v1.1.0。
+桌面端当前提供 Windows x64/ARM64、macOS 和 Linux 安装包；移动端提供 iOS 与 Android Beta。不同平台的安装格式、架构和版本节奏可能不同，请以[官网下载页](https://www.termark.app/#download)和[更新日志](https://docs.termark.app/zh/changelog)为准。
 
-这个版本不是一个很大的功能版本，主要补了几件基础但有用的事情：
-
-- 优化 Logo。
-- 增加 Beta 更新渠道。
-- 支持 Windows 和 Linux arm64。
-
-Beta 渠道是为了把稳定用户和愿意尝鲜的用户分开。Windows 和 Linux arm64 支持，则是因为 arm64 不再只是 macOS 的事，越来越多设备会出现在这个架构上。
-
-这些更新不一定显眼，但对一个桌面工具来说，安装、更新、平台支持、稳定迭代，都是长期要补的基础能力。
-
-## 抽奖送授权
-
-这次也顺便做一个小抽奖。
-
-我会送出：
-
-- 3 个 Termark 永久授权兑换码
-- 10 个 Termark 3 年授权兑换码
-
-参与方式：
-
-活动文章中的临时兑换活动已经结束。当前产品与下载入口请以 [Termark 中文官网](https://www.termark.app/zh-cn/) 和[更新日志](https://docs.termark.app/zh/changelog)为准。
+对桌面工具来说，安装、更新、平台适配和稳定迭代不如新功能显眼，却会直接影响日常使用。

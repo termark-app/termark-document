@@ -23,6 +23,12 @@ function alternateRoutes(relativePath: string) {
     return {route, englishRoute, chineseRoute, hasTranslation: existsSync(resolve(contentRoot, counterpart))}
 }
 
+function isoDate(value: unknown) {
+    if (value instanceof Date) return value.toISOString().slice(0, 10)
+    if (typeof value === 'string') return value.slice(0, 10)
+    return undefined
+}
+
 const logo = {
     src: '/logo.svg',
     alt: 'Termark'
@@ -56,12 +62,43 @@ export default defineConfig({
         ] : [
             ['link', {rel: 'canonical', href: `${siteUrl}${route}`}]
         ]
-        return [
+        const head = [
             ...languageLinks,
             ['meta', {property: 'og:url', content: `${siteUrl}${route}`}],
             ['meta', {property: 'og:site_name', content: 'Termark'}],
             ['meta', {name: 'robots', content: 'index, follow, max-image-preview:large'}]
         ]
+        if (route.startsWith('/zh/blog/') && route !== '/zh/blog/') {
+            const title = pageData.frontmatter.title || pageData.title
+            const description = pageData.frontmatter.description || ''
+            const published = isoDate(pageData.frontmatter.date)
+            const modified = isoDate(pageData.frontmatter.updated) || published
+            const author = pageData.frontmatter.author || 'Termark Team'
+            const image = pageData.frontmatter.image
+            const article = {
+                '@context': 'https://schema.org', '@type': 'BlogPosting', headline: title, description,
+                ...(published ? {datePublished: published} : {}), ...(modified ? {dateModified: modified} : {}),
+                author: {'@type': 'Organization', name: author, url: 'https://www.termark.app/zh-cn/'},
+                publisher: {'@type': 'Organization', name: 'Termark', url: 'https://www.termark.app/', logo: {'@type': 'ImageObject', url: `${siteUrl}/logo.svg`}},
+                mainEntityOfPage: {'@type': 'WebPage', '@id': `${siteUrl}${route}`},
+                ...(image ? {image: image.startsWith('http') ? image : `${siteUrl}${image}`} : {})
+            }
+            const breadcrumbs = {
+                '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {'@type': 'ListItem', position: 1, name: 'Termark 文档', item: `${siteUrl}/zh/`},
+                    {'@type': 'ListItem', position: 2, name: '中文博客', item: `${siteUrl}/zh/blog/`},
+                    {'@type': 'ListItem', position: 3, name: title, item: `${siteUrl}${route}`}
+                ]
+            }
+            head.push(
+                ['meta', {property: 'article:published_time', content: published || ''}],
+                ['meta', {property: 'article:modified_time', content: modified || ''}],
+                ['script', {type: 'application/ld+json'}, JSON.stringify(article)],
+                ['script', {type: 'application/ld+json'}, JSON.stringify(breadcrumbs)]
+            )
+        }
+        return head
     },
     lang: 'en-US',
     title: 'Termark',
@@ -201,6 +238,7 @@ export default defineConfig({
                                 {text: '博客首页', link: '/zh/blog/'},
                                 {text: 'Windows SSH 客户端怎么选？', link: '/zh/blog/windows-ssh-client-guide'},
                                 {text: 'SSH 客户端怎么选？', link: '/zh/blog/ssh-client-recommendation'},
+                                {text: 'SFTP 客户端怎么选？', link: '/zh/blog/sftp-client-guide'},
                                 {text: '手机上可以 SSH 吗？', link: '/zh/blog/can-you-ssh-on-a-phone'},
                                 {text: 'SSH 凭据安全吗？', link: '/zh/blog/ssh-credential-security'},
                                 {text: 'AI SSH 的安全边界', link: '/zh/blog/termark-ai-design'},
