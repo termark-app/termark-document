@@ -91,9 +91,9 @@ export default defineConfig({
                     {'@type': 'ListItem', position: 3, name: title, item: `${siteUrl}${route}`}
                 ]
             }
+            if (published) head.push(['meta', {property: 'article:published_time', content: published}])
+            if (modified) head.push(['meta', {property: 'article:modified_time', content: modified}])
             head.push(
-                ['meta', {property: 'article:published_time', content: published || ''}],
-                ['meta', {property: 'article:modified_time', content: modified || ''}],
                 ['script', {type: 'application/ld+json'}, JSON.stringify(article)],
                 ['script', {type: 'application/ld+json'}, JSON.stringify(breadcrumbs)]
             )

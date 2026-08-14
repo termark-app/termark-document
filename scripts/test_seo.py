@@ -152,6 +152,18 @@ for filename in (source.name for source in blog_sources):
     types = {item.get("@type") for item in parsed if isinstance(item, dict)}
     if not {"BlogPosting", "BreadcrumbList"}.issubset(types):
         errors.append(f"blog schema is incomplete in {filename}: {sorted(str(value) for value in types)}")
+        continue
+    article = next(item for item in parsed if isinstance(item, dict) and item.get("@type") == "BlogPosting")
+    breadcrumbs = next(item for item in parsed if isinstance(item, dict) and item.get("@type") == "BreadcrumbList")
+    expected_url = f"https://docs.termark.app/zh/blog/{filename.removesuffix('.md')}"
+    if article.get("mainEntityOfPage", {}).get("@id") != expected_url:
+        errors.append(f"BlogPosting mainEntityOfPage is wrong in {filename}")
+    for required_field in ("headline", "description", "datePublished", "dateModified", "author", "publisher"):
+        if not article.get(required_field):
+            errors.append(f"BlogPosting is missing {required_field} in {filename}")
+    elements = breadcrumbs.get("itemListElement", [])
+    if [item.get("position") for item in elements] != [1, 2, 3] or not elements or elements[-1].get("item") != expected_url:
+        errors.append(f"BreadcrumbList is malformed in {filename}")
 
 zh_home = DIST / "zh" / "index.html"
 if zh_home.exists():
