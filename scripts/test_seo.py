@@ -16,6 +16,7 @@ if not blog_index.exists():
 else:
     index_body = blog_index.read_text(encoding="utf-8")
     for required in (
+        "/zh/blog/windows-ssh-client-guide",
         "/zh/blog/ssh-client-recommendation",
         "/zh/blog/can-you-ssh-on-a-phone",
         "/zh/blog/termark-ai-design",
@@ -25,6 +26,7 @@ else:
             errors.append(f"Chinese blog index is missing priority article: {required}")
 
 priority_articles = {
+    "windows-ssh-client-guide.md": "/zh-cn/windows-ssh-client/",
     "ssh-client-recommendation.md": "/zh-cn/ssh-client/",
     "can-you-ssh-on-a-phone.md": "/zh-cn/ssh-client/",
     "termark-ai-design.md": "/zh-cn/ai-ssh-client/",

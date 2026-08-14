@@ -199,6 +199,7 @@ export default defineConfig({
                             text: '博客',
                             items: [
                                 {text: '博客首页', link: '/zh/blog/'},
+                                {text: 'Windows SSH 客户端怎么选？', link: '/zh/blog/windows-ssh-client-guide'},
                                 {text: 'SSH 客户端怎么选？', link: '/zh/blog/ssh-client-recommendation'},
                                 {text: '手机上可以 SSH 吗？', link: '/zh/blog/can-you-ssh-on-a-phone'},
                                 {text: 'SSH 凭据安全吗？', link: '/zh/blog/ssh-credential-security'},
