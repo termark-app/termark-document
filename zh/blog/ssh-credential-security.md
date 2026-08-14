@@ -137,4 +137,6 @@ Termark 是商业 SSH 客户端，其公开说明包括：
 
 这些边界不能代替用户自身的设备安全、服务器最小权限、密钥轮换和备份策略。任何本地客户端在设备已经被完全控制时都无法承诺绝对安全。
 
+**从实际客户端检查凭据与同步边界：**<a href="https://www.termark.app/zh-cn/ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=ssh_credential_security&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="ssh_credential_security" data-umami-event-destination="ssh-client">了解 Termark SSH 客户端</a>。
+
 如果这些安全取舍符合你的工作方式，可以继续了解 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/ssh-client/)；如果你倾向于不让任何图形工具保存凭据，系统 OpenSSH 与受控的 `~/.ssh/config` 仍然是合理选择。

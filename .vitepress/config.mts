@@ -104,7 +104,13 @@ export default defineConfig({
     title: 'Termark',
     description: 'Termark documentation',
     head: [
-        ['link', {rel: 'icon', type: 'image/svg+xml', href: '/logo.svg'}]
+        ['link', {rel: 'icon', type: 'image/svg+xml', href: '/logo.svg'}],
+        ['script', {
+            defer: '',
+            src: 'https://umami.typesafe.cn/script.js',
+            'data-website-id': 'dd1a2266-3b28-4646-b8b4-107f0fb640dd',
+            'data-domains': 'docs.termark.app'
+        }]
     ],
     locales: {
         root: {

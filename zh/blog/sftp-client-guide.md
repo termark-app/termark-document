@@ -166,6 +166,8 @@ Termark 适合经常在终端排查和文件传输之间切换的用户。桌面
 
 如果你只偶尔传一个文件，命令行 `scp` 或已有工具不必更换。如果你经常下载日志、调整配置、经过跳板机连接内网服务器，可以从 [Termark SFTP 客户端页面](https://www.termark.app/zh-cn/sftp-client/)下载试用，再对照本文的任务清单判断是否适合。
 
+**用 Termark 完成一次双栏文件传输：**<a href="https://www.termark.app/zh-cn/sftp-client/?utm_source=docs&utm_medium=blog&utm_campaign=sftp_client_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="sftp_client_guide" data-umami-event-destination="sftp-client">查看 SFTP 客户端与下载入口</a>。
+
 相关阅读：
 
 - [SSH 客户端怎么选？](./ssh-client-recommendation)

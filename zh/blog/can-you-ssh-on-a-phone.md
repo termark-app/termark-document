@@ -180,4 +180,6 @@ Termark 移动端支持 iOS 和 Android，目前已经提供终端、SFTP、Dock
 
 如果你正在选择同时覆盖桌面与移动端的工具，可以继续查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/ssh-client/)；如果更关心 AI 在服务器上的操作边界，可阅读 [Termark AI 助手设计](./termark-ai-design)。
 
+**需要在手机上处理临时 SSH 任务：**<a href="https://www.termark.app/zh-cn/ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=mobile_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="mobile_ssh_guide" data-umami-event-destination="mobile-ssh-client">查看 Termark 移动端与下载入口</a>。
+
 官网：[https://www.termark.app/zh-cn/](https://www.termark.app/zh-cn/)

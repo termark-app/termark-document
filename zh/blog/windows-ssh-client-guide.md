@@ -148,4 +148,6 @@ Termark 的 AI 助手会把可能改变服务器状态的命令展示出来，�
 
 Termark 更适合在 Windows 上经常管理多台服务器，同时需要终端、SFTP、资产、端口转发、命令片段、加密同步和受控 AI 的用户。核心 SSH、SFTP、端口转发、AI 辅助和本地加密能力属于 Free 计划；批量执行、云同步和其他进阶能力属于 PRO，具体以[下载页](https://www.termark.app/zh-cn/windows-ssh-client/)当前说明为准。
 
+**用 Termark 试试这套 Windows SSH 工作流：**<a href="https://www.termark.app/zh-cn/windows-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=windows_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="windows_ssh_guide" data-umami-event-destination="windows-ssh-client">查看 Windows 客户端与下载入口</a>。
+
 如果你只偶尔连一台主机，Windows 自带 OpenSSH 已经是很好的起点。如果你每天都在多个服务器、文件传输和连接配置之间来回切换，再试一个完整工作台，比较它能否减少你的实际操作步骤。

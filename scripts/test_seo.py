@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / ".vitepress" / "dist"
 errors = []
 urls: set[str] = set()
+UMAMI_WEBSITE_ID = "dd1a2266-3b28-4646-b8b4-107f0fb640dd"
 
 blog_index = ROOT / "zh" / "blog" / "index.md"
 if not blog_index.exists():
@@ -144,6 +145,8 @@ for page, lang, route in samples:
         errors.append(f"hreflang cluster missing from {route}")
     if f'<html lang="{lang}"' not in body:
         errors.append(f"wrong HTML language for {route}")
+    if f'data-website-id="{UMAMI_WEBSITE_ID}"' not in body or 'src="https://umami.typesafe.cn/script.js"' not in body:
+        errors.append(f"Umami tracker is missing from {route}")
 
 for filename in (source.name for source in blog_sources):
     page = DIST / "zh" / "blog" / filename.replace(".md", ".html")
@@ -173,6 +176,22 @@ for filename in (source.name for source in blog_sources):
     elements = breadcrumbs.get("itemListElement", [])
     if [item.get("position") for item in elements] != [1, 2, 3] or not elements or elements[-1].get("item") != expected_url:
         errors.append(f"BreadcrumbList is malformed in {filename}")
+
+tracked_blog_links = {
+    "windows-ssh-client-guide.md": "utm_campaign=windows_ssh_guide",
+    "sftp-client-guide.md": "utm_campaign=sftp_client_guide",
+    "termark-ai-design.md": "utm_campaign=ai_ssh_safety",
+    "ssh-credential-security.md": "utm_campaign=ssh_credential_security",
+    "can-you-ssh-on-a-phone.md": "utm_campaign=mobile_ssh_guide",
+}
+for filename, campaign in tracked_blog_links.items():
+    source = ROOT / "zh" / "blog" / filename
+    body = source.read_text(encoding="utf-8")
+    if "utm_source=docs&utm_medium=blog&" + campaign not in body:
+        errors.append(f"tracked product CTA is missing from {filename}")
+    campaign_name = campaign.removeprefix("utm_campaign=")
+    if 'data-umami-event="blog-cta-click"' not in body or f'data-umami-event-campaign="{campaign_name}"' not in body:
+        errors.append(f"Umami CTA event is missing from {filename}")
 
 zh_home = DIST / "zh" / "index.html"
 if zh_home.exists():
