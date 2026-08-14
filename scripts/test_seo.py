@@ -10,6 +10,37 @@ DIST = ROOT / ".vitepress" / "dist"
 errors = []
 urls: set[str] = set()
 
+blog_index = ROOT / "zh" / "blog" / "index.md"
+if not blog_index.exists():
+    errors.append("Chinese blog index is missing")
+else:
+    index_body = blog_index.read_text(encoding="utf-8")
+    for required in (
+        "/zh/blog/ssh-client-recommendation",
+        "/zh/blog/can-you-ssh-on-a-phone",
+        "/zh/blog/termark-ai-design",
+        "/zh/blog/ssh-credential-security",
+    ):
+        if required not in index_body:
+            errors.append(f"Chinese blog index is missing priority article: {required}")
+
+priority_articles = {
+    "ssh-client-recommendation.md": "/zh-cn/ssh-client/",
+    "can-you-ssh-on-a-phone.md": "/zh-cn/ssh-client/",
+    "termark-ai-design.md": "/zh-cn/ai-ssh-client/",
+    "ssh-credential-security.md": "/zh-cn/ssh-client/",
+}
+for filename, product_link in priority_articles.items():
+    source = ROOT / "zh" / "blog" / filename
+    if not source.exists():
+        errors.append(f"priority Chinese article is missing: {filename}")
+        continue
+    body = source.read_text(encoding="utf-8")
+    if not body.startswith("---\n") or "description:" not in body.split("---", 2)[1]:
+        errors.append(f"priority article needs title and description frontmatter: {filename}")
+    if product_link not in body:
+        errors.append(f"priority article is missing contextual product link: {filename}")
+
 sitemap = DIST / "sitemap.xml"
 if not sitemap.exists():
     errors.append("generated sitemap.xml is missing")

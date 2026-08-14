@@ -160,7 +160,7 @@ export default defineConfig({
                             {text: '移动端更新日志', link: '/zh/mobile-changelog'}
                         ]
                     },
-                    {text: '博客', link: '/zh/blog/termark-ssh-terminal-workbench'}
+                    {text: '博客', link: '/zh/blog/'}
                 ],
                 sidebar: {
                     '/zh/usage/': [
@@ -198,12 +198,13 @@ export default defineConfig({
                         {
                             text: '博客',
                             items: [
-                                {text: '手机上到底能不能 SSH？', link: '/zh/blog/can-you-ssh-on-a-phone'},
-                                {text: '如果你经常连服务器，可以试试 Termark', link: '/zh/blog/termark-ssh-terminal-workbench'},
-                                {text: '我做了一个更顺手的 SSH 终端管理工具：Termark', link: '/zh/blog/wechat-promo-article'},
-                                {text: '独立开发一个桌面 SSH 工具：最麻烦的不是写代码', link: '/zh/blog/desktop-ssh-tool-indie-dev'},
-                                {text: 'Termark AI 助手设计：我为什么没有做一个"全自动运维 Agent', link: '/zh/blog/termark-ai-design'},
-                                {text: '大模型里的“知识的诅咒”', link: '/zh/blog/the-curse-of-knowledge-in-ai'}
+                                {text: '博客首页', link: '/zh/blog/'},
+                                {text: 'SSH 客户端怎么选？', link: '/zh/blog/ssh-client-recommendation'},
+                                {text: '手机上可以 SSH 吗？', link: '/zh/blog/can-you-ssh-on-a-phone'},
+                                {text: 'SSH 凭据安全吗？', link: '/zh/blog/ssh-credential-security'},
+                                {text: 'AI SSH 的安全边界', link: '/zh/blog/termark-ai-design'},
+                                {text: '为什么还要做 Termark？', link: '/zh/blog/why-desktop-ssh-tool-in-2026'},
+                                {text: '独立开发桌面 SSH 工具', link: '/zh/blog/desktop-ssh-tool-indie-dev'}
                             ]
                         }
                     ]

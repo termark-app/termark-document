@@ -1,4 +1,9 @@
-# 手机上到底能不能 SSH？
+---
+title: 手机上可以 SSH 吗？iOS 与 Android 的适用场景和限制
+description: 手机 SSH 适合告警响应、查看日志、重启服务和临时传文件，但不能替代桌面端。本文说明 iOS、Android 后台限制、移动终端交互和安全边界。
+---
+
+# 手机上可以 SSH 吗？iOS 与 Android 的适用场景和限制
 
 手机 SSH 是不是伪需求？
 
@@ -168,6 +173,8 @@ Termark 移动端更适合这些场景：
 
 当告警响起时，不管电脑在不在身边，至少还有一个真的能够进入服务器、查看现场并处理问题的入口。
 
-Termark 移动端支持 iOS 和 Android，目前已经提供终端、SFTP、Docker、systemd 管理、AI 辅助和云同步等功能。
+Termark 移动端支持 iOS 和 Android，目前已经提供终端、SFTP、Docker、systemd 管理、AI 辅助和云同步等功能。它更适合作为桌面工作流的应急入口，而不是替代电脑。
 
-官网：https://www.termark.app
+如果你正在选择同时覆盖桌面与移动端的工具，可以继续查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/ssh-client/)；如果更关心 AI 在服务器上的操作边界，可阅读 [Termark AI 助手设计](./termark-ai-design)。
+
+官网：[https://www.termark.app/zh-cn/](https://www.termark.app/zh-cn/)

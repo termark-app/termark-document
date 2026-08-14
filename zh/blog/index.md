@@ -1,0 +1,42 @@
+---
+title: Termark 中文博客：SSH 客户端、SFTP、移动运维与 AI 安全
+description: 面向开发者和运维的 SSH 实用指南，涵盖 SSH 客户端选择、Windows/macOS/Linux、手机 SSH、SFTP、凭据安全与 AI 命令确认。
+---
+
+# Termark 中文博客
+
+这里不做产品新闻堆积，而是整理经常连接服务器时真正会遇到的问题：SSH 客户端如何选、手机能处理哪些应急任务、凭据怎样保存、SFTP 如何融入终端，以及 AI 在生产服务器上应保留什么边界。
+
+## SSH 客户端选择
+
+### [SSH 客户端怎么选？Windows、macOS、Linux 工具选择指南](/zh/blog/ssh-client-recommendation)
+
+不做简单排名。从操作系统、认证、跳板机、SFTP、同步和安全边界出发，给出一份可以亲自验证的选择清单。
+
+### [手机上可以 SSH 吗？iOS 与 Android 的适用场景和限制](/zh/blog/can-you-ssh-on-a-phone)
+
+手机适合告警响应和临时处理，不适合替代桌面工作。文章包含原生终端、后台连接、Docker/systemd 和移动交互的真实取舍。
+
+## 安全与 AI
+
+### [SSH 客户端保存密码和私钥安全吗？](/zh/blog/ssh-credential-security)
+
+解释本地密文、系统安全存储、便携版口令、客户端加密同步、密码恢复与多设备冲突。
+
+### [AI SSH 客户端应该自动执行命令吗？](/zh/blog/termark-ai-design)
+
+展示 AI 如何读取当前终端上下文，以及为什么写入、删除、安装和重启操作仍然需要用户确认。
+
+## 产品与开发故事
+
+### [为什么还要做一个新的 SSH 客户端？](/zh/blog/why-desktop-ssh-tool-in-2026)
+
+从资产组织和远程工作流角度，说明 Termark 与传统终端、远程工具箱和多端客户端的路线差异。
+
+### [独立开发桌面 SSH 工具，麻烦的不只是代码](/zh/blog/desktop-ssh-tool-indie-dev)
+
+安装包、签名、更新、安全、同步、文档和真实服务器兼容问题，如何重排一个独立开发者的优先级。
+
+---
+
+想先体验产品，可以查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/ssh-client/)；具体配置和更新记录见 [中文使用文档](/zh/)。

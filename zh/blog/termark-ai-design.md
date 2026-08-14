@@ -1,4 +1,9 @@
-# Termark AI 助手设计：我为什么没有做一个"全自动运维 Agent"
+---
+title: AI SSH 客户端应该自动执行命令吗？Termark 的安全边界
+description: AI 可以读取终端上下文、解释日志和生成排查命令，但生产服务器需要明确的执行边界。本文说明 Termark 内置 Agent、命令确认和外部 CLI 的设计取舍。
+---
+
+# AI SSH 客户端应该自动执行命令吗？Termark 的安全边界
 
 在我另一款产品 NextTerminal 里，我很早就做过一个 AI 助手。
 
@@ -138,3 +143,9 @@ termark download <asset-id> <remote-path> <local-path>
 另一个是外部 CLI。本地 Agent 工作流不变，只是多了一个能安全访问 Termark 资产的命令；凭证不交给 Agent，留在 Termark 这边就行。
 
 我没想强迫用户只用其中一种。有人在乎接入门槛和模型选择，有人在乎已有工作流。两个入口共享同一套资产、凭证、会话和安全策略，差别只是从哪边进来。
+
+## 哪些场景适合 AI SSH 助手
+
+比较适合交给 AI 辅助的任务包括：解释最近的错误输出、生成只读排查命令、搜索配置、总结日志和给出下一步检查方向。涉及删除、写入、安装、权限变更或服务重启时，完整命令和目标服务器应该先对用户可见。
+
+如果你正在评估这类工作流，可以查看 [Termark AI SSH 客户端](https://www.termark.app/zh-cn/ai-ssh-client/)；关于本地凭据和同步数据的边界，可继续阅读 [SSH 客户端保存密码和私钥安全吗？](./ssh-credential-security)。
