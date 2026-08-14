@@ -32,7 +32,16 @@ const copyright = 'Copyright © 2026 Termark'
 
 export default defineConfig({
     sitemap: {
-        hostname: siteUrl
+        hostname: siteUrl,
+        xmlns: {
+            news: false,
+            video: false,
+            xhtml: false,
+            image: false
+        },
+        transformItems(items) {
+            return items.map(({links, ...item}) => item)
+        }
     },
     transformHead({pageData}) {
         const {route, englishRoute, chineseRoute, hasTranslation} = alternateRoutes(pageData.relativePath)

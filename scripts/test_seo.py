@@ -15,7 +15,13 @@ if not sitemap.exists():
 else:
     try:
         tree = ET.parse(sitemap)
+        root = tree.getroot()
+        raw = sitemap.read_text(encoding="utf-8")
         urls = {node.text for node in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")}
+        if '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' not in raw:
+            errors.append("sitemap must use only the standard sitemap namespace")
+        if "xmlns:" in raw or tree.findall(".//{http://www.w3.org/1999/xhtml}link"):
+            errors.append("sitemap must not contain extension namespaces or alternate links")
         expected = {
             "https://docs.termark.app/",
             "https://docs.termark.app/blog/termark-ssh-terminal-workbench.html",
