@@ -1,4 +1,6 @@
 ---
+title: "让 SFTP 自动跟随 SSH 终端当前目录"
+description: "配置 Bash、Zsh 或 Fish，使 Termark 的 SFTP 面板自动跟随 SSH 终端当前工作目录。"
 outline: deep
 ---
 

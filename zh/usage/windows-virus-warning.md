@@ -1,4 +1,6 @@
 ---
+title: "Termark Windows 杀毒软件误报处理指南"
+description: "了解 Windows 安全软件为何可能误报 Termark、Go 二进制误报的原因，以及如何核对官方下载来源。"
 outline: deep
 ---
 

@@ -1,4 +1,6 @@
 ---
+title: "Highlight Keywords in SSH Terminal Output"
+description: "Configure Termark keyword highlighting to spot errors, warnings, IDs, paths, and other important terminal output."
 outline: deep
 ---
 

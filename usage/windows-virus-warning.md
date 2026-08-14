@@ -1,4 +1,6 @@
 ---
+title: "Termark Windows Antivirus False Positive Guide"
+description: "Learn why Windows security software may flag Termark, how Go binary false positives happen, and how to verify downloads safely."
 outline: deep
 ---
 

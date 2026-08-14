@@ -1,4 +1,6 @@
 ---
+title: "PowerShell 浅色终端文字看不清的解决方法"
+description: "说明 PowerShell 与 PSReadLine 在浅色终端背景下对比度不足的原因，并提供主题调整方向。"
 outline: deep
 ---
 

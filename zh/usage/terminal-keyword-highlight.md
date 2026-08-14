@@ -1,4 +1,6 @@
 ---
+title: "SSH 终端关键字高亮配置指南"
+description: "使用 Termark 关键字高亮标记错误、警告、任务 ID、路径和其他重要终端输出，提高日志排查效率。"
 outline: deep
 ---
 

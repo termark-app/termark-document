@@ -1,4 +1,6 @@
 ---
+title: "Termark 本地加密、密钥存储与数据恢复"
+description: "了解 Termark 如何加密本地主机、凭证与同步配置，以及系统钥匙串、便携版口令和数据恢复的工作方式。"
 outline: deep
 ---
 

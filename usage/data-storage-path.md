@@ -1,4 +1,6 @@
 ---
+title: "Termark Data Storage Paths on Windows and macOS"
+description: "Find where Termark stores session settings, logs, and portable-edition data on Windows and macOS."
 outline: deep
 ---
 

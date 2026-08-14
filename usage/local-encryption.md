@@ -1,4 +1,6 @@
 ---
+title: "Termark Local Encryption and Data Recovery"
+description: "Learn how Termark encrypts credentials and settings locally, where encryption keys are stored, and how recovery works."
 outline: deep
 ---
 

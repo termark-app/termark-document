@@ -1,4 +1,6 @@
 ---
+title: "Make SFTP Follow the Terminal Working Directory"
+description: "Configure Bash, Zsh, or Fish so the Termark SFTP panel automatically follows the terminal working directory."
 outline: deep
 ---
 

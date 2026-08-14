@@ -1,4 +1,6 @@
 ---
+title: "Fix PowerShell Colors in a Light Terminal Theme"
+description: "Understand why PowerShell and PSReadLine text can be hard to read on light backgrounds and how to correct the theme."
 outline: deep
 ---
 

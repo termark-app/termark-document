@@ -1,4 +1,6 @@
 ---
+title: "Termark 数据存储路径：Windows、macOS 与便携版"
+description: "查看 Termark 在 Windows、macOS 和 Windows 便携版中保存会话配置、日志与本地数据的默认路径。"
 outline: deep
 ---
 

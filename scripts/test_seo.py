@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """SEO acceptance checks for the generated VitePress site."""
 from pathlib import Path
+import html
 import json
 import re
 import sys
@@ -192,6 +193,49 @@ for filename, campaign in tracked_blog_links.items():
     campaign_name = campaign.removeprefix("utm_campaign=")
     if 'data-umami-event="blog-cta-click"' not in body or f'data-umami-event-campaign="{campaign_name}"' not in body:
         errors.append(f"Umami CTA event is missing from {filename}")
+
+usage_routes = [
+    "data-storage-path",
+    "local-encryption",
+    "powershell-light-theme",
+    "sftp-cwd-tracking",
+    "terminal-keyword-highlight",
+    "windows-virus-warning",
+]
+usage_sources = [ROOT / f"{locale}usage/{route}.md" for locale in ("", "zh/") for route in usage_routes]
+for source in usage_sources:
+    body = source.read_text(encoding="utf-8")
+    frontmatter = body.split("---", 2)[1] if body.startswith("---\n") else ""
+    for required_field in ("title:", "description:"):
+        if required_field not in frontmatter:
+            errors.append(f"usage source is missing explicit {required_field[:-1]} frontmatter: {source.relative_to(ROOT)}")
+
+usage_metadata: dict[str, tuple[str, str]] = {}
+for locale in ("", "zh/"):
+    for route in usage_routes:
+        rel = f"{locale}usage/{route}"
+        page = DIST / f"{rel}.html"
+        if not page.exists():
+            errors.append(f"generated usage page is missing: {rel}")
+            continue
+        body = page.read_text(encoding="utf-8")
+        title_match = re.search(r"<title>(.*?)</title>", body, re.S)
+        description_match = re.search(r'<meta name="description" content="([^"]*)">', body)
+        title = html.unescape(title_match.group(1).strip()) if title_match else ""
+        description = html.unescape(description_match.group(1).strip()) if description_match else ""
+        usage_metadata[rel] = (title, description)
+        if not title or not description:
+            errors.append(f"usage page is missing title or description: {rel}")
+        if description in {"Termark Documentation", "Termark 使用文档"}:
+            errors.append(f"usage page uses the generic site description: {rel}")
+
+for index, value in enumerate(usage_metadata.items()):
+    rel, (title, description) = value
+    for other_rel, (other_title, other_description) in list(usage_metadata.items())[index + 1:]:
+        if title == other_title:
+            errors.append(f"usage pages have duplicate titles: {rel}, {other_rel}")
+        if description == other_description:
+            errors.append(f"usage pages have duplicate descriptions: {rel}, {other_rel}")
 
 zh_home = DIST / "zh" / "index.html"
 if zh_home.exists():
