@@ -1,4 +1,27 @@
 import {defineConfig} from 'vitepress'
+import {existsSync} from 'node:fs'
+import {resolve} from 'node:path'
+import {fileURLToPath} from 'node:url'
+
+const siteUrl = 'https://docs.termark.app'
+const contentRoot = fileURLToPath(new URL('..', import.meta.url))
+
+function routeFor(relativePath: string) {
+    const withoutExtension = relativePath.replace(/\.md$/, '')
+    if (withoutExtension === 'index') return '/'
+    if (withoutExtension.endsWith('/index')) return `/${withoutExtension.slice(0, -6)}/`
+    return `/${withoutExtension}.html`
+}
+
+function alternateRoutes(relativePath: string) {
+    const route = routeFor(relativePath)
+    const englishRoute = route.startsWith('/zh/') ? route.slice(3) || '/' : route
+    const chineseRoute = route.startsWith('/zh/') ? route : `/zh${route}`
+    const counterpart = relativePath.startsWith('zh/')
+        ? relativePath.slice(3)
+        : `zh/${relativePath}`
+    return {route, englishRoute, chineseRoute, hasTranslation: existsSync(resolve(contentRoot, counterpart))}
+}
 
 const logo = {
     src: '/logo.svg',
@@ -8,6 +31,26 @@ const logo = {
 const copyright = 'Copyright © 2026 Termark'
 
 export default defineConfig({
+    sitemap: {
+        hostname: siteUrl
+    },
+    transformHead({pageData}) {
+        const {route, englishRoute, chineseRoute, hasTranslation} = alternateRoutes(pageData.relativePath)
+        const languageLinks = hasTranslation ? [
+            ['link', {rel: 'canonical', href: `${siteUrl}${route}`}],
+            ['link', {rel: 'alternate', hreflang: 'en', href: `${siteUrl}${englishRoute}`}],
+            ['link', {rel: 'alternate', hreflang: 'zh-CN', href: `${siteUrl}${chineseRoute}`}],
+            ['link', {rel: 'alternate', hreflang: 'x-default', href: `${siteUrl}${englishRoute}`}]
+        ] : [
+            ['link', {rel: 'canonical', href: `${siteUrl}${route}`}]
+        ]
+        return [
+            ...languageLinks,
+            ['meta', {property: 'og:url', content: `${siteUrl}${route}`}],
+            ['meta', {property: 'og:site_name', content: 'Termark'}],
+            ['meta', {name: 'robots', content: 'index, follow, max-image-preview:large'}]
+        ]
+    },
     lang: 'en-US',
     title: 'Termark',
     description: 'Termark documentation',
