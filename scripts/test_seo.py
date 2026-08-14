@@ -43,6 +43,34 @@ for filename, product_link in priority_articles.items():
     if product_link not in body:
         errors.append(f"priority article is missing contextual product link: {filename}")
 
+redirects_source = ROOT / "public" / "_redirects"
+required_redirects = {
+    "/zh/blog/go": "/zh/blog/termark-ssh-terminal-workbench",
+    "/zh/blog/wechat-promo-article": "/zh/blog/termark-ssh-terminal-workbench",
+    "/zh/blog/the-curse-of-knowledge-in-ai": "/zh/blog/termark-ai-design",
+    "/zh/blog/soft-articles/03-ssh-client-selection-details": "/zh/blog/ssh-client-recommendation",
+    "/zh/blog/soft-articles/04-ssh-credential-security-boundary": "/zh/blog/ssh-credential-security",
+}
+if not redirects_source.exists():
+    errors.append("Cloudflare Pages redirects file is missing")
+else:
+    redirect_lines = redirects_source.read_text(encoding="utf-8")
+    for source, target in required_redirects.items():
+        if f"{source} {target} 301" not in redirect_lines:
+            errors.append(f"permanent redirect is missing: {source} -> {target}")
+
+stale_markers = (
+    "【抽奖链接待补充】",
+    "TODO: 以下 3 条为占位文案",
+    "活动截止 **2026 年 5 月 22 日**",
+    "移动端计划下个月开始开发",
+)
+for source in (ROOT / "zh" / "blog").glob("*.md"):
+    body = source.read_text(encoding="utf-8")
+    for marker in stale_markers:
+        if marker in body:
+            errors.append(f"published article contains stale campaign content: {source.name}: {marker}")
+
 sitemap = DIST / "sitemap.xml"
 if not sitemap.exists():
     errors.append("generated sitemap.xml is missing")

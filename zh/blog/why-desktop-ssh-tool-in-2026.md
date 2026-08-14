@@ -112,8 +112,4 @@ Beta 渠道是为了把稳定用户和愿意尝鲜的用户分开。Windows 和 
 
 参与方式：
 
-【抽奖链接待补充】
-
-官网地址：
-
-https://www.termark.app/zh-cn/
+活动文章中的临时兑换活动已经结束。当前产品与下载入口请以 [Termark 中文官网](https://www.termark.app/zh-cn/) 和[更新日志](https://docs.termark.app/zh/changelog)为准。
