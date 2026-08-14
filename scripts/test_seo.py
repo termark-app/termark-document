@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / ".vitepress" / "dist"
 errors = []
+urls: set[str] = set()
 
 sitemap = DIST / "sitemap.xml"
 if not sitemap.exists():
@@ -17,16 +18,20 @@ else:
         tree = ET.parse(sitemap)
         root = tree.getroot()
         raw = sitemap.read_text(encoding="utf-8")
-        urls = {node.text for node in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")}
+        urls = {
+            node.text
+            for node in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")
+            if node.text
+        }
         if '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' not in raw:
             errors.append("sitemap must use only the standard sitemap namespace")
         if "xmlns:" in raw or tree.findall(".//{http://www.w3.org/1999/xhtml}link"):
             errors.append("sitemap must not contain extension namespaces or alternate links")
         expected = {
             "https://docs.termark.app/",
-            "https://docs.termark.app/blog/termark-ssh-terminal-workbench.html",
-            "https://docs.termark.app/zh/blog/termark-ssh-terminal-workbench.html",
-            "https://docs.termark.app/usage/sftp-cwd-tracking.html",
+            "https://docs.termark.app/blog/termark-ssh-terminal-workbench",
+            "https://docs.termark.app/zh/blog/termark-ssh-terminal-workbench",
+            "https://docs.termark.app/usage/sftp-cwd-tracking",
         }
         missing = expected - urls
         if missing:
@@ -35,8 +40,8 @@ else:
         errors.append(f"invalid sitemap XML: {exc}")
 
 samples = [
-    (DIST / "blog" / "termark-ssh-terminal-workbench.html", "en-US", "/blog/termark-ssh-terminal-workbench.html"),
-    (DIST / "zh" / "blog" / "termark-ssh-terminal-workbench.html", "zh-CN", "/zh/blog/termark-ssh-terminal-workbench.html"),
+    (DIST / "blog" / "termark-ssh-terminal-workbench.html", "en-US", "/blog/termark-ssh-terminal-workbench"),
+    (DIST / "zh" / "blog" / "termark-ssh-terminal-workbench.html", "zh-CN", "/zh/blog/termark-ssh-terminal-workbench"),
 ]
 for page, lang, route in samples:
     if not page.exists():
@@ -66,6 +71,11 @@ if untranslated.exists():
         errors.append("untranslated pages must not emit nonexistent language alternates")
 else:
     errors.append("untranslated-page SEO fixture is missing")
+
+if sitemap.exists():
+    for url in urls:
+        if url and url.endswith(".html"):
+            errors.append(f"sitemap URL must be extensionless: {url}")
 
 robots = DIST / "robots.txt"
 if not robots.exists() or "Sitemap: https://docs.termark.app/sitemap.xml" not in robots.read_text(encoding="utf-8"):

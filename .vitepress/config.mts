@@ -10,7 +10,7 @@ function routeFor(relativePath: string) {
     const withoutExtension = relativePath.replace(/\.md$/, '')
     if (withoutExtension === 'index') return '/'
     if (withoutExtension.endsWith('/index')) return `/${withoutExtension.slice(0, -6)}/`
-    return `/${withoutExtension}.html`
+    return `/${withoutExtension}`
 }
 
 function alternateRoutes(relativePath: string) {
@@ -40,7 +40,10 @@ export default defineConfig({
             image: false
         },
         transformItems(items) {
-            return items.map(({links, ...item}) => item)
+            return items.map(({links, ...item}) => ({
+                ...item,
+                url: item.url.replace(/\.html$/, '')
+            }))
         }
     },
     transformHead({pageData}) {
