@@ -45,6 +45,22 @@ for page, lang, route in samples:
     if f'<html lang="{lang}"' not in body:
         errors.append(f"wrong HTML language for {route}")
 
+zh_home = DIST / "zh" / "index.html"
+if zh_home.exists():
+    body = zh_home.read_text(encoding="utf-8")
+    if '<link rel="canonical" href="https://docs.termark.app/zh/">' not in body:
+        errors.append("Chinese index canonical must retain its trailing slash")
+else:
+    errors.append("generated Chinese index is missing")
+
+untranslated = DIST / "zh" / "blog" / "can-you-ssh-on-a-phone.html"
+if untranslated.exists():
+    body = untranslated.read_text(encoding="utf-8")
+    if re.search(r'<link[^>]+hreflang=', body):
+        errors.append("untranslated pages must not emit nonexistent language alternates")
+else:
+    errors.append("untranslated-page SEO fixture is missing")
+
 robots = DIST / "robots.txt"
 if not robots.exists() or "Sitemap: https://docs.termark.app/sitemap.xml" not in robots.read_text(encoding="utf-8"):
     errors.append("robots.txt is missing the documentation sitemap directive")
