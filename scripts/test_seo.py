@@ -20,6 +20,7 @@ else:
     index_body = blog_index.read_text(encoding="utf-8")
     for required in (
         "/zh/blog/windows-ssh-client-guide",
+        "/zh/blog/mac-ssh-client-guide",
         "/zh/blog/sftp-client-guide",
         "/zh/blog/ssh-client-recommendation",
         "/zh/blog/can-you-ssh-on-a-phone",
@@ -31,6 +32,7 @@ else:
 
 priority_articles = {
     "windows-ssh-client-guide.md": "/zh-cn/windows-ssh-client/",
+    "mac-ssh-client-guide.md": "/zh-cn/mac-ssh-client/",
     "ssh-client-recommendation.md": "/zh-cn/ssh-client/",
     "can-you-ssh-on-a-phone.md": "/zh-cn/ssh-client/",
     "termark-ai-design.md": "/zh-cn/ai-ssh-client/",
@@ -39,6 +41,7 @@ priority_articles = {
 }
 required_article_images = {
     "windows-ssh-client-guide.md": "./images6/termark-new-ssh-host.png",
+    "mac-ssh-client-guide.md": "./images2/sftp.png",
     "sftp-client-guide.md": "./images6/fstp-file-actions.png",
 }
 for filename, product_link in priority_articles.items():
@@ -180,6 +183,7 @@ for filename in (source.name for source in blog_sources):
 
 tracked_blog_links = {
     "windows-ssh-client-guide.md": "utm_campaign=windows_ssh_guide",
+    "mac-ssh-client-guide.md": "utm_campaign=mac_ssh_guide",
     "sftp-client-guide.md": "utm_campaign=sftp_client_guide",
     "termark-ai-design.md": "utm_campaign=ai_ssh_safety",
     "ssh-credential-security.md": "utm_campaign=ssh_credential_security",
@@ -187,6 +191,9 @@ tracked_blog_links = {
 }
 for filename, campaign in tracked_blog_links.items():
     source = ROOT / "zh" / "blog" / filename
+    if not source.exists():
+        errors.append(f"tracked article is missing: {filename}")
+        continue
     body = source.read_text(encoding="utf-8")
     if "utm_source=docs&utm_medium=blog&" + campaign not in body:
         errors.append(f"tracked product CTA is missing from {filename}")

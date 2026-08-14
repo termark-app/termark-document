@@ -13,6 +13,10 @@ description: 面向开发者和运维的 SSH 实用指南，涵盖 SSH 客户端
 
 按 OpenSSH、PuTTY、MobaXterm 和图形化工作台的使用场景比较，重点检查 PowerShell、SFTP、跳板机、便携版、安装包架构与 AI 命令确认。
 
+### [Mac SSH 客户端怎么选？](/zh/blog/mac-ssh-client-guide)
+
+比较 macOS 自带 OpenSSH、Terminal、iTerm2 与图形化 SSH 工作台，重点检查 Apple Silicon/Intel、SSH Agent、SFTP、跳板机、端口转发和 Mac 快捷键。
+
 ### [SSH 客户端怎么选？Windows、macOS、Linux 工具选择指南](/zh/blog/ssh-client-recommendation)
 
 不做简单排名。从操作系统、认证、跳板机、SFTP、同步和安全边界出发，给出一份可以亲自验证的选择清单。
