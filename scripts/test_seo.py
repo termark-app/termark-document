@@ -36,8 +36,8 @@ priority_articles = {
     "sftp-client-guide.md": "/zh-cn/sftp-client/",
 }
 required_article_images = {
-    "windows-ssh-client-guide.md": "./images6/windows-new-ssh-host.png",
-    "sftp-client-guide.md": "./images6/sftp-transfer-progress.png",
+    "windows-ssh-client-guide.md": "./images6/termark-new-ssh-host.png",
+    "sftp-client-guide.md": "./images6/fstp-file-actions.png",
 }
 for filename, product_link in priority_articles.items():
     source = ROOT / "zh" / "blog" / filename
