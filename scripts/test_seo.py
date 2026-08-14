@@ -35,6 +35,10 @@ priority_articles = {
     "ssh-credential-security.md": "/zh-cn/ssh-client/",
     "sftp-client-guide.md": "/zh-cn/sftp-client/",
 }
+required_article_images = {
+    "windows-ssh-client-guide.md": "./images6/windows-new-ssh-host.png",
+    "sftp-client-guide.md": "./images6/sftp-transfer-progress.png",
+}
 for filename, product_link in priority_articles.items():
     source = ROOT / "zh" / "blog" / filename
     if not source.exists():
@@ -49,6 +53,11 @@ for filename, product_link in priority_articles.items():
             errors.append(f"priority article is missing {required_field[:-1]} frontmatter: {filename}")
     if product_link not in body:
         errors.append(f"priority article is missing contextual product link: {filename}")
+    image_link = required_article_images.get(filename)
+    if image_link and image_link not in body:
+        errors.append(f"priority article is missing required product screenshot: {filename}")
+    if image_link and not (source.parent / image_link.removeprefix("./")).exists():
+        errors.append(f"priority article screenshot file is missing: {filename}: {image_link}")
 
 redirects_source = ROOT / "public" / "_redirects"
 required_redirects = {
