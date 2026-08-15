@@ -13,6 +13,36 @@ errors = []
 urls: set[str] = set()
 UMAMI_WEBSITE_ID = "dd1a2266-3b28-4646-b8b4-107f0fb640dd"
 
+robots = DIST / "robots.txt"
+if not robots.exists():
+    errors.append("generated robots.txt is missing")
+else:
+    robots_body = robots.read_text(encoding="utf-8")
+    if "Sitemap: https://docs.termark.app/sitemap.xml" not in robots_body:
+        errors.append("generated robots.txt is missing the final sitemap URL")
+
+llms = DIST / "llms.txt"
+if not llms.exists():
+    errors.append("generated llms.txt is missing")
+else:
+    llms_body = llms.read_text(encoding="utf-8")
+    required_llms_urls = (
+        "https://docs.termark.app/",
+        "https://docs.termark.app/zh/blog/",
+        "https://docs.termark.app/zh/blog/linux-ssh-client-guide",
+        "https://docs.termark.app/zh/blog/ios-ssh-client-guide",
+        "https://docs.termark.app/zh/blog/android-ssh-client-guide",
+        "https://docs.termark.app/zh/blog/ssh-jump-host-guide",
+        "https://docs.termark.app/zh/blog/ssh-port-forwarding-guide",
+        "https://docs.termark.app/sitemap.xml",
+    )
+    llms_urls = set(re.findall(r"https://[^\s)]+", llms_body))
+    for required_url in required_llms_urls:
+        if required_url not in llms_urls:
+            errors.append(f"generated llms.txt is missing exact URL: {required_url}")
+    if any(re.search(r"\.html(?:[?#]|$)", url) for url in llms_urls if url.startswith(("https://www.termark.app/", "https://docs.termark.app/"))):
+        errors.append("generated llms.txt contains redirecting .html URL")
+
 blog_index = ROOT / "zh" / "blog" / "index.md"
 if not blog_index.exists():
     errors.append("Chinese blog index is missing")

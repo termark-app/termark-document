@@ -1,0 +1,39 @@
+# Termark Documentation
+
+> Official Termark documentation, release notes, usage guides, and practical SSH/SFTP articles for developers and server operators.
+
+## Start here
+
+- [Documentation home](https://docs.termark.app/): Product documentation and primary navigation.
+- [Chinese article index](https://docs.termark.app/zh/blog/): Chinese SSH, SFTP, mobile operations, and security guides.
+- [Desktop changelog](https://docs.termark.app/changelog): Current desktop release notes.
+- [Mobile changelog](https://docs.termark.app/mobile-changelog): Current mobile release notes.
+- [Sitemap](https://docs.termark.app/sitemap.xml): Complete indexable URL inventory.
+
+## Platform guides
+
+- [Windows SSH client guide](https://docs.termark.app/zh/blog/windows-ssh-client-guide): OpenSSH, PuTTY, graphical workspaces, SFTP, and Windows package choices.
+- [macOS SSH client guide](https://docs.termark.app/zh/blog/mac-ssh-client-guide): Terminal, iTerm2, Apple Silicon/Intel, SSH Agent, and SFTP workflows.
+- [Linux SSH client guide](https://docs.termark.app/zh/blog/linux-ssh-client-guide): OpenSSH, AppImage, DEB, x64/ARM64, tmux, systemd, and Docker workflows.
+- [iPhone and iPad SSH guide](https://docs.termark.app/zh/blog/ios-ssh-client-guide): iOS background limits, keys, SFTP, keyboards, and emergency operations.
+- [Android SSH guide](https://docs.termark.app/zh/blog/android-ssh-client-guide): Foreground services, battery optimization, APK sources, keys, and SFTP.
+
+## SSH networking and security
+
+- [SSH jump host guide](https://docs.termark.app/zh/blog/ssh-jump-host-guide): ProxyJump, multi-hop authentication, host keys, Agent Forwarding, and SFTP through bastions.
+- [SSH port forwarding guide](https://docs.termark.app/zh/blog/ssh-port-forwarding-guide): Local, remote, and dynamic forwarding with `ssh -L`, `-R`, and `-D`.
+- [SSH credential security](https://docs.termark.app/zh/blog/ssh-credential-security): Passwords, private keys, local encryption, sync, and AI command boundaries.
+- [SFTP client guide](https://docs.termark.app/zh/blog/sftp-client-guide): File transfer, remote editing, directory following, and terminal collaboration.
+
+## Usage documentation
+
+- [Local encryption](https://docs.termark.app/usage/local-encryption): Local encryption and recovery considerations.
+- [SFTP directory following](https://docs.termark.app/usage/sftp-cwd-tracking): Keep the SFTP panel aligned with the terminal working directory.
+- [Terminal keyword highlighting](https://docs.termark.app/usage/terminal-keyword-highlight): Highlight important text without changing shell behavior.
+
+## Official product links
+
+- Website: https://www.termark.app/
+- Cross-platform SSH client: https://www.termark.app/ssh-client/
+- Privacy policy: https://www.termark.app/privacy
+- GitHub: https://github.com/dushixiang/termark
