@@ -221,6 +221,8 @@ for filename in (source.name for source in blog_sources):
     for required_field in ("headline", "description", "datePublished", "dateModified", "author", "publisher"):
         if not article.get(required_field):
             errors.append(f"BlogPosting is missing {required_field} in {filename}")
+    if article.get("publisher", {}).get("@id") != "https://www.termark.app/#organization":
+        errors.append(f"BlogPosting publisher is not linked to the canonical Termark Organization in {filename}")
     elements = breadcrumbs.get("itemListElement", [])
     if [item.get("position") for item in elements] != [1, 2, 3] or not elements or elements[-1].get("item") != expected_url:
         errors.append(f"BreadcrumbList is malformed in {filename}")

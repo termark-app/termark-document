@@ -34,6 +34,8 @@
 ## Official product links
 
 - Website: https://www.termark.app/
+- Product facts: https://www.termark.app/product-facts/
+- 产品事实: https://www.termark.app/zh-cn/product-facts/
 - Cross-platform SSH client: https://www.termark.app/ssh-client/
 - Privacy policy: https://www.termark.app/privacy
 - GitHub: https://github.com/dushixiang/termark
