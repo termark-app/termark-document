@@ -1,9 +1,9 @@
 ---
 title: Termark AI Assistant Design
-description: Why I chose not to build a fully autonomous ops agent.
+description: How Termark separates AI scope, SSH execution channels, approval policies, and External CLI access.
 ---
 
-# Termark AI Assistant Design: Why I Did Not Build a Fully Autonomous Ops Agent
+# Termark AI Assistant Design: Scope, Execution, and Approval Boundaries
 
 I built an AI assistant in my other product, NextTerminal, quite early on.
 
@@ -21,54 +21,33 @@ When I later built Termark, I could have rethought the AI from scratch: how to p
 
 ---
 
-## From simple Q&A to something that actually stands beside the terminal
+## Session AI and Global AI use different context
 
-I am already heavily dependent on coding agents like Claude Code and Codex. One account quota is never enough, so I switch between different providers.
-
-After using them for a while, a simple chat box next to the terminal feels insufficient. Real troubleshooting is not a user asking one question and the AI giving one answer. It is reading the latest terminal output, deciding what to inspect next, running a read-only command, continuing based on the result, and only then suggesting changes if needed.
-
-That is why the AI assistant in Termark had to be an agent.
-
-I still did not give it a pile of complicated capabilities from day one. Termark's core scene is the SSH terminal the user is currently looking at, so the tool boundary stays inside that session: inspect the terminal environment, execute commands, read files, search content, and, when needed, browse directories or write files. Everything ultimately maps to the current SSH session. The AI cannot bypass Termark and connect to the server on its own.
+Termark now provides two AI scopes. Session AI is bound to one terminal session and can include the most recent N lines of terminal output plus the exact session ID. Global AI does not automatically receive active-terminal output; it works with hosts or groups that the user explicitly selects. Conversation history is stored separately for each scope.
 
 ![ai-overview.png](images3/ai-overview.png)
 
-One difference from many agents is that Termark executes commands directly in the terminal the user is already watching. It does not open another shell in the background.
+Command execution also has two modes. **Background**, the default, reuses the current SSH connection through a separate background exec channel. It does not write into the visible terminal or share the terminal shell's cwd, aliases, or temporary environment variables.
 
-Two examples:
-
-Right after `su - postgres`, if you ask, "Check the current connection count," the `psql` command runs in the postgres user's context. It does not mysteriously run as root, and it does not fail because the environment variables are wrong.
-
-If you switch to `/var/log/nginx` and ask, "Are there a lot of 5xx responses in these access logs lately?" the `grep` runs directly in that directory. You do not need to pass an absolute path again, and it does not go looking on some other machine.
-
-The more practical benefit is that if a command needs a database password, a second confirmation, `vim` editing, or `sudo` authorization, the user can continue typing right there in the terminal. It feels more like a person standing next to you typing into the current terminal than a background automation script.
+When a command must share the current directory, aliases, a switched user, or temporary environment, users can select **Terminal Shell**. That mode writes into the current visible terminal shell. The tradeoffs are shell-history pollution and lower stability for complex commands. Network devices and restricted shells use an isolated backend SSH shell and cannot switch modes inside the session.
 
 ![ai-context.png](images3/ai-context.png)
-<!-- Suggested image: AI running commands in the current terminal context, with the AI output visible in the user's real terminal rather than in a separate tool result panel. Ideally this should show a `su` user switch or directory change context. -->
 
-The tradeoff is that you lose a little of the "fully automated" thrill, but you gain a consistent scene: the machine, user, and directory you are working in are always visible.
+Execution channel and approval are separate controls: the channel determines where a command runs, while the approval policy determines whether the user must authorize it.
 
----
+## Auto, Balanced, and Strict
 
-## Why I did not allow every command by default
+A server may be a personal VPS or a production system. Termark now provides three approval policies so users can choose the boundary that fits their environment:
 
-The most annoying thing about AI agents is often having to confirm every step.
+- **Auto**: AI commands and file writes run without approval, for users who trust the selected model and want uninterrupted automation.
+- **Balanced (default)**: clearly read-only observation commands run automatically. File or config changes, installs, moves, service changes, and commands that cannot be classified as read-only require approval.
+- **Strict**: every command proposed by AI requires explicit approval.
 
-When writing code, repeatedly confirming `ls`, `cat`, and `rg` does interrupt flow. But the server scenario cannot copy that experience directly.
-
-Termark works with SSH assets. That might be a personal VPS, or it might be production. When an AI says, "I will clean up some temporary files," it might actually be running `rm -rf`. When it says, "I will restart the service and check," it might affect live traffic. One word difference can mean a huge difference in outcome.
-
-My strategy is straightforward: clearly read-only and observable commands are allowed by default. Anything that changes remote state, cannot be judged safe, or is ambiguous goes through confirmation.
-
-There is a command risk detection layer in the code. It splits shell tokens and recognizes pipes, redirects, subshells, backticks, and command substitution. If a command contains write, delete, move, install, restart, permission change, or output redirection actions that may alter state, it must be confirmed. There is also a more conservative setting option: confirm every tool call.
+Balanced mode uses command-risk analysis that parses shell tokens and recognizes pipes, redirects, subshells, backticks, and command substitution. Writes, deletion, moves, installs, restarts, permission changes, and unclassified actions enter the approval flow.
 
 ![ai-confirm.png](images3/ai-confirm.png)
 
-I did not add a "developer mode: never confirm" switch.
-
-It is not that I do not trust AI. The issue is that Termark supports OpenAI-compatible interfaces, and everyone can connect different models with very different capabilities and tool-call quality. Once you give people a "never confirm" switch, any failure happens on the user's server, not on mine.
-
----
+Auto removes interaction friction and delegates more judgment to the model. Because Termark accepts OpenAI-compatible services and model quality varies, Auto should not be read as a product guarantee that every generated command is safe. Commands and targets should remain inspectable in every policy.
 
 ## Built-in agent
 
@@ -79,9 +58,7 @@ You can configure multiple API profiles, including OpenAI, DeepSeek, OpenRouter,
 ![ai-profile1.png](images3/ai-profile1.png)
 ![ai-profile2.png](images3/ai-profile2.png)
 
-When I test it myself, I prefer using fast, cost-controlled models for frequent terminal assistance. That works because the context Termark gives the model is deliberately narrow: recent terminal output, the current session scope, the necessary system prompt, and the user's question. It does not dump the entire server state, and it does not throw in all history at once. Larger context means higher cost and more noise.
-
-The most important piece is the recent terminal output. I do not want users to copy output manually every time and paste it into the AI, so Termark captures the last N lines from the current terminal and sends them as context automatically. N is configurable in settings.
+When I test it myself, I prefer fast, cost-controlled models for frequent terminal assistance. Session AI keeps context bounded to recent terminal output, the exact session ID, the required system prompt, and the user's question; the number of recent lines is configurable. Global AI does not automatically attach active-terminal output and instead loads hosts or groups the user explicitly mentions, which suits cross-asset work.
 
 So right after:
 
@@ -117,10 +94,14 @@ With a few clicks in the settings page, you can install the `termark` command in
 
 ```bash
 termark assets list -q <keyword> --json
-termark exec <asset-id> -- <command>
+termark assets show <asset-id> --json
+termark exec <asset-id> "<command>"
 termark upload <asset-id> <local-path> <remote-path>
 termark download <asset-id> <remote-path> <local-path>
+termark sync <asset-id> <local-dir> <remote-dir>
 ```
+
+For complex PowerShell commands, `termark exec <asset-id> --stdin` accepts the command on standard input. The CLI also provides JSON-based host and credential record CRUD commands; those explicit management operations should not be confused with one-off remote execution.
 
 ![ai-cli-settings.png](images3/ai-cli-settings.png)
 ![ai-cli-codex.jpg](images3/ai-cli-codex.jpg)
@@ -128,7 +109,7 @@ termark download <asset-id> <remote-path> <local-path>
 
 The external CLI does not hold credentials directly. It reaches controlled capabilities through the running Termark desktop app, while credentials, jump hosts, and connection details stay inside Termark.
 
-The things it can do are intentionally limited: search assets, inspect basic asset info, run one-off commands on a specific asset, and upload or download files. Do not keep long-running jobs attached to the external CLI; use `tmux`, `nohup`, or `systemd` on the remote side instead.
+The External CLI talks through a local HTTP API to the running Termark desktop app and must be enabled first. `exec` uses saved credentials to open a temporary SSH connection, runs one command, then closes it; it does not attach to the visible terminal. Long jobs should use `tmux`, `nohup`, or `systemd` remotely. Upload, download, and `sync` support folders, while host and credential management commands use JSON input and output.
 
 It is not meant to be a universal remote agent. It is just a safe way to let existing agents reach your servers.
 
@@ -142,4 +123,4 @@ One is the built-in OpenAI-compatible agent. Users choose the model they want, l
 
 The other is the external CLI. The local agent workflow stays the same, but it gets a new command that can safely access Termark assets. Credentials do not go to the agent; they stay on the Termark side.
 
-I did not want to force everyone into just one path. Some people care about integration cost and model choice. Others care about their existing workflow. Both entry points share the same assets, credentials, sessions, and safety policy. The only difference is which side you enter from.
+I did not want to force everyone into just one path. Some people care about integration cost and model choice. Others care about their existing workflow. Both entry points use assets and credentials stored in Termark, but their execution paths differ. Built-in AI uses session or Global AI tools; External CLI `exec` uses a temporary SSH connection. They should not be described as sharing one visible terminal session or one approval flow.

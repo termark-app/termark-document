@@ -109,6 +109,74 @@ for filename, product_link in priority_articles.items():
         errors.append(f"priority article screenshot file is missing: {filename}: {image_link}")
 
 redirects_source = ROOT / "public" / "_redirects"
+current_ai_article_markers = {
+    "zh/blog/termark-ai-design.md": (
+        "自动、平衡和严格",
+        "后台 exec channel",
+        "当前可见终端 Shell",
+        'termark exec <asset-id> "<command>"',
+        "termark sync <asset-id>",
+        "全局 AI",
+    ),
+    "blog/termark-ai-design.md": (
+        "Auto, Balanced, and Strict",
+        "background exec channel",
+        "current visible terminal shell",
+        'termark exec <asset-id> "<command>"',
+        "termark sync <asset-id>",
+        "Global AI",
+    ),
+}
+stale_ai_markers = {
+    "zh/blog/termark-ai-design.md": (
+        '我没有做"开发者模式：永不确认"那种开关',
+        "不会在后台另开一个 shell",
+        "termark exec <asset-id> -- <command>",
+    ),
+    "blog/termark-ai-design.md": (
+        'I did not add a "developer mode: never confirm" switch',
+        "It does not open another shell in the background",
+        "termark exec <asset-id> -- <command>",
+    ),
+}
+for relative_path, markers in current_ai_article_markers.items():
+    body = (ROOT / relative_path).read_text(encoding="utf-8")
+    for marker in markers:
+        if marker not in body:
+            errors.append(f"AI design article is missing current behavior in {relative_path}: {marker}")
+    for marker in stale_ai_markers[relative_path]:
+        if marker in body:
+            errors.append(f"AI design article contains stale behavior in {relative_path}: {marker}")
+
+current_ai_policy_surfaces = {
+    "blog/termark-ssh-terminal-workbench.md": "Auto, Balanced, and Strict",
+    "blog/wechat-promo-article.md": "Auto, Balanced, and Strict",
+    "blog/the-curse-of-knowledge-in-ai.md": "Auto, Balanced, and Strict",
+    "blog/desktop-ssh-tool-indie-dev.md": "Auto, Balanced, and Strict",
+    "zh/blog/termark-ssh-terminal-workbench.md": "自动、平衡和严格",
+    "zh/blog/mac-ssh-client-guide.md": "自动、平衡和严格",
+    "zh/blog/can-you-ssh-on-a-phone.md": "自动、平衡或严格",
+    "zh/blog/desktop-ssh-tool-indie-dev.md": "自动、平衡和严格",
+}
+for relative_path, marker in current_ai_policy_surfaces.items():
+    body = (ROOT / relative_path).read_text(encoding="utf-8")
+    if marker not in body:
+        errors.append(f"AI policy article is missing current three-mode behavior in {relative_path}: {marker}")
+
+stale_ai_claims_across_docs = (
+    "supports two confirmation policies",
+    "命令执行始终保留确认环节",
+    "execute only after user confirmation",
+    "execute them after confirmation",
+    "等用户确认后再运行",
+    "termark exec <asset-id> -- <command>",
+)
+for source in list((ROOT / "blog").glob("*.md")) + list((ROOT / "zh" / "blog").glob("*.md")):
+    body = source.read_text(encoding="utf-8")
+    for marker in stale_ai_claims_across_docs:
+        if marker in body:
+            errors.append(f"documentation contains stale AI behavior in {source.relative_to(ROOT)}: {marker}")
+
 required_redirects = {
     "/zh/blog/go": "/zh/blog/termark-ssh-terminal-workbench",
     "/zh/blog/wechat-promo-article": "/zh/blog/termark-ssh-terminal-workbench",

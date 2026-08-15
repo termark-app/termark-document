@@ -173,7 +173,7 @@ This is not meant to be a full auditing system. It is more like a lightweight re
 
 Termark also includes an AI assistant.
 
-I do not want to frame it as "autonomous ops". It is more like an assistant standing next to the SSH terminal: it can see the latest terminal output, can analyze problems based on your description, and can execute commands after you confirm them.
+I do not want to frame it as "autonomous ops". It is more like an assistant standing next to the SSH terminal: terminal-scoped AI can use recent output, while Global AI can find saved hosts by selection or asset search. Approval follows the selected Auto, Balanced, or Strict policy.
 
 For example, you can ask it to explain an error message, check service status, analyze port usage, or decide what to inspect next based on the current output.
 
@@ -181,7 +181,7 @@ The AI assistant supports OpenAI-compatible interfaces. You can configure your o
 
 I am conservative about command execution.
 
-Termark supports two confirmation policies: confirm only dangerous commands, or confirm every command. High-risk commands such as `rm -rf /`, `mkfs`, disk writes with `dd`, restarts, shutdowns, and firewall wipes are recognized and require confirmation.
+Termark supports Auto, Balanced, and Strict approval. Balanced is the default: clearly read-only observation commands can run automatically, while writes, state changes, unknown commands, and hard-dangerous commands require approval. Auto skips approval for commands and file writes; Strict asks for every executable or file operation.
 
 My view is simple: AI can improve efficiency, but control of the server must still stay with the user.
 

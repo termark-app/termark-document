@@ -141,7 +141,7 @@ These days, not adding AI seems to make a product look behind the times.
 
 But AI in an SSH tool should not exist only to chase a trend. Servers are different from code repositories. If AI directly executes commands, the risk lands on real machines.
 
-So I prefer positioning AI as an assistant next to the terminal: it can read recent terminal output, analyze errors, generate troubleshooting commands, explain logs, suggest next steps, and execute only after user confirmation.
+Termark now separates terminal-scoped and Global AI and offers Auto, Balanced, and Strict approval. Balanced is the default: clearly read-only observation commands can run automatically, while writes, state changes, unknown commands, and hard-dangerous commands require approval.
 
 I do not want to package it as a "fully automated ops agent."
 
