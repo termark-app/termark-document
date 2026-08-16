@@ -37,6 +37,7 @@ const logo = {
 const copyright = 'Copyright © 2026 Termark'
 
 export default defineConfig({
+    cleanUrls: true,
     sitemap: {
         hostname: siteUrl,
         xmlns: {
