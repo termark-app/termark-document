@@ -44,6 +44,9 @@ else:
         errors.append("generated llms.txt contains redirecting .html URL")
 
 blog_index = ROOT / "zh" / "blog" / "index.md"
+english_blog_index = ROOT / "blog" / "index.md"
+if not english_blog_index.exists():
+    errors.append("English blog index is missing")
 if not blog_index.exists():
     errors.append("Chinese blog index is missing")
 else:
@@ -183,6 +186,16 @@ required_redirects = {
     "/zh/blog/the-curse-of-knowledge-in-ai": "/zh/blog/termark-ai-design",
     "/zh/blog/soft-articles/03-ssh-client-selection-details": "/zh/blog/ssh-client-recommendation",
     "/zh/blog/soft-articles/04-ssh-credential-security-boundary": "/zh/blog/ssh-credential-security",
+    "/usage/ai-agent": "/blog/termark-ai-design",
+    "/usage/ai-agent.html": "/blog/termark-ai-design",
+    "/zh/usage/ai-agent": "/zh/blog/termark-ai-design",
+    "/zh/usage/ai-agent.html": "/zh/blog/termark-ai-design",
+    "/usage/windows-portable": "/usage/data-storage-path",
+    "/usage/windows-portable.html": "/usage/data-storage-path",
+    "/zh/usage/windows-portable": "/zh/usage/data-storage-path",
+    "/zh/usage/windows-portable.html": "/zh/usage/data-storage-path",
+    "/usage/": "/",
+    "/zh/usage/": "/zh/",
 }
 if not redirects_source.exists():
     errors.append("Cloudflare Pages redirects file is missing")
@@ -378,6 +391,21 @@ if untranslated.exists():
         errors.append("untranslated pages must not emit nonexistent language alternates")
 else:
     errors.append("untranslated-page SEO fixture is missing")
+
+# Every generated alternate language URL must resolve to a generated page.
+# This prevents Chinese-only pages from advertising phantom English versions.
+phantom_alternates: list[tuple[str, str]] = []
+for page in DIST.rglob("*.html"):
+    body = page.read_text(encoding="utf-8")
+    for alternate_url in re.findall(r'<link[^>]+rel="alternate"[^>]+href="(https://docs\.termark\.app/[^"]+)"', body):
+        route = alternate_url.removeprefix("https://docs.termark.app/")
+        candidate = DIST / (route.rstrip("/") + ".html")
+        index_candidate = DIST / route / "index.html"
+        if not candidate.exists() and not index_candidate.exists():
+            phantom_alternates.append((str(page.relative_to(DIST)), alternate_url))
+if phantom_alternates:
+    examples = ", ".join(f"{page} -> {url}" for page, url in phantom_alternates[:5])
+    errors.append(f"generated pages contain nonexistent language alternates: {examples}")
 
 if sitemap.exists():
     for url in urls:

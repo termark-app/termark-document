@@ -8,3 +8,13 @@
 /zh/blog/soft-articles/04-ssh-credential-security-boundary /zh/blog/ssh-credential-security 301
 /zh/blog/soft-articles/05-claude /zh/blog/desktop-ssh-tool-indie-dev 301
 /zh/blog/soft-articles/05-desktop-ssh-tool-indie-dev /zh/blog/desktop-ssh-tool-indie-dev 301
+/usage/ai-agent /blog/termark-ai-design 301
+/usage/ai-agent.html /blog/termark-ai-design 301
+/zh/usage/ai-agent /zh/blog/termark-ai-design 301
+/zh/usage/ai-agent.html /zh/blog/termark-ai-design 301
+/usage/windows-portable /usage/data-storage-path 301
+/usage/windows-portable.html /usage/data-storage-path 301
+/zh/usage/windows-portable /zh/usage/data-storage-path 301
+/zh/usage/windows-portable.html /zh/usage/data-storage-path 301
+/usage/ / 301
+/zh/usage/ /zh/ 301
