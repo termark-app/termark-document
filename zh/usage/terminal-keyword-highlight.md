@@ -64,6 +64,6 @@ Termark 的关键字高亮和它们不是同一类功能。
 
 可以参考 Termark 仓库中的示例规则：
 
-[https://github.com/dushixiang/termark/tree/main/highlights](https://github.com/dushixiang/termark/tree/main/highlights)
+[https://github.com/termark-app/termark/tree/main/highlights](https://github.com/termark-app/termark/tree/main/highlights)
 
 建议从少量规则开始，只高亮真正需要你注意的内容。规则太多、颜色太杂时，反而会降低输出的可读性。

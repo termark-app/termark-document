@@ -80,7 +80,7 @@ export default defineConfig({
                 '@context': 'https://schema.org', '@type': 'BlogPosting', headline: title, description,
                 ...(published ? {datePublished: published} : {}), ...(modified ? {dateModified: modified} : {}),
                 author: {'@type': 'Organization', name: author, url: 'https://www.termark.app/zh-cn/'},
-                publisher: {'@type': 'Organization', '@id': 'https://www.termark.app/#organization', name: 'Termark', url: 'https://www.termark.app/', sameAs: ['https://github.com/dushixiang/termark', 'https://t.me/termark_app'], logo: {'@type': 'ImageObject', url: 'https://www.termark.app/logo.svg'}},
+                publisher: {'@type': 'Organization', '@id': 'https://www.termark.app/#organization', name: 'Termark', url: 'https://www.termark.app/', sameAs: ['https://github.com/termark-app/termark', 'https://t.me/termark_app'], logo: {'@type': 'ImageObject', url: 'https://www.termark.app/logo.svg'}},
                 mainEntityOfPage: {'@type': 'WebPage', '@id': `${siteUrl}${route}`},
                 ...(image ? {image: image.startsWith('http') ? image : `${siteUrl}${image}`} : {})
             }

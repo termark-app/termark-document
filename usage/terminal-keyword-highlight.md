@@ -64,6 +64,6 @@ If you need reliable recognition of structured logs, prefer JSON output, fixed f
 
 You can refer to the example rules in the Termark repository:
 
-[https://github.com/dushixiang/termark/tree/main/highlights](https://github.com/dushixiang/termark/tree/main/highlights)
+[https://github.com/termark-app/termark/tree/main/highlights](https://github.com/termark-app/termark/tree/main/highlights)
 
 Start with a small number of rules and highlight only what truly needs attention. Too many rules and colors can make output harder to read.
