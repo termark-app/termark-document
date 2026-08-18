@@ -1,6 +1,9 @@
 ---
 title: Termark AI Assistant Design
 description: How Termark separates AI scope, SSH execution channels, approval policies, and External CLI access.
+date: 2026-05-17
+updated: 2026-08-15
+author: Termark Team
 ---
 
 # Termark AI Assistant Design: Scope, Execution, and Approval Boundaries

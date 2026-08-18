@@ -219,15 +219,16 @@ stale_markers = (
     "SFTP 在线编辑器**                           | — | ✅",
 )
 blog_sources = [source for source in (ROOT / "zh" / "blog").glob("*.md") if source.name != "index.md"]
-for source in blog_sources:
+english_blog_sources = [source for source in (ROOT / "blog").glob("*.md") if source.name != "index.md"]
+for source in blog_sources + english_blog_sources:
     body = source.read_text(encoding="utf-8")
     frontmatter = body.split("---", 2)[1] if body.startswith("---\n") else ""
     for required_field in ("title:", "description:", "date:", "updated:", "author:"):
         if required_field not in frontmatter:
-            errors.append(f"published article is missing {required_field[:-1]} frontmatter: {source.name}")
+            errors.append(f"published article is missing {required_field[:-1]} frontmatter: {source.relative_to(ROOT)}")
     for marker in stale_markers:
         if marker in body:
-            errors.append(f"published article contains stale campaign content: {source.name}: {marker}")
+            errors.append(f"published article contains stale campaign content: {source.relative_to(ROOT)}: {marker}")
 
 sitemap = DIST / "sitemap.xml"
 if not sitemap.exists():
@@ -277,10 +278,12 @@ for page, lang, route in samples:
     if f'data-website-id="{UMAMI_WEBSITE_ID}"' not in body or 'src="https://umami.typesafe.cn/script.js"' not in body:
         errors.append(f"Umami tracker is missing from {route}")
 
-for filename in (source.name for source in blog_sources):
-    page = DIST / "zh" / "blog" / filename.replace(".md", ".html")
+for source in blog_sources + english_blog_sources:
+    filename = source.name
+    locale_prefix = "zh/" if source.parent.name == "blog" and source.parent.parent.name == "zh" else ""
+    page = DIST / locale_prefix / "blog" / filename.replace(".md", ".html")
     if not page.exists():
-        errors.append(f"generated priority blog page is missing: {filename}")
+        errors.append(f"generated blog page is missing: {source.relative_to(ROOT)}")
         continue
     body = page.read_text(encoding="utf-8")
     scripts = re.findall(r'<script type="application/ld\+json">(.*?)</script>', body, re.S)
@@ -289,24 +292,24 @@ for filename in (source.name for source in blog_sources):
         try:
             parsed.append(json.loads(script))
         except json.JSONDecodeError as exc:
-            errors.append(f"invalid JSON-LD in {filename}: {exc}")
+            errors.append(f"invalid JSON-LD in {source.relative_to(ROOT)}: {exc}")
     types = {item.get("@type") for item in parsed if isinstance(item, dict)}
     if not {"BlogPosting", "BreadcrumbList"}.issubset(types):
-        errors.append(f"blog schema is incomplete in {filename}: {sorted(str(value) for value in types)}")
+        errors.append(f"blog schema is incomplete in {source.relative_to(ROOT)}: {sorted(str(value) for value in types)}")
         continue
     article = next(item for item in parsed if isinstance(item, dict) and item.get("@type") == "BlogPosting")
     breadcrumbs = next(item for item in parsed if isinstance(item, dict) and item.get("@type") == "BreadcrumbList")
-    expected_url = f"https://docs.termark.app/zh/blog/{filename.removesuffix('.md')}"
+    expected_url = f"https://docs.termark.app/{locale_prefix}blog/{filename.removesuffix('.md')}"
     if article.get("mainEntityOfPage", {}).get("@id") != expected_url:
-        errors.append(f"BlogPosting mainEntityOfPage is wrong in {filename}")
+        errors.append(f"BlogPosting mainEntityOfPage is wrong in {source.relative_to(ROOT)}")
     for required_field in ("headline", "description", "datePublished", "dateModified", "author", "publisher"):
         if not article.get(required_field):
-            errors.append(f"BlogPosting is missing {required_field} in {filename}")
+            errors.append(f"BlogPosting is missing {required_field} in {source.relative_to(ROOT)}")
     if article.get("publisher", {}).get("@id") != "https://www.termark.app/#organization":
-        errors.append(f"BlogPosting publisher is not linked to the canonical Termark Organization in {filename}")
+        errors.append(f"BlogPosting publisher is not linked to the canonical Termark Organization in {source.relative_to(ROOT)}")
     elements = breadcrumbs.get("itemListElement", [])
     if [item.get("position") for item in elements] != [1, 2, 3] or not elements or elements[-1].get("item") != expected_url:
-        errors.append(f"BreadcrumbList is malformed in {filename}")
+        errors.append(f"BreadcrumbList is malformed in {source.relative_to(ROOT)}")
 
 tracked_blog_links = {
     "windows-ssh-client-guide.md": "utm_campaign=windows_ssh_guide",

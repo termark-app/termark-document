@@ -1,6 +1,9 @@
 ---
 title: Termark, the SSH Terminal Tool That Feels Better to Use
 description: A promotional article introducing Termark's main workflows and features.
+date: 2026-05-01
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # I Built a More Natural SSH Terminal Management Tool: Termark

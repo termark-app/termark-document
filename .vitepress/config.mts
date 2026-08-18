@@ -69,6 +69,36 @@ export default defineConfig({
             ['meta', {property: 'og:site_name', content: 'Termark'}],
             ['meta', {name: 'robots', content: 'index, follow, max-image-preview:large'}]
         ]
+        if (route.startsWith('/blog/') && route !== '/blog/') {
+            const title = pageData.frontmatter.title || pageData.title
+            const description = pageData.frontmatter.description || ''
+            const published = isoDate(pageData.frontmatter.date)
+            const modified = isoDate(pageData.frontmatter.updated) || published
+            const author = pageData.frontmatter.author || 'Termark Team'
+            const image = pageData.frontmatter.image
+            const article = {
+                '@context': 'https://schema.org', '@type': 'BlogPosting', headline: title, description,
+                ...(published ? {datePublished: published} : {}), ...(modified ? {dateModified: modified} : {}),
+                author: {'@type': 'Organization', name: author, url: 'https://www.termark.app/'},
+                publisher: {'@type': 'Organization', '@id': 'https://www.termark.app/#organization', name: 'Termark', url: 'https://www.termark.app/', sameAs: ['https://github.com/termark-app/termark', 'https://t.me/termark_app'], logo: {'@type': 'ImageObject', url: 'https://www.termark.app/logo.svg'}},
+                mainEntityOfPage: {'@type': 'WebPage', '@id': `${siteUrl}${route}`},
+                ...(image ? {image: image.startsWith('http') ? image : `${siteUrl}${image}`} : {})
+            }
+            const breadcrumbs = {
+                '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {'@type': 'ListItem', position: 1, name: 'Termark Documentation', item: `${siteUrl}/`},
+                    {'@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog/`},
+                    {'@type': 'ListItem', position: 3, name: title, item: `${siteUrl}${route}`}
+                ]
+            }
+            if (published) head.push(['meta', {property: 'article:published_time', content: published}])
+            if (modified) head.push(['meta', {property: 'article:modified_time', content: modified}])
+            head.push(
+                ['script', {type: 'application/ld+json'}, JSON.stringify(article)],
+                ['script', {type: 'application/ld+json'}, JSON.stringify(breadcrumbs)]
+            )
+        }
         if (route.startsWith('/zh/blog/') && route !== '/zh/blog/') {
             const title = pageData.frontmatter.title || pageData.title
             const description = pageData.frontmatter.description || ''

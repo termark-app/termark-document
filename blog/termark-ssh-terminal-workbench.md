@@ -1,6 +1,9 @@
 ---
 title: A More Convenient SSH Terminal Management Tool I Built Termark
 description: A practical SSH terminal workspace for people who work with servers every day.
+date: 2026-05-15
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # I Built a More Convenient SSH Terminal Management Tool: Termark

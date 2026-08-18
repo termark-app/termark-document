@@ -1,6 +1,9 @@
 ---
 title: The Curse of Knowledge in Large Models
 description: Why Termark separates command explanations from executable tool input.
+date: 2026-05-26
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # The Curse of Knowledge in Large Models

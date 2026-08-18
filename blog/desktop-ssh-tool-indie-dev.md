@@ -1,6 +1,9 @@
 ---
 title: "Independently Building a Desktop SSH Tool: The Hardest Part Is Not Writing Code"
 description: Notes from building Termark, a cross-platform desktop SSH tool for real server workflows.
+date: 2026-06-05
+updated: 2026-08-14
+author: Termark Team
 ---
 
 # Independently Building a Desktop SSH Tool: The Hardest Part Is Not Writing Code
