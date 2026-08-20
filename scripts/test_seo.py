@@ -13,6 +13,14 @@ errors = []
 urls: set[str] = set()
 UMAMI_WEBSITE_ID = "dd1a2266-3b28-4646-b8b4-107f0fb640dd"
 
+config_source = (ROOT / ".vitepress" / "config.mts").read_text(encoding="utf-8")
+for required_nav_link in (
+    "{text: 'Official Website', link: 'https://www.termark.app/'}",
+    "{text: '官方网站', link: 'https://www.termark.app/zh-cn/'}",
+):
+    if required_nav_link not in config_source:
+        errors.append(f"header navigation is missing official website link: {required_nav_link}")
+
 robots = DIST / "robots.txt"
 if not robots.exists():
     errors.append("generated robots.txt is missing")

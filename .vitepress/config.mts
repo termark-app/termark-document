@@ -160,7 +160,8 @@ export default defineConfig({
                             {text: 'Mobile Changelog', link: '/mobile-changelog'}
                         ]
                     },
-                    {text: 'Blog', link: '/blog/termark-ssh-terminal-workbench'}
+                    {text: 'Blog', link: '/blog/termark-ssh-terminal-workbench'},
+                    {text: 'Official Website', link: 'https://www.termark.app/'}
                 ],
                 sidebar: {
                     '/usage/': [
@@ -235,7 +236,8 @@ export default defineConfig({
                             {text: '移动端更新日志', link: '/zh/mobile-changelog'}
                         ]
                     },
-                    {text: '博客', link: '/zh/blog/'}
+                    {text: '博客', link: '/zh/blog/'},
+                    {text: '官方网站', link: 'https://www.termark.app/zh-cn/'}
                 ],
                 sidebar: {
                     '/zh/usage/': [
