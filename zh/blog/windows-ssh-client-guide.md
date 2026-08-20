@@ -114,7 +114,7 @@ Windows 不只运行在传统 x64 电脑上。Surface、开发板和部分新设
 - 可以在同一会话旁查看传输状态；
 - 文件操作和终端排查不容易分成两个孤立窗口。
 
-Termark 的 [Windows SSH 客户端页面](https://www.termark.app/zh-cn/windows-ssh-client/)和 [SFTP 客户端页面](https://www.termark.app/zh-cn/sftp-client/)展示了这类工作流；具体的目录跟随配置见[中文文档](https://docs.termark.app/zh/usage/sftp-cwd-tracking)。
+Termark 的 [Windows SSH 客户端页面](https://www.termark.app/zh-cn/#download)和 [SFTP 客户端页面](https://www.termark.app/zh-cn/#download)展示了这类工作流；具体的目录跟随配置见[中文文档](https://docs.termark.app/zh/usage/sftp-cwd-tracking)。
 
 ## AI SSH：先看确认机制
 
@@ -127,7 +127,7 @@ Windows 上的 AI SSH 工具越来越多，但“可以调用模型”不等于�
 - 删除、写入、安装、重启和权限变更是否需要确认；
 - AI 是否使用当前 SSH 用户、目录和会话，而不是偷偷另开一个环境。
 
-Termark 的 AI 助手会把可能改变服务器状态的命令展示出来，等待用户确认。可以查看 [AI SSH 客户端](https://www.termark.app/zh-cn/ai-ssh-client/)和 [AI SSH 安全边界文章](./termark-ai-design)。
+Termark 的 AI 助手会把可能改变服务器状态的命令展示出来，等待用户确认。可以查看 [AI SSH 客户端](https://www.termark.app/zh-cn/#download)和 [AI SSH 安全边界文章](./termark-ai-design)。
 
 ## 一份 Windows SSH 客户端选择清单
 
@@ -146,8 +146,8 @@ Termark 的 AI 助手会把可能改变服务器状态的命令展示出来，�
 
 ## Termark 适合什么情况
 
-Termark 更适合在 Windows 上经常管理多台服务器，同时需要终端、SFTP、资产、端口转发、命令片段、加密同步和受控 AI 的用户。核心 SSH、SFTP、端口转发、AI 辅助和本地加密能力属于 Free 计划；批量执行、云同步和其他进阶能力属于 PRO，具体以[下载页](https://www.termark.app/zh-cn/windows-ssh-client/)当前说明为准。
+Termark 更适合在 Windows 上经常管理多台服务器，同时需要终端、SFTP、资产、端口转发、命令片段、加密同步和受控 AI 的用户。核心 SSH、SFTP、端口转发、AI 辅助和本地加密能力属于 Free 计划；批量执行、云同步和其他进阶能力属于 PRO，具体以[下载页](https://www.termark.app/zh-cn/#download)当前说明为准。
 
-**用 Termark 试试这套 Windows SSH 工作流：**<a href="https://www.termark.app/zh-cn/windows-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=windows_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="windows_ssh_guide" data-umami-event-destination="windows-ssh-client">查看 Windows 客户端与下载入口</a>。
+**用 Termark 试试这套 Windows SSH 工作流：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=windows_ssh_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="windows_ssh_guide" data-umami-event-destination="windows-ssh-client">查看 Windows 客户端与下载入口</a>。
 
 如果你只偶尔连一台主机，Windows 自带 OpenSSH 已经是很好的起点。如果你每天都在多个服务器、文件传输和连接配置之间来回切换，再试一个完整工作台，比较它能否减少你的实际操作步骤。

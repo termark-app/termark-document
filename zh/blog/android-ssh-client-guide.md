@@ -58,6 +58,6 @@ Android 上的 SFTP 适合下载日志、上传小文件或查看目录。大目
 - [ ] 长任务是否由服务器端承载？
 - [ ] AI 变更命令是否要求确认？
 
-Termark Android 的当前 Beta、APK 和下载状态请以 [Android SSH 客户端页面](https://www.termark.app/zh-cn/android-ssh-client/)为准。
+Termark Android 的当前 Beta、APK 和下载状态请以 [Android SSH 客户端页面](https://www.termark.app/zh-cn/#download)为准。
 
-**用 Termark 试试 Android SSH 工作流：**<a href="https://www.termark.app/zh-cn/android-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=android_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="android_ssh_guide" data-umami-event-destination="android-ssh-client">查看 Android 功能与当前下载入口</a>。
+**用 Termark 试试 Android SSH 工作流：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=android_ssh_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="android_ssh_guide" data-umami-event-destination="android-ssh-client">查看 Android 功能与当前下载入口</a>。

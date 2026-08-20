@@ -43,7 +43,7 @@ Windows 用户常见选择包括系统 OpenSSH、PuTTY、Xshell、MobaXterm、Ta
 - 安装包签名、自动更新和安全软件误报说明是否清楚；
 - 数据目录和卸载行为是否可预期。
 
-如果目标是一个围绕 SSH、SFTP、端口转发和资产组织的桌面工作区，可以查看 [Termark Windows SSH 客户端页面](https://www.termark.app/zh-cn/windows-ssh-client/)；如果偏好完全命令行的方式，系统 OpenSSH 通常更直接。
+如果目标是一个围绕 SSH、SFTP、端口转发和资产组织的桌面工作区，可以查看 [Termark Windows SSH 客户端页面](https://www.termark.app/zh-cn/#download)；如果偏好完全命令行的方式，系统 OpenSSH 通常更直接。
 
 ## macOS：系统终端已经很好，图形工具要提供额外价值
 
@@ -153,4 +153,4 @@ AI 可以解释错误、生成命令和整理排查步骤，但服务器上的�
 
 Termark 更适合希望把服务器资产、SSH 终端、SFTP、端口转发、命令片段、加密同步和受控 AI 放进一个跨平台工作区的人。它支持 Windows、macOS、Linux、iOS 和 Android；移动端目前处于 Beta 阶段。
 
-如果你只是偶尔使用一条 `ssh` 命令，Termark 可能不是必需品。如果你每天在多台服务器、文件工具、跳板配置和 AI 对话之间切换，可以查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/ssh-client/) 并用上面的清单自行验证。
+如果你只是偶尔使用一条 `ssh` 命令，Termark 可能不是必需品。如果你每天在多台服务器、文件工具、跳板配置和 AI 对话之间切换，可以查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/#download) 并用上面的清单自行验证。

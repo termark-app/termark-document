@@ -87,7 +87,7 @@ Mac 软件常见两类架构：
 4. 数据目录和卸载后的数据保留规则；
 5. 是否支持深色模式、Retina 显示和常用 Mac 快捷键。
 
-Termark 当前提供 macOS 下载入口，实际可用架构和版本应以 [Mac SSH 客户端页面](https://www.termark.app/zh-cn/mac-ssh-client/)当时显示的发布信息为准，不应根据旧文章猜测。
+Termark 当前提供 macOS 下载入口，实际可用架构和版本应以 [Mac SSH 客户端页面](https://www.termark.app/zh-cn/#download)当时显示的发布信息为准，不应根据旧文章猜测。
 
 ## 私钥、SSH Agent 和 macOS 钥匙串
 
@@ -193,6 +193,6 @@ Termark 默认使用平衡审批：明确只读操作可自动执行，状态变
 
 核心能力、套餐边界和下载架构可能随版本调整，应以产品页的实时信息为准。
 
-**用 Termark 试试这套 macOS SSH 工作流：**<a href="https://www.termark.app/zh-cn/mac-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=mac_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="mac_ssh_guide" data-umami-event-destination="mac-ssh-client">查看 Mac 客户端、功能与下载入口</a>。
+**用 Termark 试试这套 macOS SSH 工作流：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=mac_ssh_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="mac_ssh_guide" data-umami-event-destination="mac-ssh-client">查看 Mac 客户端、功能与下载入口</a>。
 
 先用你真正会做的任务测试，再决定是否迁移：连接一台需要跳板机的主机，在终端旁打开 SFTP，保存一条端口转发，关闭并恢复会话，然后检查凭据和配置如何备份。能稳定减少这些步骤，才是客户端带来的实际价值。

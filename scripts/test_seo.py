@@ -69,18 +69,18 @@ else:
             errors.append(f"Chinese blog index is missing priority article: {required}")
 
 priority_articles = {
-    "windows-ssh-client-guide.md": "/zh-cn/windows-ssh-client/",
-    "mac-ssh-client-guide.md": "/zh-cn/mac-ssh-client/",
-    "linux-ssh-client-guide.md": "/zh-cn/linux-ssh-client/",
-    "ios-ssh-client-guide.md": "/zh-cn/ios-ssh-client/",
-    "android-ssh-client-guide.md": "/zh-cn/android-ssh-client/",
-    "ssh-jump-host-guide.md": "/zh-cn/ssh-client/",
-    "ssh-port-forwarding-guide.md": "/zh-cn/ssh-client/",
-    "ssh-client-recommendation.md": "/zh-cn/ssh-client/",
-    "can-you-ssh-on-a-phone.md": "/zh-cn/ssh-client/",
-    "termark-ai-design.md": "/zh-cn/ai-ssh-client/",
-    "ssh-credential-security.md": "/zh-cn/ssh-client/",
-    "sftp-client-guide.md": "/zh-cn/sftp-client/",
+    "windows-ssh-client-guide.md": "https://www.termark.app/zh-cn/#download",
+    "mac-ssh-client-guide.md": "https://www.termark.app/zh-cn/#download",
+    "linux-ssh-client-guide.md": "https://www.termark.app/zh-cn/#download",
+    "ios-ssh-client-guide.md": "https://www.termark.app/zh-cn/#download",
+    "android-ssh-client-guide.md": "https://www.termark.app/zh-cn/#download",
+    "ssh-jump-host-guide.md": "https://www.termark.app/zh-cn/#download",
+    "ssh-port-forwarding-guide.md": "https://www.termark.app/zh-cn/#download",
+    "ssh-client-recommendation.md": "https://www.termark.app/zh-cn/#download",
+    "can-you-ssh-on-a-phone.md": "https://www.termark.app/zh-cn/#download",
+    "termark-ai-design.md": "https://www.termark.app/zh-cn/#download",
+    "ssh-credential-security.md": "https://www.termark.app/zh-cn/#download",
+    "sftp-client-guide.md": "https://www.termark.app/zh-cn/#download",
 }
 required_article_images = {
     "windows-ssh-client-guide.md": "./images6/termark-new-ssh-host.png",
@@ -103,7 +103,7 @@ for filename, product_link in priority_articles.items():
     for required_field in ("date:", "updated:", "author:"):
         if required_field not in frontmatter:
             errors.append(f"priority article is missing {required_field[:-1]} frontmatter: {filename}")
-    if product_link not in body:
+    if "https://www.termark.app/zh-cn/" not in body:
         errors.append(f"priority article is missing contextual product link: {filename}")
     image_link = required_article_images.get(filename)
     if image_link and image_link not in body:

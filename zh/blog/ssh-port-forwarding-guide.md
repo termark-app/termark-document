@@ -108,4 +108,4 @@ curl --socks5-hostname 127.0.0.1:1080 https://example.com/
 
 Termark 可保存本地、远程和动态转发规则；具体行为以当前版本和[更新日志](/zh/changelog)为准。
 
-**用 Termark 管理 SSH 端口转发：**<a href="https://www.termark.app/zh-cn/ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=ssh_port_forwarding_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="ssh_port_forwarding_guide" data-umami-event-destination="ssh-client">查看跨平台 SSH 客户端</a>。
+**用 Termark 管理 SSH 端口转发：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=ssh_port_forwarding_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="ssh_port_forwarding_guide" data-umami-event-destination="ssh-client">查看跨平台 SSH 客户端</a>。

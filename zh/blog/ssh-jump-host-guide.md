@@ -87,4 +87,4 @@ SFTP 是 SSH 子系统，通常可复用同一跳板配置。客户端应确保�
 - SFTP 打开错误主机：核对最终目标和连接上下文；
 - 多跳后端口转发失败：确认监听端和目标是从哪一层视角解释。
 
-**用 Termark 试试跳板机连接：**<a href="https://www.termark.app/zh-cn/ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=ssh_jump_host_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="ssh_jump_host_guide" data-umami-event-destination="ssh-client">查看跨平台 SSH 客户端</a>。
+**用 Termark 试试跳板机连接：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=ssh_jump_host_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="ssh_jump_host_guide" data-umami-event-destination="ssh-client">查看跨平台 SSH 客户端</a>。

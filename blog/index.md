@@ -36,5 +36,5 @@ An overview of the practical workflow problems Termark aims to solve.
 - [Termark website](https://www.termark.app/)
 - [Download Termark](https://www.termark.app/#download)
 - [Documentation](/)
-- [Product facts](https://www.termark.app/product-facts/)
+- [Desktop and mobile changelog](/changelog)
 - [GitHub Discussions](https://github.com/termark-app/termark/discussions)

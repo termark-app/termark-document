@@ -133,6 +133,6 @@ termark sync <asset-id> <local-dir> <remote-dir>
 
 比较适合交给 AI 辅助的任务包括：解释最近的错误输出、生成只读排查命令、搜索配置、总结日志和给出下一步检查方向。涉及删除、写入、安装、权限变更或服务重启时，完整命令和目标服务器应该先对用户可见。
 
-如果你正在评估这类工作流，可以查看 [Termark AI SSH 客户端](https://www.termark.app/zh-cn/ai-ssh-client/)；关于本地凭据和同步数据的边界，可继续阅读 [SSH 客户端保存密码和私钥安全吗？](./ssh-credential-security)。
+如果你正在评估这类工作流，可以查看 [Termark AI SSH 客户端](https://www.termark.app/zh-cn/#download)；关于本地凭据和同步数据的边界，可继续阅读 [SSH 客户端保存密码和私钥安全吗？](./ssh-credential-security)。
 
-**查看受控 AI SSH 工作流：**<a href="https://www.termark.app/zh-cn/ai-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=ai_ssh_safety&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="ai_ssh_safety" data-umami-event-destination="ai-ssh-client">了解 Termark AI SSH 客户端</a>。
+**查看受控 AI SSH 工作流：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=ai_ssh_safety&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="ai_ssh_safety" data-umami-event-destination="ai-ssh-client">了解 Termark AI SSH 客户端</a>。

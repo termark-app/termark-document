@@ -51,7 +51,7 @@ chmod +x Termark.AppImage
 
 DEB 更适合 Ubuntu、Debian 及其衍生发行版。它能进入系统包管理流程，但安装时需要对应权限，依赖与桌面集成也受发行版版本影响。
 
-无论选择哪种格式，都应从官方页面下载并核对当前发布说明。Termark 的 Linux 页面会显示实时可用的架构和包格式：[Linux SSH 客户端](https://www.termark.app/zh-cn/linux-ssh-client/)。
+无论选择哪种格式，都应从官方页面下载并核对当前发布说明。Termark 的 Linux 页面会显示实时可用的架构和包格式：[Linux SSH 客户端](https://www.termark.app/zh-cn/#download)。
 
 ## x64 与 ARM64
 
@@ -115,4 +115,4 @@ Termark 的当前更新记录包含 tmux 兼容、systemd 管理、进程与指�
 
 只偶尔连接单机时，系统 OpenSSH 是最简单的选择。每天管理多组主机，同时需要终端、SFTP、跳板机、端口转发、命令片段和受控 AI 时，可以把 Termark 作为跨平台工作台进行真实任务测试。
 
-**用 Termark 试试 Linux SSH 工作流：**<a href="https://www.termark.app/zh-cn/linux-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=linux_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="linux_ssh_guide" data-umami-event-destination="linux-ssh-client">查看 Linux 客户端与当前下载包</a>。
+**用 Termark 试试 Linux SSH 工作流：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=linux_ssh_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="linux_ssh_guide" data-umami-event-destination="linux-ssh-client">查看 Linux 客户端与当前下载包</a>。

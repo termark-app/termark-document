@@ -60,6 +60,6 @@ iPad 配合外接键盘更接近桌面终端，但仍应测试：
 - [ ] 长任务是否放在服务器端？
 - [ ] AI 命令是否在执行前展示完整内容？
 
-Termark iOS 当前发布渠道和 Beta 状态可能变化，请以 [iOS SSH 客户端页面](https://www.termark.app/zh-cn/ios-ssh-client/)实时信息为准。
+Termark iOS 当前发布渠道和 Beta 状态可能变化，请以 [iOS SSH 客户端页面](https://www.termark.app/zh-cn/#download)实时信息为准。
 
-**用 Termark 试试 iPhone/iPad SSH 工作流：**<a href="https://www.termark.app/zh-cn/ios-ssh-client/?utm_source=docs&utm_medium=blog&utm_campaign=ios_ssh_guide&utm_content=article_cta" data-umami-event="blog-cta-click" data-umami-event-campaign="ios_ssh_guide" data-umami-event-destination="ios-ssh-client">查看 iOS 功能与当前体验入口</a>。
+**用 Termark 试试 iPhone/iPad SSH 工作流：**<a href="https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=ios_ssh_guide&utm_content=article_cta#download" data-umami-event="blog-cta-click" data-umami-event-campaign="ios_ssh_guide" data-umami-event-destination="ios-ssh-client">查看 iOS 功能与当前体验入口</a>。
