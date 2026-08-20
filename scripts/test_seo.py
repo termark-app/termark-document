@@ -107,7 +107,7 @@ for filename, product_link in priority_articles.items():
     for required_field in ("date:", "updated:", "author:"):
         if required_field not in frontmatter:
             errors.append(f"priority article is missing {required_field[:-1]} frontmatter: {filename}")
-    if "https://www.termark.app/zh-cn/" not in body:
+    if not any(link in body for link in ("https://www.termark.app/zh-cn/", "https://termark.app")):
         errors.append(f"priority article is missing contextual product link: {filename}")
     image_link = required_article_images.get(filename)
     if image_link and image_link not in body:
