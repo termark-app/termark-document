@@ -32,6 +32,8 @@ else:
         "https://docs.termark.app/zh/blog/linux-ssh-client-guide",
         "https://docs.termark.app/zh/blog/ios-ssh-client-guide",
         "https://docs.termark.app/zh/blog/android-ssh-client-guide",
+        "https://docs.termark.app/zh/blog/ssh-session-persistence",
+        "https://docs.termark.app/blog/ssh-session-persistence",
         "https://docs.termark.app/zh/blog/ssh-jump-host-guide",
         "https://docs.termark.app/zh/blog/ssh-port-forwarding-guide",
         "https://docs.termark.app/sitemap.xml",
@@ -64,6 +66,7 @@ else:
         "/zh/blog/can-you-ssh-on-a-phone",
         "/zh/blog/termark-ai-design",
         "/zh/blog/ssh-credential-security",
+        "/zh/blog/ssh-session-persistence",
     ):
         if required not in index_body:
             errors.append(f"Chinese blog index is missing priority article: {required}")
@@ -81,6 +84,7 @@ priority_articles = {
     "termark-ai-design.md": "https://www.termark.app/zh-cn/#download",
     "ssh-credential-security.md": "https://www.termark.app/zh-cn/#download",
     "sftp-client-guide.md": "https://www.termark.app/zh-cn/#download",
+    "ssh-session-persistence.md": "https://www.termark.app/zh-cn/",
 }
 required_article_images = {
     "windows-ssh-client-guide.md": "./images6/termark-new-ssh-host.png",

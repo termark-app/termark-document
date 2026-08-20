@@ -198,6 +198,7 @@ export default defineConfig({
                         {
                             text: 'Blog',
                             items: [
+                                {text: 'After SSH Disconnects: nohup, tmux, or systemd?', link: '/blog/ssh-session-persistence'},
                                 {text: 'A More Convenient SSH Terminal Management Tool I Built: Termark', link: '/blog/termark-ssh-terminal-workbench'},
                                 {text: 'Termark, the SSH Terminal Tool That Feels Better to Use', link: '/blog/wechat-promo-article'},
                                 {text: 'Independently Building a Desktop SSH Tool', link: '/blog/desktop-ssh-tool-indie-dev'},
@@ -273,6 +274,7 @@ export default defineConfig({
                             text: '博客',
                             items: [
                                 {text: '博客首页', link: '/zh/blog/'},
+                                {text: 'SSH 断开后程序还在跑吗？', link: '/zh/blog/ssh-session-persistence'},
                                 {text: 'Windows SSH 客户端怎么选？', link: '/zh/blog/windows-ssh-client-guide'},
                                 {text: 'SSH 客户端怎么选？', link: '/zh/blog/ssh-client-recommendation'},
                                 {text: 'SFTP 客户端怎么选？', link: '/zh/blog/sftp-client-guide'},

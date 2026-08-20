@@ -7,8 +7,11 @@ hero:
   tagline: Documentation, release notes, and product updates.
   actions:
     - theme: brand
-      text: Read Docs
+      text: Get Started
       link: /usage/sftp-cwd-tracking
+    - theme: alt
+      text: Termark Website
+      link: https://www.termark.app/
     - theme: alt
       text: Changelog
       link: /changelog

@@ -9,6 +9,10 @@ Technical notes from building and using a cross-platform SSH and SFTP workspace.
 
 ## SSH and terminal workflows
 
+### [After SSH Disconnects, Is Your Program Still Running?](/blog/ssh-session-persistence)
+
+Explains the separate roles of SSH, PTYs, shells, and processes, then compares `nohup`, `tmux`, and `systemd` for one-off jobs, reconnectable terminal sessions, and long-running services.
+
 ### [A More Convenient SSH Terminal Management Tool I Built: Termark](/blog/termark-ssh-terminal-workbench)
 
 Why Termark organizes server assets, terminals, SFTP, port forwarding, and common operations in one workspace.

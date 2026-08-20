@@ -39,6 +39,10 @@ description: 面向开发者和运维的 SSH 实用指南，涵盖 SSH 客户端
 
 ## 网络与连接
 
+### [SSH 断开后，程序还在跑吗？](/zh/blog/ssh-session-persistence)
+
+解释 SSH、PTY、Shell 和进程的关系，并比较 `nohup`、`tmux`、`systemd` 分别适合一次性任务、可恢复终端会话和长期服务。
+
 ### [SSH 跳板机怎么配置？](/zh/blog/ssh-jump-host-guide)
 
 通过 ProxyJump、多跳认证、主机指纹和 Agent Forwarding 风险理解跳板链路。

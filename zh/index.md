@@ -12,6 +12,9 @@ hero:
     - theme: alt
       text: 更新日志
       link: /zh/changelog
+    - theme: alt
+      text: Termark 官网
+      link: https://www.termark.app/zh-cn/
 
 features:
   - title: 使用文档

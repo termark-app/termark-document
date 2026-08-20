@@ -20,6 +20,8 @@
 
 ## SSH networking and security
 
+- [SSH session persistence (Chinese)](https://docs.termark.app/zh/blog/ssh-session-persistence): What survives an SSH disconnect and when to use `nohup`, `tmux`, or `systemd`.
+- [SSH session persistence (English)](https://docs.termark.app/blog/ssh-session-persistence): English guide to the distinct roles of `nohup`, `tmux`, and `systemd`.
 - [SSH jump host guide](https://docs.termark.app/zh/blog/ssh-jump-host-guide): ProxyJump, multi-hop authentication, host keys, Agent Forwarding, and SFTP through bastions.
 - [SSH port forwarding guide](https://docs.termark.app/zh/blog/ssh-port-forwarding-guide): Local, remote, and dynamic forwarding with `ssh -L`, `-R`, and `-D`.
 - [SSH credential security](https://docs.termark.app/zh/blog/ssh-credential-security): Passwords, private keys, local encryption, sync, and AI command boundaries.
@@ -33,7 +35,6 @@
 
 ## Official product links
 
-- Website: https://www.termark.app/
 - Website: https://www.termark.app/
 - 中文官网: https://www.termark.app/zh-cn/
 - Downloads: https://www.termark.app/#download
