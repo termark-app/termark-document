@@ -287,7 +287,7 @@ for page, lang, route in samples:
         errors.append(f"hreflang cluster missing from {route}")
     if f'<html lang="{lang}"' not in body:
         errors.append(f"wrong HTML language for {route}")
-    if f'data-website-id="{UMAMI_WEBSITE_ID}"' not in body or 'src="https://umami.typesafe.cn/script.js"' not in body:
+    if f'data-website-id="{UMAMI_WEBSITE_ID}"' not in body or 'src="https://umami.next-terminal.com/script.js"' not in body:
         errors.append(f"Umami tracker is missing from {route}")
 
 for source in blog_sources + english_blog_sources:
