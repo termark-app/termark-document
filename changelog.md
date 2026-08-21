@@ -9,6 +9,46 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.5.0 (2026-08-21)
+
+### Added
+
+- Added AI web page reading tool with HTML parsing, enabled by default and backed by the SDK.
+- Added AI file editing capabilities via SFTP with lifecycle management and diff preview support.
+- Added combined host query tools for Global AI with multi-condition filtering.
+- Added AI approval configuration (approval model, timeout, and API environment) and dedicated "Always Approve" action with session-scoped memory.
+- Added per-host SFTP default directory configuration.
+- Added generic Agent Skills installation support.
+- Added Armbian logo and automatic system detection.
+- Added asset tree connection info and "Connect All Hosts" for groups, with improved grouping menus.
+- Added split-view asset picker support for Telnet and Serial connections.
+- Added Windows Acrylic background option persisted as a local setting.
+- Added AI approval system notifications with click-to-locate.
+
+### Fixed
+
+- Fixed blank assistant bubbles when restoring conversation history.
+- Fixed multibyte truncation errors in command output by centralizing truncation in the SDK.
+- Fixed re-review of approved commands, including session memory, "always" semantics, and system path fallbacks.
+- Fixed incomplete approval state handling in balanced mode and single-file deletion.
+- Fixed NextTerminal key login with OTP interactive authentication.
+- Fixed WebAssembly CSP error in terminal playback.
+- Fixed application window state loss after update and startup loading page theme flicker.
+- Fixed serial port resource release on close.
+- Fixed browser authorization not bringing the app to the foreground.
+- Fixed built-in AI configuration save crash and development warnings.
+- Fixed long-lived transfer event connections blocking graceful shutdown.
+- Fixed Global AI host query and history content recovery.
+
+### Changed
+
+- Relaxed and simplified approval logic and improved `su` command confirmation.
+- Moved approval memory, AI web reading, and command truncation into the SDK for zero-config reuse across desktop and mobile.
+- Refactored synchronized data into an envelope and integrated the official object storage API, improving WebDAV compatibility and support for stores without remote rename.
+- Reused SSH connection pooling and idle recycling for Global AI.
+- Improved port forwarding disconnect detection and auto-reconnect, and optimized host editor SSH layout.
+- Streamlined AI base tools and merged host query tools, with updated tool display.
+
 ## v1.4.0 (2026-08-13)
 
 ### Added
