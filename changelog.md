@@ -9,6 +9,22 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.5.1 (2026-08-22)
+
+### Added
+
+- Added affiliate sharing dialog with referral link, tier badges and three-level commission rates, plus a backend proxy for the store affiliate overview.
+
+### Fixed
+
+- Fixed confirmation dialog being unclickable while the app was locked.
+- Fixed incomplete AI tool-call arguments causing persistent 400 errors and unrecoverable sessions (invalid JSON truncated to \"null\" instead of \"{}\").
+
+### Changed
+
+- Improved AI auto-approval context handling and retry logic for failed reviews.
+- Fixed approval review background evidence budget propagation so long assistant context is truncated within budget instead of being dropped.
+
 ## v1.5.0 (2026-08-21)
 
 ### Added
