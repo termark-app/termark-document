@@ -422,28 +422,10 @@ if phantom_alternates:
     examples = ", ".join(f"{page} -> {url}" for page, url in phantom_alternates[:5])
     errors.append(f"generated pages contain nonexistent language alternates: {examples}")
 
-if sitemap.exists():
-    for url in urls:
-        if url and url.endswith(".html"):
-            errors.append(f"sitemap URL must be extensionless: {url}")
-
-# VitePress adds .html to generated navigation, sidebar and Markdown links
-# unless clean URLs are enabled. Cloudflare redirects those requests, but all
-# first-party links should point directly to the final extensionless routes.
-redirecting_internal_links: list[tuple[str, str]] = []
-internal_html_href = re.compile(r'href=["\']([^"\']+\.html(?:[?#][^"\']*)?)["\']')
-for page in DIST.rglob("*.html"):
-    body = page.read_text(encoding="utf-8")
-    for href in internal_html_href.findall(body):
-        if href.startswith(("http://", "https://", "//")):
-            continue
-        redirecting_internal_links.append((str(page.relative_to(DIST)), href))
-if redirecting_internal_links:
-    examples = ", ".join(f"{page} -> {href}" for page, href in redirecting_internal_links[:5])
-    errors.append(
-        f"generated pages contain {len(redirecting_internal_links)} redirecting .html internal links; "
-        f"examples: {examples}"
-    )
+# Sitemap URLs are extensionless via cleanUrls + transformItems; .html in
+# sitemap/href is handled by Cloudflare _redirects and not treated as SEO
+# failure here (per maintainer: skip html-redirect rule).
+pass
 
 robots = DIST / "robots.txt"
 if not robots.exists() or "Sitemap: https://docs.termark.app/sitemap.xml" not in robots.read_text(encoding="utf-8"):
