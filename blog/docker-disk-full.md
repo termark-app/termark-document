@@ -1,82 +1,78 @@
 ---
-title: Docker Is Filling Up Your Disk? Clean Logs, Images, Containers, and Fix It for Good
-description: Docker disk full? Learn how to diagnose disk usage with docker system df, json-file logs, overlay2, and build cache, then clean images, containers, volumes, and logs and prevent Docker from filling your disk again with log-opts.
+title: Docker Filled Up Your Disk? How to Diagnose, Clean, and Fix It for Good
+description: A practical guide to diagnosing Docker disk usage with docker system df, cleaning json-file logs, images, containers, and volumes, and preventing it from happening again with log rotation and scheduled cleanup.
 date: 2026-08-23
 updated: 2026-08-23
 author: Termark Team
 ---
 
-# Docker Is Filling Up Your Disk? Clean Logs, Images, Containers, and Fix It for Good
+# Docker Filled Up Your Disk? How to Diagnose, Clean, and Fix It for Good
 
-2:30 AM. Your monitoring channel pings: `No space left on device`.
+2:30 AM. Your alert channel pings: `no space left on device`. You drag yourself out of bed, SSH into the server, and see `/` at 100%. `docker ps` takes ten seconds to respond. Logs stop writing. Deploys hang halfway.
 
-You SSH in half-asleep. `df -h` says `/` is at 100%. `docker ps` takes forever. Logs stop writing. Pulls fail. Do not rush to resize the disk — eight times out of ten, Docker is the roommate who never takes out the trash, and it never warns you.
+Do not rush to resize the disk. A full disk is rarely because your business data actually grew that large. Eight times out of ten, Docker did it to itself — logs without rotation, images nobody cleaned up, containers that stopped but were never removed. It never warns you in advance. It just picks this moment, in this way, to let you know.
 
-Think of your server as a rental apartment. Docker is the roommate who stacks takeout boxes (logs) to the ceiling, leaves delivery cartons (images) in the corner, and never throws away instant noodle cups (stopped containers). Ignore it and it fills the place.
+This guide is not about "what happened." It is about how to pinpoint who is using the space within ten minutes, clean it up without deleting the wrong data, and configure it once so you never have to deal with it again.
 
-This is not a manual recital. It is one copy-paste path that catches the four usual suspects and leaves you with a fix that actually sticks.
+## Do not prune yet. Figure out who is responsible.
 
-## Do not prune first. Do an autopsy.
-
-The person who runs `docker system prune -a` on sight is the same person asking in the group chat tomorrow: where did my database go?
-
-Figure out whose fault it is:
+Too many people run `docker system prune -a --volumes` the moment the disk hits 100%, and ask in the group chat the next day where their database went. The command is powerful, but it is indiscriminate — volumes, images, containers, anything it considers "unused" goes. Spending two minutes to confirm the situation is far cheaper than hunting for a backup later:
 
 ```bash
 df -h
-# Which mount is at 90%+? Usually /
+# Which mount is over 90%? Usually /
 
 docker system df
-# Images     18.2GB   14.1GB reclaimable
-# Containers 32GB     28GB reclaimable
-# Build Cache 11.3GB fully reclaimable
+# Images       18.2GB   14.1GB reclaimable
+# Containers   32GB     28GB reclaimable
+# Build Cache  11.3GB   fully reclaimable
 
 sudo du -sh /var/lib/docker/* | sort -rh | head -10
 ```
 
-If `RECLAIMABLE` in `docker system df` is close to the used space in `df -h`, Docker owns your disk — and most of it can be reclaimed safely. SSH in with a client like [Termark](https://www.termark.app/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full) and run it right in the terminal.
+Look at the RECLAIMABLE column in `docker system df`. If that number lines up with the used space in `df -h`, Docker is almost certainly the cause — and most of it can be reclaimed safely. If you are troubleshooting remotely, running these commands over SSH with a client like [Termark](https://www.termark.app/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full) and pulling a log file back over SFTP is the fastest way to get oriented.
 
-Order of likelihood: logs > images and cache > ghost containers and volumes > overlay2 weirdness.
+Rough priority for investigation: logs > images and build cache > stopped-but-not-removed containers > abnormal overlay2 growth. Follow this order and you will not go in circles.
 
-## Culprit #1: Logs — a single 30 GB time bomb
+## Culprit #1: Unmanaged logs
 
-Docker's default driver is `json-file` with no rotation. A chatty Java service can create a single 30 GB JSON log in a week. The fun part: `docker system df` does not even break it out. You have to dig.
+Docker's default `json-file` driver does not rotate. A verbose service can accumulate a log file tens of gigabytes in size within days — and `docker system df` will not even count it. You have to dig for it yourself.
 
-### Hunt it down
+### Find it
 
 ```bash
-# Top 10 log files by size
+# Largest log files
 sudo find /var/lib/docker/containers -name "*-json.log" -type f -exec du -sh {} + | sort -rh | head -10
 
-# By container name — who did it?
+# Map back to container names
 docker ps -a --format '{{.ID}} {{.Names}}' | while read id name; do
-  log=$(docker inspect --format='{{.LogPath}}' $id 2>/dev/null)
-  [ -f "$log" ] && echo "$(du -h $log | cut -f1) $name"
+  log=$(docker inspect --format='{{.LogPath}}' "$id" 2>/dev/null)
+  [ -f "$log" ] && echo "$(du -h "$log" | cut -f1) $name"
 done | sort -rh | head -10
 ```
 
-If you see `28G my-app`, that is your perpetrator.
+If you see a line like `28G my-app`, you have your answer.
 
-### First aid: do not rm, truncate
+### Stop the bleeding: truncate, do not rm
 
-The instinct is to `rm`. You delete it, check `df -h`, and nothing changes — the daemon still holds the file handle. You burned the trash can while the trash floats in mid-air.
-
-Truncate it. Space returns instantly, no restart needed:
+The instinct is to `rm` the log file, only to find that `df -h` does not change at all. As long as the Docker daemon still holds a handle to the file, deleting it does not free the space. The correct fix is to truncate it:
 
 ```bash
-# Just the biggest offender
+# Truncate one container's log
 sudo truncate -s 0 /var/lib/docker/containers/<container-id>/*-json.log
 
-# Nuke all logs at once
+# Truncate all container logs at once
 sudo sh -c 'truncate -s 0 /var/lib/docker/containers/*/*-json.log'
 
-docker system df && df -h
-# Watching Use% drop from 100% to 60% is more satisfying than bubble tea
+df -h
+docker system df
 ```
 
-### Cure it: give logs an auto-rotation
+No restart needed. Space returns immediately.
 
-First aid without a cure means you will be back next week. Set rotation in `/etc/docker/daemon.json` so every new container is capped:
+### Fix the root cause: make logs cap themselves
+
+Stopping the bleeding only buys time until the next incident. Add limits in /etc/docker/daemon.json so every container created afterward comes with a ceiling:
 
 ```json
 {
@@ -92,7 +88,7 @@ First aid without a cure means you will be back next week. Set rotation in `/etc
 sudo systemctl restart docker
 ```
 
-Existing containers must be recreated. With Compose it is explicit:
+This only applies to **newly created** containers — existing ones must be recreated to pick it up. With Compose, it is clearer to declare it per service:
 
 ```yaml
 services:
@@ -105,64 +101,59 @@ services:
         max-file: "3"
 ```
 
-Each container is now capped at 30 MB (3 × 10 MB). No more 30 GB monsters. Need long-term retention? Ship to `journald`, Loki, or ELK — do not let Docker be your log warehouse. See [Data Storage Path](/usage/data-storage-path) for related patterns.
+After this, each container is capped at 30 MB (3 files × 10 MB). No more multi-gigabyte log files. If you need longer retention, ship to `journald`, Loki, or ELK instead of letting Docker act as a log warehouse — that was never its job. See [Data Storage Path](/usage/data-storage-path) for related patterns.
 
-## Culprit #2: Images, cache, ghost containers — you are hoarding
+## Culprit #2: Images, build cache, and containers that were never cleaned up
 
-Logs did not free enough? You are hoarding.
+Logs alone not enough? You are hoarding — old images, old build cache, containers that stopped but were never removed all keep occupying space. `docker system df -v` gives an itemized breakdown. This table covers most cases:
 
-`docker system df -v` tells you what can go. This table is all you need:
-
-| What you want to toss | Command | What happens | Hurts running containers? |
+| What you want to clean | Command | What it deletes | Affects running containers? |
 | --- | --- | --- | --- |
-| Routine sweep | `docker system prune` | Stopped containers, dangling images, unused networks, build cache | No |
-| Also idle images | `docker system prune -a` | Above plus images not used by any container | Removes images; next run needs a pull |
-| Also volumes | `docker system prune --volumes` | Above plus unused volumes | **Deletes data** — this is how you lose a database |
-| Only build cache | `docker builder prune -a` | BuildKit cache | No, next build is slower |
-| Only dangling images | `docker image prune` | `<none>` images | Safe |
+| Routine cleanup | `docker system prune` | Stopped containers, dangling images, unused networks, build cache | No |
+| Also unused images | `docker system prune -a` | Above plus images not used by any container | No, but you will need to pull the image again next time |
+| Also unused volumes | `docker system prune --volumes` | Above plus volumes not mounted to any container | May delete data — the most dangerous step |
+| Only build cache | `docker builder prune -a` | BuildKit cache | No, next build may be slower |
+| Only dangling images | `docker image prune` | Untagged `<none>` images | Safe |
 
-Three presets:
+Three common scenarios:
 
 ```bash
-# Weekly housekeeping — safe
+# Routine check — safe
 docker system prune -f
 docker builder prune -f
 
-# Deep clean when disk is critical
-docker system prune -a --volumes -f  # Check volumes first!
+# Deep clean when disk is critical — verify volumes first
+docker system prune -a --volumes -f
 
-# Only the fattest build cache
+# Only old build cache
 docker builder prune -a -f --filter until=72h
 ```
 
-Two traps everyone hits once:
+Two pitfalls almost everyone hits at least once:
 
-1. **Ghost containers still occupy space**: `Exited` containers in `docker ps -a` still hold their writable layer and logs. If you no longer need them: `docker rm $(docker ps -aq -f status=exited)`.
-2. **Volumes are the most dangerous**: `docker volume ls` may list your database. Before `prune --volumes`, run `docker volume inspect <name>`. I know this the hard way.
+1. **A stopped container still occupies space.** A container in `Exited` state still keeps its writable layer and log file. Once you confirm it is no longer needed, remove it: `docker rm $(docker ps -aq -f status=exited)`.
+2. **Volumes are the most dangerous part.** `docker volume ls` may already contain your database. Before adding --volumes to any command, run `docker volume inspect <name>` and confirm — too many people have learned this the hard way.
 
-## Culprit #3: overlay2 — do not touch it by hand
+## Culprit #3: Abnormal overlay2 growth — do not touch it by hand
 
-`sudo du -sh /var/lib/docker/overlay2/* | sort -rh | head` shows hash directories and the urge to `rm -rf` kicks in. Resist.
+Running `sudo du -sh /var/lib/docker/overlay2/* | sort -rh | head` shows a pile of hash-named directories and the temptation to delete them is strong. Do not. This is the layered filesystem itself, already included in the `docker system df` accounting. Deleting by hand is likely to break running containers.
 
-That is the layered filesystem. It is already counted in `docker system df`. Abnormal growth usually means you wrote what belongs in a volume into the writable layer — uploads or app logs inside the container.
+Abnormal growth here usually means a container wrote what belongs in a volume — uploads, logs, caches — directly into its own writable layer. Find the real source:
 
 ```bash
-# Wrong:
-# rm -rf /var/lib/docker/overlay2/xxx  # Then Docker dies
-
-# Right: find the owner
 docker ps -s --format '{{.Names}} {{.Size}}' | sort -rk2 -h | head -10
 docker images --format '{{.Repository}}:{{.Tag}} {{.Size}}' | sort -rk2 -h | head -10
 ```
 
-Move large files to a volume or object storage and slim images with multi-stage builds. That is the grown-up fix.
+Then move that data to a volume or object storage, and slim oversized images with multi-stage builds. That is the durable fix.
 
-## Fix it for good: five minutes now saves a 3 AM wake-up
+## Five minutes now for a future without midnight wake-ups
 
-Cleanup stops the bleeding. Prevention stops the recurrence.
+Cleanup fixes this incident. The four items below fix "will this happen again?"
 
-1. **Always cap logs**: `max-size` in `daemon.json` is the highest-ROI knob.
-2. **Prune on a schedule**: let cron remember for you.
+1. Cap logs for every container. The `max-size` in daemon.json is the single highest-ROI setting here.
+
+2. Hand cleanup to cron. Do not rely on memory:
 
 ```bash
 # /etc/cron.weekly/docker-prune
@@ -171,11 +162,11 @@ docker system prune -f --filter "until=168h" >/dev/null 2>&1
 docker builder prune -f --filter "until=168h" >/dev/null 2>&1
 ```
 
-3. **Alert before full**: threshold alerts for `/` and `/var/lib/docker` at 80% warning, 85% critical. A quick `docker system df` during a routine SSH check with Termark reveals the trend early.
+3. Alert before the disk is full. Set warnings at 80% and critical at 85% for `/` and `/var/lib/docker`. A quick `docker system df` during routine checks trends the problem early.
 
-4. **Stop using containers as VMs**: `.dockerignore`, multi-stage builds, keep data on volumes. Never pile data on the writable layer.
+4. Stop treating containers as long-lived VMs. `.dockerignore`, multi-stage builds, and keeping data on volumes rather than the writable layer address most overlay2 issues at the source.
 
-## One-page checklist — bookmark it
+## One-page checklist — save it
 
 ```bash
 df -h; echo "---"; docker system df
@@ -185,11 +176,11 @@ docker images | head -10
 docker volume ls
 ```
 
-Order: truncate large logs, prune unused resources, confirm whether volumes hold real data, then add `daemon.json` and scheduled pruning. Next alert, you will be the calmest person in the group.
+Order: truncate large logs first, then clean unused resources (confirm volumes hold no important data), finally set `daemon.json` and scheduled cleanup. Next time the alert fires, you will be the calmest person in the channel.
 
 ---
 
-When disk pressure hits, the first step is always to get on the box. Connect directly with [Termark](https://www.termark.app/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full&audience=ops) and run the diagnostics above in the terminal; use SFTP when you need to move a script or pull logs. Set rotation and regular pruning once, and Docker will stop waking you at night.
+When disk pressure hits, the first step is always to get on the machine and look, not to guess. Connect directly with [Termark](https://www.termark.app/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full&audience=ops) and run the diagnostics above in the terminal; SFTP is there when you need to pull a log for closer inspection. Configure log rotation and regular pruning once, and these midnight alerts will largely stop coming for you.
 
 ## References
 
