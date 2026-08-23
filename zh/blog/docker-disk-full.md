@@ -8,71 +8,75 @@ author: Termark Team
 
 # Docker 把磁盘吃满了？日志、镜像、容器三步清理与根治
 
-`No space left on device`，`docker pull` 卡住，容器写不进日志，连 `docker ps` 都变慢——十次有八次，罪魁祸首是 Docker。磁盘告警一响，第一反应别急着扩容，先搞清楚是谁把 `/var/lib/docker` 吃满了。本文用一条排查路径，把最常见的四类占用一次性讲清，并给出可直接复制的清理与根治配置。
+凌晨两点半，监控群弹出一条：`No space left on device`。
 
-## 先确认：是不是 Docker 占满的
+你迷迷糊糊连上服务器，`df -h` 一看，`/` 直接 100%。`docker ps` 卡半天才出来，日志写不进去，新镜像也拉不下来。别慌，也别急着给磁盘扩容——十次有八次，是 Docker 把你的盘当成了垃圾场，而且它一声不吭。
 
-别一上来就 `docker system prune -a`。先分清是系统盘满，还是 Docker 目录满。
+如果把服务器比作一间出租屋，Docker 就是那个从不丢垃圾的室友：外卖盒（日志）堆到天花板，快递箱（镜像）拆完就扔角落，吃完的泡面桶（已停止的容器）也不扔。你不收拾，它就替你把屋子塞满。
+
+今天不念手册，用一条能复制粘贴的路径，把 Docker 占盘的四宗罪一次性收拾干净。
+
+## 先别急着 prune，先验尸
+
+上来就 `docker system prune -a` 的人，第二天往往在群里问：我的数据库数据呢？
+
+先分清是谁的锅：
 
 ```bash
 df -h
-# 看哪个挂载点  Use% 到 90%+，通常是 /
+# 看哪个挂载点 Use% 飙到 90%+，大概率是 /
 
 docker system df
-# TYPE            TOTAL   ACTIVE   SIZE      RECLAIMABLE
-# Images          42      8        18.2GB    14.1GB (77%)
-# Containers      12      3        32GB      28GB
-# Local Volumes   6       2        4.1GB     2.8GB
-# Build Cache     89      0        11.3GB    11.3GB
+# Images     18.2GB   14.1GB 可回收
+# Containers 32GB     28GB 可回收
+# Build Cache 11.3GB 全部可回收
 
-# 如果 docker system df 显示 RECLAIMABLE 很高，说明可回收空间很多
-# 再看真实占用
-sudo du -sh /var/lib/docker/* | sort -rh | head -20
-sudo du -sh /var/log/* 2>/dev/null | sort -rh | head -10
+sudo du -sh /var/lib/docker/* | sort -rh | head -10
 ```
 
-如果 `docker system df` 的 `SIZE` 接近 `df -h` 的已用空间，基本可以锁定 Docker。接下来按命中率排序排查：日志 > 镜像/构建缓存 > 已停止容器与卷 > overlay2 异常。
+如果 `docker system df` 的 `RECLAIMABLE` 很高，恭喜，空间都在 Docker 手里，而且大多能安全回收。用 [Termark](https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full) 连上服务器就能直接跑，不用来回拷脚本。
 
-用 [Termark](https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full) 这类 SSH 客户端连上服务器后，直接在终端里跑上面几条就能定位，不用来回传脚本。
+接下来按“作案频率”排序：日志 > 镜像/缓存 > 幽灵容器与卷 > overlay2。
 
-## 第一步：容器日志，90% 机器的头号元凶
+## 真凶一：日志，一个文件 30GB 的隐形炸弹
 
-Docker 默认的日志驱动是 `json-file`，默认不做轮转。一个打日志很勤的容器，一周就能写出几十 GB 的单个 JSON 文件。
+Docker 默认日志驱动 `json-file`，默认不轮转。你跑一个爱打日志的 Java 服务，一周就能给你整出一个 30GB 的单文件。最骚的是，`docker system df` 甚至不会把它单独列出来，你得自己去挖。
 
-### 怎么找到大日志
+### 怎么揪出来
 
 ```bash
-# 找出最大的 10 个容器日志
+# 按文件大小揪出前 10 个
 sudo find /var/lib/docker/containers -name "*-json.log" -type f -exec du -sh {} + | sort -rh | head -10
 
-# 或按容器维度统计
-docker ps -a --format '{{.ID}} {{.Names}} {{.Status}}' | while read id name rest; do
+# 按容器名看，谁是罪魁祸首
+docker ps -a --format '{{.ID}} {{.Names}}' | while read id name; do
   log=$(docker inspect --format='{{.LogPath}}' $id 2>/dev/null)
-  [ -f "$log" ] && echo "$(du -h $log | cut -f1) $name $log"
+  [ -f "$log" ] && echo "$(du -h $log | cut -f1) $name"
 done | sort -rh | head -10
 ```
 
-看到某个容器的 `*-json.log` 几 GB 甚至几十 GB，基本就是它。
+看到某行 `28G my-app`，别怀疑，就是它。
 
-### 应急清理（不删容器）
+### 急救：别 rm，用 truncate
+
+很多人的第一反应是 `rm`。删完发现 `df -h` 一点没变——因为进程还握着句柄，文件删了，空间没释放。就像你把垃圾桶烧了，垃圾还在空中飘着。
+
+正确姿势是直接把文件截断，空间立马回来，容器都不用重启：
 
 ```bash
-# 方式一：截断日志文件（无需重启容器，立即释放）
+# 只截断最大的那个
 sudo truncate -s 0 /var/lib/docker/containers/<container-id>/*-json.log
 
-# 方式二：批量截断所有日志
+# 全体截断，一键清场
 sudo sh -c 'truncate -s 0 /var/lib/docker/containers/*/*-json.log'
 
-# 验证
-docker system df
-df -h
+docker system df && df -h
+# 看着 Use% 从 100% 掉到 60%，比奶茶还解压
 ```
 
-注意不要直接 `rm` 日志文件，`json-file` 驱动持有句柄时 `rm` 后空间不一定释放，`truncate` 更可靠。
+### 根治：给日志加个“自动倒垃圾”
 
-### 根治：给日志加上轮转
-
-在 `/etc/docker/daemon.json` 中配置全局默认，之后新建的容器都生效：
+急救完不治本，下周还会满。在 `/etc/docker/daemon.json` 加上轮转，以后新容器自动限流：
 
 ```json
 {
@@ -88,7 +92,7 @@ df -h
 sudo systemctl restart docker
 ```
 
-已运行的容器需要重建才生效，`docker compose` 项目改 `compose.yaml` 更直观：
+已跑着的容器要重建才生效。用 Compose 更直观：
 
 ```yaml
 services:
@@ -101,80 +105,63 @@ services:
         max-file: "3"
 ```
 
-这样单个容器日志最多 `30MB`（3 × 10MB），彻底告别单文件几十 GB。
+单容器最多 30MB（3 × 10MB），再也不会出现 30GB 的怪物日志。想长期留日志？换 `journald` 或接 Loki/ELK，别让 Docker 当日志仓库。相关思路可参考 [数据存储路径](/zh/usage/data-storage-path)。
 
-> 进阶：日志要长期保留或集中分析，换 `journald` 或 `gelf` 并接入 Loki/ELK，让 Docker 只保留短期缓冲。详见 [数据存储路径](/zh/usage/data-storage-path) 与 [本地加密与数据恢复说明](/zh/usage/local-encryption) 的日志与数据管理思路。
+## 真凶二：镜像、缓存、幽灵容器——你的囤积癖
 
-## 第二步：镜像、容器、卷与构建缓存
+日志清完还没降？那就是你在囤东西。
 
-日志清理完如果还没降下来，就看这几类。
+`docker system df -v` 会告诉你谁能扔。别被吓到，这张表看懂就够了：
 
-### 一条命令看全貌
-
-```bash
-docker system df -v | head -100
-```
-
-重点看 `RECLAIMABLE`。下面这张表对应日常最常用的清理命令：
-
-| 目标 | 命令 | 会删什么 | 是否影响运行中容器 |
+| 你想扔什么 | 命令 | 会发生什么 | 会影响线上吗 |
 | --- | --- | --- | --- |
-| 无用数据一键清理 | `docker system prune` | 已停止容器、无用网络、悬空镜像、构建缓存 | 不影响运行中容器 |
-| 连未使用的镜像也清 | `docker system prune -a` | 上一条 + 未被任何容器引用的镜像 | 会删未使用的镜像，下次需重新拉取 |
-| 连卷也清 | `docker system prune --volumes` | 上述 + 未被使用的本地卷 | 会删卷内数据，务必确认 |
-| 仅清构建缓存 | `docker builder prune -a` | BuildKit 构建缓存 | 不影响容器，但下次构建变慢 |
-| 仅清悬空镜像 | `docker image prune` | `<none>` 悬空镜像 | 安全 |
+| 日常扫垃圾 | `docker system prune` | 清掉已停止的容器、悬空镜像、无效网络、构建缓存 | 不影响运行中的容器 |
+| 连闲置镜像也扔 | `docker system prune -a` | 上面 + 所有没被容器用的镜像 | 会删镜像，下次要重新拉 |
+| 连卷也扔 | `docker system prune --volumes` | 上面 + 没人用的卷 | **会删数据**，删库跑路就是这么来的 |
+| 只清构建缓存 | `docker builder prune -a` | BuildKit 缓存 | 不影响容器，下次构建慢点 |
 
-常用组合：
+给你三档套餐：
 
 ```bash
-# 日常安全清理（推荐每周或每月跑一次）
+# 日常保洁，每周跑一次，安全
 docker system prune -f
 docker builder prune -f
 
-# 磁盘告急时的深度清理（先确认没有重要未备份的卷）
-docker system prune -a --volumes -f
+# 深度大扫除，磁盘告急时用
+docker system prune -a --volumes -f  # 删卷前先看下一段！
 
-# 只想清最占空间的构建缓存
+# 只想清最肥的构建缓存
 docker builder prune -a -f --filter until=72h
 ```
 
-### 容易被忽略的两个点
+两个坑，踩过的人都后悔：
 
-1. **已停止的容器还在占空间**：`docker ps -a` 看到的 `Exited` 容器，其可写层和日志仍在磁盘上。确认不再需要就 `docker rm $(docker ps -aq -f status=exited)`。
+1.  **幽灵容器还在占坑**：`docker ps -a` 里一堆 `Exited` 的容器，可写层和日志还在。确认不要了就 `docker rm $(docker ps -aq -f status=exited)`。
+2.  **卷是最危险的**：`docker volume ls` 里可能躺着你的数据库。`prune --volumes` 前务必 `docker volume inspect <name>` 看清楚挂载关系。别问我怎么知道的。
 
-2. **卷（volume）最危险**：`docker volume ls` 看到的卷可能存着数据库数据。`prune --volumes` 前务必 `docker volume ls` 并用 `docker volume inspect <name>` 确认挂载关系。
+## 真凶三：overlay2，求你别手贱
 
-## 第三步：overlay2 占满，别直接删文件
+`sudo du -sh /var/lib/docker/overlay2/* | sort -rh | head` 看到一堆哈希目录，手痒想 `rm -rf`？打住。
 
-`sudo du -sh /var/lib/docker/overlay2/* | sort -rh | head` 看到很多哈希目录，这是容器的分层文件系统。正常情况下 `docker system df` 已统计在内，不需要手动删。
-
-出现 `overlay2` 异常大的常见原因：
-
-- 容器内写了大量文件到可写层而非卷，例如把上传文件、日志写进了容器内部路径
-- 构建时 `COPY` 了大文件或在镜像层里留下了缓存
-
-处理原则：
+那是容器的分层文件系统，`docker system df` 已经算进去了。`overlay2` 异常大的真正原因，往往是：你在容器可写层里写了本该放进卷的东西——比如把用户上传、应用日志写进了容器内部。
 
 ```bash
-# 错误做法：直接 rm /var/lib/docker/overlay2/xxx
-# 正确做法：找到对应的容器或镜像，从上层清理
+# 错误做法
+# rm -rf /var/lib/docker/overlay2/xxx  # 然后 Docker 直接去世
 
-# 查哪个容器可写层最大
+# 正确做法：找到是谁
 docker ps -s --format '{{.Names}} {{.Size}}' | sort -rk2 -h | head -10
-
-# 查哪个镜像最大
 docker images --format '{{.Repository}}:{{.Tag}} {{.Size}}' | sort -rk2 -h | head -10
 ```
 
-把容器内的大文件改写到卷或对象存储，镜像用多阶段构建瘦身，才是治本。
+把大文件迁到卷或对象存储，镜像用多阶段构建瘦身，这才是正经事。
 
-## 根治与预防：让磁盘不再半夜告警
+## 根治：花 5 分钟配好，以后再也不用半夜起床
 
-清理是止血，预防是治本。给新机器做一次，后面省无数次半夜爬起来。
+清理是止血，预防是手术。给新机器做一次，以后告警群里再也 @不到你。
 
-1. **日志轮转必开**：`daemon.json` 的 `max-size` 与 `max-file` 是性价比最高的配置。
-2. **定期 prune**：加一条 cron，每周清理一次构建缓存与悬空资源。
+1.  **日志轮转必开**：`daemon.json` 的 `max-size` 是性价比之王。
+2.  **每周自动扫一次**：丢个 cron，比你记性靠谱。
 
 ```bash
 # /etc/cron.weekly/docker-prune
@@ -183,11 +170,11 @@ docker system prune -f --filter "until=168h" >/dev/null 2>&1
 docker builder prune -f --filter "until=168h" >/dev/null 2>&1
 ```
 
-3. **监控告警先于满盘**：对 `/` 和 `/var/lib/docker` 做 `df` 阈值告警（如 80% 告警、85% 严重），比满盘后再查要从容得多。平时用 Termark 连上服务器巡检时，顺手 `docker system df` 就能提前发现趋势。
+3.  **告警要比满盘早**：给 `/` 和 `/var/lib/docker` 设 80% 告警、85% 严重。平时用 Termark 巡检时顺手 `docker system df` 瞄一眼，趋势比数字更重要。
 
-4. **构建与部署习惯**：镜像用 `.dockerignore`、多阶段构建、定期 `docker image prune`；容器数据一律走卷或外部存储，别写在可写层。
+4.  **别把容器当虚拟机用**：`.dockerignore`、多阶段构建、数据一律走卷。别在可写层里堆东西。
 
-## 一键排查清单（收藏）
+## 收藏这一页，下次直接复制
 
 ```bash
 df -h; echo "---"; docker system df
@@ -195,18 +182,16 @@ sudo find /var/lib/docker/containers -name "*-json.log" -exec du -sh {} + | sort
 docker ps -s | head -10
 docker images | head -10
 docker volume ls
-docker builder du 2>/dev/null | head -20
 ```
 
-按顺序做：截断大日志 → `prune` 清理无用资源 → 确认卷与 overlay2 的业务数据 → 补上 `daemon.json` 与定时清理。下次再收到磁盘告警，十分钟内就能收敛。
+按顺序来：截断大日志 → `prune` 清无用资源 → 确认卷里是不是真数据 → 补上 `daemon.json` 和定时清理。十分钟收敛，下次告警你就是群里最淡定的那个。
 
 ---
 
-遇到磁盘问题，第一步永远是连上服务器看现场。通过 [Termark](https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full&audience=ops) 直连目标主机，在终端里跑通上面的排查命令，需要传脚本或拉日志时用 SFTP 一步完成。把 `json-file` 轮转和定期 `prune` 配好，Docker 就不会再半夜把磁盘吃满。
+磁盘满了，第一步永远是连上服务器看现场。通过 [Termark](https://www.termark.app/zh-cn/?utm_source=docs&utm_medium=blog&utm_campaign=docker_disk_full&audience=ops) 直连主机，在终端里跑通上面的命令，需要传脚本或拉日志就用 SFTP 一步完成。把轮转和定时清理配好，Docker 就不会再半夜把你叫醒。
 
 ## 参考
 
-- [Docker 日志与 json-file 驱动](https://docs.docker.com/config/containers/logging/json-file/)
+- [Docker json-file 日志驱动](https://docs.docker.com/config/containers/logging/json-file/)
 - [docker system df / prune](https://docs.docker.com/engine/reference/commandline/system_df/)
 - [BuildKit 缓存与 builder prune](https://docs.docker.com/build/cache/)
-
