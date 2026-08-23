@@ -199,6 +199,7 @@ export default defineConfig({
                         {
                             text: 'Blog',
                             items: [
+                                {text: 'Docker Is Filling Up Your Disk? Clean and Fix It', link: '/blog/docker-disk-full'},
                                 {text: 'After SSH Disconnects: nohup, tmux, or systemd?', link: '/blog/ssh-session-persistence'},
                                 {text: 'A More Convenient SSH Terminal Management Tool I Built: Termark', link: '/blog/termark-ssh-terminal-workbench'},
                                 {text: 'Termark, the SSH Terminal Tool That Feels Better to Use', link: '/blog/wechat-promo-article'},
@@ -276,6 +277,7 @@ export default defineConfig({
                             text: '博客',
                             items: [
                                 {text: '博客首页', link: '/zh/blog/'},
+                                {text: 'Docker 把磁盘吃满了？', link: '/zh/blog/docker-disk-full'},
                                 {text: 'SSH 断开后程序还在跑吗？', link: '/zh/blog/ssh-session-persistence'},
                                 {text: 'Windows SSH 客户端怎么选？', link: '/zh/blog/windows-ssh-client-guide'},
                                 {text: 'SSH 客户端怎么选？', link: '/zh/blog/ssh-client-recommendation'},
