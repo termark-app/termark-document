@@ -101,7 +101,7 @@ services:
         max-file: "3"
 ```
 
-设置好之后，单个容器的日志总量被锁死在 30MB（3 个文件 × 10MB）以内，不会再出现几十 GB 的日志文件。如果业务需要更长的日志留存，该用 `journald`、Loki 或 ELK 去承接，而不是让 Docker 帮你当日志仓库——它本来就不是干这个的。相关做法可参考 [Data Storage Path](/zh/usage/data-storage-path)。
+设置好之后，单个容器的日志总量被锁死在 30MB（3 个文件 × 10MB）以内，不会再出现几十 GB 的日志文件。如果业务需要更长的日志留存，该用 `journald`、Loki 或 ELK 去承接，而不是让 Docker 帮你当日志仓库——它本来就不是干这个的。相关做法可参考 [Data Storage Path](/zh/usage/data-storage-path)，落盘与加密可参考 [Local Encryption](/zh/usage/local-encryption)。
 
 ## 元凶二：镜像、构建缓存、没删干净的容器
 

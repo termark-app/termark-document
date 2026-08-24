@@ -101,7 +101,7 @@ services:
         max-file: "3"
 ```
 
-After this, each container is capped at 30 MB (3 files × 10 MB). No more multi-gigabyte log files. If you need longer retention, ship to `journald`, Loki, or ELK instead of letting Docker act as a log warehouse — that was never its job. See [Data Storage Path](/usage/data-storage-path) for related patterns.
+After this, each container is capped at 30 MB (3 files × 10 MB). No more multi-gigabyte log files. If you need longer retention, ship to `journald`, Loki, or ELK instead of letting Docker act as a log warehouse — that was never its job. See [Data Storage Path](/usage/data-storage-path) for related patterns, and [Local Encryption](/usage/local-encryption) for on-disk storage security.
 
 ## Culprit #2: Images, build cache, and containers that were never cleaned up
 
