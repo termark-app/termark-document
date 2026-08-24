@@ -168,6 +168,7 @@ export default defineConfig({
                         {
                             text: 'Documentation',
                             items: [
+                                {text: 'AI Model Reasoning Effort', link: '/usage/ai-reasoning-effort'},
                                 {text: 'SFTP CWD Tracking', link: '/usage/sftp-cwd-tracking'},
                                 {text: 'Keyword Highlight', link: '/usage/terminal-keyword-highlight'},
                                 {text: 'PowerShell Light Mode Display Issues', link: '/usage/powershell-light-theme'},
@@ -245,6 +246,7 @@ export default defineConfig({
                         {
                             text: '使用文档',
                             items: [
+                                {text: 'AI 模型思考强度配置', link: '/zh/usage/ai-reasoning-effort'},
                                 {text: 'SFTP 目录跟随配置', link: '/zh/usage/sftp-cwd-tracking'},
                                 {text: '关键字高亮', link: '/zh/usage/terminal-keyword-highlight'},
                                 {text: 'PowerShell 浅色模式显示异常', link: '/zh/usage/powershell-light-theme'},
