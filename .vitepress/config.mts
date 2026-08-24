@@ -152,7 +152,7 @@ export default defineConfig({
             themeConfig: {
                 logo,
                 nav: [
-                    {text: 'Docs', link: '/usage/sftp-cwd-tracking'},
+                    {text: 'Docs', link: '/usage/ai-reasoning-effort'},
                     {
                         text: 'Changelog',
                         items: [
@@ -230,7 +230,7 @@ export default defineConfig({
             themeConfig: {
                 logo,
                 nav: [
-                    {text: '使用文档', link: '/zh/usage/sftp-cwd-tracking'},
+                    {text: '使用文档', link: '/zh/usage/ai-reasoning-effort'},
                     {
                         text: '更新日志',
                         items: [
