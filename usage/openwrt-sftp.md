@@ -6,7 +6,11 @@ outline: deep
 
 # Why SFTP Fails on OpenWrt Default SSH
 
-If Termark connects to SSH normally but the SFTP panel shows `subsystem request failed` / `sftp-server not found` on an OpenWrt device, it is not a Termark bug — OpenWrt uses **Dropbear** by default, which does not include SFTP.
+If Termark connects to SSH normally but the SFTP panel shows the following error on an OpenWrt device, it is not a Termark bug — OpenWrt uses **Dropbear** by default, which does not include SFTP:
+
+> **Failed to load files: session not found: create SFTP client failed: error receiving version packet from server: server unexpectedly closed connection: unexpected EOF**
+
+Dropbear closes the channel when it receives an `sftp` subsystem request but cannot find the `sftp-server` binary, so the client never receives the version packet and reports `unexpected EOF`. Equivalent messages include `subsystem request failed` / `sftp-server not found` / `unable to initialize SFTP`.
 
 ## Symptom
 

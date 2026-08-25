@@ -6,7 +6,11 @@ outline: deep
 
 # 为什么在 OpenWrt 默认 SSH 下无法使用 SFTP
 
-如果 Termark 连接 OpenWrt 设备的 SSH 终端正常，但 SFTP 面板提示 `subsystem request failed` / `sftp-server not found`，不是 Termark 的问题——OpenWrt 默认使用 **Dropbear**，它本身不包含 SFTP 服务。
+如果 Termark 连接 OpenWrt 设备的 SSH 终端正常，但 SFTP 面板提示以下错误，不是 Termark 的问题——OpenWrt 默认使用 **Dropbear**，它本身不包含 SFTP 服务：
+
+> **加载文件失败: session not found: create SFTP client failed: error receiving version packet from server: server unexpectedly closed connection: unexpected EOF**
+
+这是 Dropbear 收到 `sftp` 子系统请求时找不到 `sftp-server` 可执行文件，直接关闭通道，客户端收不到版本包而报 `unexpected EOF`。其他等价提示包括 `subsystem request failed` / `sftp-server not found` / `unable to initialize SFTP`。
 
 ## 现象
 
