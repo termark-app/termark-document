@@ -174,6 +174,7 @@ export default defineConfig({
                                 {text: 'PowerShell Light Mode Display Issues', link: '/usage/powershell-light-theme'},
                                 {text: 'Windows Antivirus False Positive Notice', link: '/usage/windows-virus-warning'},
                                 {text: 'Local Encryption and Data Recovery', link: '/usage/local-encryption'},
+                                {text: 'OpenWrt SFTP Not Working', link: '/usage/openwrt-sftp'},
                                 {text: 'Data Storage Path', link: '/usage/data-storage-path'},
                             ]
                         }
@@ -253,6 +254,7 @@ export default defineConfig({
                                 {text: 'PowerShell 浅色模式显示异常', link: '/zh/usage/powershell-light-theme'},
                                 {text: 'Windows 下安全软件误报说明', link: '/zh/usage/windows-virus-warning'},
                                 {text: '本地加密与数据恢复说明', link: '/zh/usage/local-encryption'},
+                                {text: 'OpenWrt 无法使用 SFTP', link: '/zh/usage/openwrt-sftp'},
                                 {text: '数据存储路径', link: '/zh/usage/data-storage-path'},
                             ]
                         }
