@@ -24,6 +24,9 @@ For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changel
 - Added prompt caching for Anthropic conversations.
 - Added a dedicated RouterOS restricted Shell adapter.
 - Added hourly automatic update checks.
+- Added support for passwordless SSH connections with persisted authentication method.
+- Added folder accelerated download with tar.gz staged transfer.
+- Added tab double-click behavior setting and unified copy session wording.
 
 ### Fixed
 
@@ -37,6 +40,9 @@ For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changel
 - Streamlined backend AI execution and safety checks and removed the SSH timeout extension.
 - Migrated the AI terminal executor into the SDK and reused the RouterOS Shell; unified output truncation and improved RouterOS execution reliability.
 - Upgraded to Go 1.27 and dependencies.
+- Optimized terminal sidebar feature guidance.
+- Optimized PRO feature entry points and restricted quick delete.
+- Reworked accelerated upload to tar.gz staged transfer.
 
 ## v1.5.1 (2026-08-22)
 
