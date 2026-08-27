@@ -9,9 +9,7 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
-## v1.6.0-beta (2026-08-27)
-
-> Beta preview — provisional content for testing. This section will be replaced with the finalized changelog after stabilization.
+## v1.6.0 (2026-08-27)
 
 ### Added
 
@@ -27,11 +25,17 @@ For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changel
 - Added support for passwordless SSH connections with persisted authentication method.
 - Added folder accelerated download with tar.gz staged transfer.
 - Added tab double-click behavior setting and unified copy session wording.
+- Added synced SFTP favorite paths with quick jump.
+- Added account license purchase and management entry.
+- Added SSH idle connection pooling for CLI and Global AI with configurable idle timeout.
 
 ### Fixed
 
 - Fixed the terminal password prompt not appearing and restructured its detection logic.
 - Fixed the Windows RDP file launch method.
+- Fixed compatibility for viewing service logs on older systemd versions.
+- Fixed process detail showing "process not found" on older procps (e.g. CentOS 7).
+- Fixed terminal keyword highlighting not matching across soft-wrapped lines.
 
 ### Changed
 
@@ -43,6 +47,7 @@ For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changel
 - Optimized terminal sidebar feature guidance.
 - Optimized PRO feature entry points and restricted quick delete.
 - Reworked accelerated upload to tar.gz staged transfer.
+- Moved SSH connection settings into the general settings page and removed the standalone menu.
 
 ## v1.5.1 (2026-08-22)
 
