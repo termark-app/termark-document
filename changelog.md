@@ -9,6 +9,35 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.6.0-beta (2026-08-27)
+
+> Beta preview — provisional content for testing. This section will be replaced with the finalized changelog after stabilization.
+
+### Added
+
+- Added multi-select and batch connect to the quick connect dialog.
+- Added sudo support for non-root users and Podman support in the Docker panel, with backend-assembled terminal commands.
+- Added user-level systemd services in the system services panel.
+- Added copy AI message as image and simplified bubble styling.
+- Added force-overwrite cloud data after forgetting the sync password.
+- Added an entry to open the log folder.
+- Added prompt caching for Anthropic conversations.
+- Added a dedicated RouterOS restricted Shell adapter.
+- Added hourly automatic update checks.
+
+### Fixed
+
+- Fixed the terminal password prompt not appearing and restructured its detection logic.
+- Fixed the Windows RDP file launch method.
+
+### Changed
+
+- Refactored AI conversation compression to a single Markdown checkpoint and increased the model output budget (disabled thinking mode for DeepSeek compression).
+- Improved the AI auto-approval resubmit flow and surfaced specific failure reasons.
+- Streamlined backend AI execution and safety checks and removed the SSH timeout extension.
+- Migrated the AI terminal executor into the SDK and reused the RouterOS Shell; unified output truncation and improved RouterOS execution reliability.
+- Upgraded to Go 1.27 and dependencies.
+
 ## v1.5.1 (2026-08-22)
 
 ### Added
