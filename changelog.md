@@ -9,6 +9,23 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.6.1 (2026-08-28)
+
+### Added
+
+- Added history clearing for AI Shell.
+
+### Fixed
+
+- Fixed repeated password prompts when configuring cloud sync.
+- Fixed service detail query failure on older systemd versions.
+- Fixed RDP window not visible when connecting to a Next Terminal RDP asset on Windows.
+
+### Changed
+
+- Restricted switching execution mode while an AI task is running.
+- Allowed editing AI and SFTP capabilities for restricted Shell hosts.
+
 ## v1.6.0 (2026-08-27)
 
 ### Added
