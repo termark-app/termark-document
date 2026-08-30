@@ -9,6 +9,25 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.6.2 (2026-08-30)
+
+### Added
+
+- Added local toolset to Global AI (local_execute, local_file_read/write/edit, local_skill_read) reusing the existing approval pipeline and supporting `~/.agents/skills` indexing, with a configurable local working directory.
+- Added working-directory switching, local file attachments, project convention injection (`AGENTS.md` / `CLAUDE.md`, 64KB cap), manual compaction trigger, and background long-task execution (`background` + `local_task_status`) to Global AI.
+
+### Fixed
+
+- Fixed stale compaction checkpoint persisting in memory session history after message rewrites or truncation.
+- Fixed manual compaction using an empty session ID and improved the error message for too-short conversations.
+
+### Changed
+
+- Reworked context compaction with tiered truncation of older tool outputs (last 3 kept, older truncated to 2000 runes), tightened summary budget from 16384 to 4096 with stricter length constraints, moved the checkpoint to the conversation start for stable system prompt caching, and merged consecutive same-role messages for Anthropic.
+- Improved AI context statistics and compaction state persistence, with token-usage display and compaction status in the header.
+- Made manual compaction a traceable `conversation_compact` event (running/failed/succeeded) with optimistic UI and before/after token display.
+- Redesigned AI input toolbar and layout: new plus menu for attachments/context/compaction, model selector next to send, compact send/stop buttons, transparent dialog styling, and optimized top/header layout.
+
 ## v1.6.1 (2026-08-28)
 
 ### Added
