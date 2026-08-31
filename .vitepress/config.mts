@@ -209,7 +209,8 @@ export default defineConfig({
                                 {text: 'Termark, the SSH Terminal Tool That Feels Better to Use', link: '/blog/wechat-promo-article'},
                                 {text: 'Independently Building a Desktop SSH Tool', link: '/blog/desktop-ssh-tool-indie-dev'},
                                 {text: 'Termark AI Assistant Design', link: '/blog/termark-ai-design'},
-                                {text: 'The Curse of Knowledge in Large Models', link: '/blog/the-curse-of-knowledge-in-ai'}
+                                {text: 'The Curse of Knowledge in Large Models', link: '/blog/the-curse-of-knowledge-in-ai'},
+                                {text: 'Lost or Leaked SSH Keys? Generate, Manage, and Rotate Them', link: '/blog/ssh-key-rotation'}
                             ]
                         }
                     ]
@@ -294,7 +295,8 @@ export default defineConfig({
                                 {text: 'SSH 凭据安全吗？', link: '/zh/blog/ssh-credential-security'},
                                 {text: 'AI SSH 的安全边界', link: '/zh/blog/termark-ai-design'},
                                 {text: '为什么还要做 Termark？', link: '/zh/blog/why-desktop-ssh-tool-in-2026'},
-                                {text: '独立开发桌面 SSH 工具', link: '/zh/blog/desktop-ssh-tool-indie-dev'}
+                                {text: '独立开发桌面 SSH 工具', link: '/zh/blog/desktop-ssh-tool-indie-dev'},
+                                {text: 'SSH 密钥丢了/被盗怎么办？', link: '/zh/blog/ssh-key-rotation'}
                             ]
                         }
                     ]
