@@ -201,6 +201,7 @@ export default defineConfig({
                         {
                             text: 'Blog',
                             items: [
+                                {text: 'Logs Filling Up Your Disk? Tame journald and logrotate', link: '/blog/log-rotation-journald'},
                                 {text: 'Why Your Service Dies on Reboot: 3 Systemd Pitfalls', link: '/blog/systemd-not-startup'},
                                 {text: 'Docker Is Filling Up Your Disk? Clean and Fix It', link: '/blog/docker-disk-full'},
                                 {text: 'How to Fix Nginx 502/504', link: '/blog/nginx-502-504'},
@@ -284,6 +285,7 @@ export default defineConfig({
                             text: '博客',
                             items: [
                                 {text: '博客首页', link: '/zh/blog/'},
+                                {text: '日志又把磁盘写爆了？', link: '/zh/blog/log-rotation-journald'},
                                 {text: '为什么服务重启就掉？', link: '/zh/blog/systemd-not-startup'},
                                 {text: 'Nginx 502/504 怎么修？', link: '/zh/blog/nginx-502-504'},
                                 {text: 'Docker 把磁盘吃满了？', link: '/zh/blog/docker-disk-full'},
