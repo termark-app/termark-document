@@ -8,9 +8,11 @@ author: Termark Team
 
 # Why Your Service Dies on Reboot: 3 Systemd Pitfalls
 
-A common class of failure on Linux servers looks like this: `systemctl start myapp` works fine when run manually, but the service fails to come up after a reboot; or `systemctl enable` succeeded yet the service reports dependency or readiness errors at boot; or a process killed by OOM or a crash is never restarted and needs manual intervention. All three point to the same root cause — incomplete systemd autostart and keepalive configuration.
+`systemctl start myapp` runs fine, then one reboot it won't come back up. You ran `systemctl enable` too, yet the service still reports dependency or readiness errors at boot. The sneakier variant: the process gets OOM-killed or crashes and is never restarted — you don't even know when it went down, until a colleague asks "is your service down?" Once you've hit these a few times, you learn that a restart never fixes any of them, because the root cause is almost always the same: your systemd unit's autostart and keepalive configuration is not as complete as you assumed.
 
-systemd is the init and service manager on most modern distributions, but its declarative model is sensitive to details: `enable` only controls whether a unit is pulled in, `After`/`Requires` control ordering and dependency strength, `Type` controls how startup completion is judged, and `Restart`/`StartLimit` control whether a failure is retried. A missing line or a wrong value can cause a service to fail silently on reboot, delayed dependencies, or crashes. This post breaks down three pitfalls with causes, fixes, and verifiable checks.
+systemd is declarative and unforgiving about details: `enable` only decides whether a unit gets pulled in, `After`/`Requires`/`Wants` govern ordering and dependency strength, `Type` decides how startup completion is judged, and `Restart`/`StartLimit` decide whether a failure is retried. A missing line or a wrong value makes the service fail silently at the worst moment — a reboot, a delayed dependency, or a crash — while `systemctl status` usually hands you a terse `failed` and forces you to dig the real cause out of `journalctl`.
+
+This post breaks down these three pitfalls one by one, each with the typical symptom, the root cause, a copy-paste fix, and the commands to verify it. The examples target systemd 249+ on Ubuntu 22.04 / Debian 12; paths and commands are largely portable. On CentOS/RHEL, Arch, or openSUSE, just mind the unit-file path precedence and the `systemctl --version` difference — the diagnostic approach is the same.
 
 ## Quick Baseline: Check Logs Before Changing Config
 

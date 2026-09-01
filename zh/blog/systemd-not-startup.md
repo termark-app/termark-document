@@ -8,11 +8,11 @@ author: Termark Team
 
 # 为什么你的服务重启就掉？Systemd 开机自启与保活的 3 个坑
 
-在服务器上部署服务时，最常见的一类故障是：手动执行 `systemctl start myapp` 能正常运行，重启机器后却起不来；或者明明执行过 `systemctl enable myapp`，启动时仍报依赖失败或端口未就绪；又或者进程因 OOM 被 kill、异常退出后没有被拉起，需要人工登录才恢复。这三类现象几乎都指向同一个根因——systemd 单元的自启与保活配置不完整。
+`systemctl start myapp` 跑得好好的，一 reboot 就起不来；`systemctl enable` 也执行过了，开机还是报依赖失败或者端口没就绪。更隐蔽的一类是：进程被 OOM 杀掉或者异常退出后，就再也没被拉起来，你甚至不知道它是哪一刻挂的，直到有同事来问「你们服务是不是挂了」。这几种情况碰多了你会发现，治标的重启解决不了任何一次——病根几乎总是同一个：systemd 单元的自启和保活配置，并没有你以为的那么完整。
 
-systemd 是多数现代 Linux 发行版的初始化与服务管理系统，但它的声明式模型对细节很敏感：`enable` 只决定单元是否被拉起，`After`/`Requires`/`Wants` 决定启动顺序与依赖强度，`Type` 决定如何判定进程已就绪，`Restart` 与 `StartLimit` 决定失败后是否重试。少写一行或用错一个字段，服务在重启、依赖延迟或崩溃场景下就会静默失败，且 `systemctl status` 往往只给出简短的 `failed` 提示，需要结合 `journalctl` 才能定位。
+systemd 是声明式的，对细节挑剔得很：`enable` 只决定单元会不会被拉起，`After`/`Requires`/`Wants` 管的是启动顺序和依赖强度，`Type` 决定它怎么判断「已经就绪」，`Restart` 和 `StartLimit` 决定挂了之后要不要重试。少写一行或者用错一个字段，服务就会在重启、依赖延迟或者崩溃的节骨眼上静默失败；而 `systemctl status` 往往只甩给你一个干巴巴的 `failed`，真正的病根得靠 `journalctl` 一层层挖出来。
 
-本文按 3 个坑逐一拆解：每个坑给出典型现象、根本原因、可复制的修复配置与验证命令。所有示例基于 Ubuntu 22.04 / Debian 12 的 systemd 249+，路径与命令在其他发行版上基本通用。若使用 CentOS/RHEL、Arch 或 openSUSE，只需注意单元文件路径（`/usr/lib/systemd/system` 与 `/etc/systemd/system` 的优先级）与 `systemctl --version` 的版本差异即可，诊断思路完全一致。
+这篇文章按 3 个坑逐一拆解，每个坑都给出典型现象、根本原因、可复制的修复配置和验证命令。示例基于 Ubuntu 22.04 / Debian 12 的 systemd 249+，路径与命令在其他发行版上基本通用；若用 CentOS/RHEL、Arch 或 openSUSE，只需注意单元文件路径优先级和 `systemctl --version` 的版本差异，诊断思路完全一致。
 
 ## 通用诊断起手式：先看日志，再改配置
 
