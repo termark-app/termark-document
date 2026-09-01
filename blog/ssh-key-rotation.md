@@ -160,7 +160,15 @@ for user_dir in /home/*/.ssh /root/.ssh; do
 done
 ```
 
-ssh-audit checks supported key algorithms, MAC algorithms, and KEX algorithms, flagging configurations with known vulnerabilities. Run it quarterly or immediately after an OpenSSH upgrade. Combined with log analysis, you can visualize key usage in Grafana or ELK, catching unfamiliar fingerprints or unusual login times early.
+ssh-audit checks supported key algorithms, MAC algorithms, and KEX algorithms, flagging configurations with known vulnerabilities. If the server still supports `ssh-dss` (DSA) or `diffie-hellman-group1-sha1`, ssh-audit marks it high-risk. Run it quarterly or immediately after an OpenSSH upgrade. Combined with log analysis, you can visualize key usage in Grafana or ELK, catching unfamiliar fingerprints or unusual login times early. If your team still logs in with passwords on some servers, see [Server Hardening: fail2ban](/blog/server-hardening-fail2ban) and disable password authentication first, then combine it with key management for a complete authentication setup. Key fingerprint changes should also go through change management — every addition or removal of a public key should leave a record.
+
+## A few details worth remembering
+
+Set a passphrase on the private key. An unprotected private key is usable the moment the file leaks; a passphrase-protected one at least adds a crack step. Passphrases add friction to every connection, but ssh-agent needs the passphrase only once; in automation, point ssh-agent `IdentityAgent` at a dedicated agent socket instead of hardcoding the plaintext passphrase in a script.
+
+Public keys in `authorized_keys` accumulate and need periodic cleanup. Run a full fingerprint scan quarterly and compare it against the previous record to find keys that have not been used in a long time. Remove an ex-employee's key the day they leave, not when you get around to it; use `last` to see each user's recent login times and judge which keys are likely stale.
+
+Cloud-provider keys are no different from self-generated ones in practice. The key-pair feature on Alibaba Cloud, AWS, and Tencent Cloud simply writes the public key into `~/.ssh/authorized_keys` when the instance is created, and management afterwards is identical to a key you generated yourself; the provider keeps only the public key and you hold the private one. Note that even if you re-inject a new key through the cloud console, an old key copied to other machines stays valid — so rotation still requires manually cleaning the old public key off every server, not just using the console.
 
 ## Conclusion
 

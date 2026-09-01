@@ -229,33 +229,19 @@ journalctl -u myapp.service --since "1 min ago" --no-pager
 
 除常驻服务外，`systemd.timer` 同样适合替代 `cron` 管理定时任务，优势在于可声明依赖、日历表达式更可读、失败可重试且日志统一进 `journalctl`。对于一次性初始化任务（如首次部署的数据库迁移），使用 `Type=oneshot` + `RemainAfterExit=yes` 的单元，配合 `WantedBy=multi-user.target`，可确保只执行一次且可通过 `systemctl status` 查看结果。若你的部署流程中既有常驻服务又有初始化脚本，建议将后者拆为独立单元并让主服务 `After=` 它，避免在 `ExecStartPre` 中堆砌复杂逻辑。
 
-## 小结与检查清单
+## 把这套检查固化进日常
 
-三个坑对应三次验证：重启后是否自启、环境是否与手工一致、崩溃后是否自愈。建议按以下顺序检查，每步修复后都执行 `daemon-reload` 并验证：
+三个坑对应三次验证：重启后是否自启、环境是否与手工一致、崩溃后是否自愈。建议按顺序检查，每步修复后都执行 `daemon-reload` 再验证：
 
 1. `systemctl cat` 确认 `WantedBy`、`After`、`Type`；`daemon-reload` + `reenable` 后重启验证。
 2. `systemctl show` 与 `journalctl -u` 对比手工 `env`/`pwd`/`id`，补齐 `WorkingDirectory`、`Environment`、`User`，修正 `ExecStart` 绝对路径。
 3. 配置 `Restart`/`RestartSec`/`StartLimit`，用 `kill -9 $MainPID` 模拟故障，观察 `systemctl status` 与 `journalctl` 是否自动恢复。
 
-建议为关键服务开启持久化日志（`Storage=persistent` in `/etc/systemd/journald.conf`），否则重启后 `journalctl` 可能丢失上一次启动的日志，无法复盘“重启就掉”的现场。结合 `journalctl --list-boots` 与 `journalctl -u myapp.service -b -1` 可查看上一次启动的完整日志。
+`systemctl enable --now` 会在创建自启链接的同时立即启动服务，适合首次部署时一次性完成——但修改单元文件后仍要先 `daemon-reload` 再执行。需要按顺序联动重启多个服务时用 `PartOf=`，数据库迁移这类一次性任务则拆成 `Type=oneshot` 的独立单元并让主服务 `After=` 它，避免在 `ExecStartPre` 里堆复杂逻辑。
 
-养成查看 `journalctl -u <service> --since today` 的习惯，比反复 `restart` 更能定位根因。日常管理中，结合 [Termark 终端关键词高亮](/zh/usage/terminal-keyword-highlight) 与 [本地加密与数据恢复说明](/zh/usage/local-encryption) 等文档，可以更高效地在远程会话中定位日志与服务状态。若服务仍需在 SSH 断开后持续运行，可参考 [SSH 断开后程序还在跑吗](/zh/blog/ssh-session-persistence) 对 `systemd` 与 `tmux` 的选型讨论。
+还要留意日志存储。systemd 默认只把日志写进内存：若 `journald.conf` 里 `Storage` 为 `auto` 且 `/var/log/journal` 不存在，重启后这次故障的现场就丢了。为关键服务开启 `Storage=persistent`，再结合 `journalctl --list-boots` 与 `journalctl -u myapp.service -b -1`，就能复盘上一次启动的完整日志。养成查看 `journalctl -u <service> --since today` 的习惯，比反复 `restart` 更能定位根因。
 
-Termark 对 SSH 会话与日志浏览做了体验优化，关键词高亮与会话保持能帮助在多台机器间快速执行上述 `systemctl` / `journalctl` 诊断命令，但在重启自启与保活这类系统层问题上，可靠性最终取决于 systemd 单元本身的正确性，而非终端工具。把单元文件写对、把依赖与重启策略配全，比任何外部保活脚本都更可靠。
-
-## 常见疑问
-
-**Q：`systemctl enable --now` 是否等同于 `enable` + `start`？**
-是。`--now` 会同时创建自启链接并立即启动，适合首次部署时一次性完成，但仍需 `daemon-reload` 后再执行。
-
-**Q：`journalctl -u` 看不到日志？**
-检查 `journald` 是否为持久化存储：`grep Storage /etc/systemd/journald.conf`。若为 `auto` 且 `/var/log/journal` 不存在，日志仅保存在内存，重启后丢失。执行 `mkdir -p /var/log/journal && systemctl restart systemd-journald` 可启用持久化。
-
-**Q：服务需要按顺序启动多个依赖？**
-使用 `After=` 声明顺序，`Requires=` 或 `Wants=` 声明依赖强度，必要时配合 `PartOf=` 实现联动重启。对于数据库迁移类任务，可将迁移脚本设为 `Type=oneshot` 的独立单元，并让主服务 `After=` 该单元。
-
-**Q：修改单元后为何不生效？**
-systemd 会缓存单元文件。任何对 `/etc/systemd/system/*.service` 的修改后都必须执行 `sudo systemctl daemon-reload`，并建议用 `systemctl cat` 确认生效内容与预期一致，再 `restart`。
+日常管理结合 [Termark 终端关键词高亮](/zh/usage/terminal-keyword-highlight) 与 [本地加密与数据恢复说明](/zh/usage/local-encryption)，可以更高效地在远程会话中扫日志；若服务仍需在 SSH 断开后持续运行，参考 [SSH 断开后程序还在跑吗](/zh/blog/ssh-session-persistence) 对 `systemd` 与 `tmux` 的选型讨论。但在重启自启与保活这类系统层问题上，可靠性最终取决于 systemd 单元本身的正确性，而非终端工具——把单元文件写对、依赖和重启策略配全，比任何外部保活脚本都更可靠。
 
 ## 参考
 

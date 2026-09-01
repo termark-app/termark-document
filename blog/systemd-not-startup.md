@@ -202,33 +202,19 @@ journalctl -u myapp.service --since "1 min ago" --no-pager
 
 If `ActiveState` remains `active` and `NRestarts` increments, the restart policy is working. When throttling kicks in due to frequent crashes, fix the crash first, then clear the counter with `systemctl reset-failed myapp.service`.
 
-## Checklist
+## Put This Checklist into Your Daily Routine
 
-The three pitfalls map to three verifications: autostart after reboot, environment parity with manual runs, and self-healing after crashes. Check in order:
+The three pitfalls map to three verifications: autostart after reboot, environment parity with manual runs, and self-healing after crashes. Check them in order, running `daemon-reload` after each fix and re-verifying:
 
-1. `systemctl cat` for `WantedBy`, `After`, `Type`; `daemon-reload` + `reenable` and verify after reboot.
-2. `systemctl show` and `journalctl -u` compared with manual `env`/`pwd`/`id`; fill `WorkingDirectory`, `Environment`, `User`.
-3. Configure `Restart`/`RestartSec`/`StartLimit`, simulate failure with `kill`, and confirm `systemctl status` and `journalctl` show automatic recovery.
+1. `systemctl cat` for `WantedBy`, `After`, `Type`; `daemon-reload` + `reenable`, then verify after a real reboot.
+2. `systemctl show` and `journalctl -u` compared with manual `env`/`pwd`/`id`; fill in `WorkingDirectory`, `Environment`, `User`, and fix absolute `ExecStart` paths.
+3. Configure `Restart`/`RestartSec`/`StartLimit`, simulate a failure with `kill -9 $MainPID`, and confirm `systemctl status` and `journalctl` recover automatically.
 
-For reliable post-reboot debugging, enable persistent journal storage (`Storage=persistent` in `/etc/systemd/journald.conf`); otherwise logs live only in memory and disappear after reboot. Use `journalctl --list-boots` and `journalctl -u myapp.service -b -1` to inspect the previous boot.
+`systemctl enable --now` creates the autostart symlink and starts the service immediately — handy on first deployment, but you still need `daemon-reload` after editing the unit. Use `PartOf=` when you want linked restarts, and break database migrations into their own `Type=oneshot` unit that the main service declares `After=` on, instead of piling complex logic into `ExecStartPre`.
 
-For daily operations, docs like [Keyword Highlight](/usage/terminal-keyword-highlight) and [Local Encryption and Data Recovery](/usage/local-encryption) can make `journalctl` output easier to scan in remote sessions. If a service must survive SSH disconnects, see [After SSH Disconnects: Is Your Program Still Running?](/blog/ssh-session-persistence) for the trade-offs between `systemd` and `tmux`.
+Also watch journal storage. By default systemd may write logs only to memory: if `Storage` is `auto` and `/var/log/journal` does not exist, the evidence from an overnight incident is lost on reboot. Enable `Storage=persistent` for critical services, then `journalctl --list-boots` and `journalctl -u myapp.service -b -1` let you review the previous boot. Skim `journalctl -u <service> --since today` instead of hammering `restart`; it gets you to the root cause faster.
 
-Termark handles long-lived SSH sessions and log viewing without extra keepalive wrappers — but the reliability guarantees above come from correct systemd configuration, not the terminal.
-
-## FAQ
-
-**Q: Is `systemctl enable --now` the same as `enable` plus `start`?**
-Yes. `--now` creates the autostart symlink and starts the service immediately. Useful for first deploys, but you still need `daemon-reload` after editing the unit.
-
-**Q: Why is `journalctl -u` empty?**
-Check `grep Storage /etc/systemd/journald.conf`. If it is `auto` and `/var/log/journal` does not exist, logs are kept only in memory and lost on reboot. Run `mkdir -p /var/log/journal && systemctl restart systemd-journald` to enable persistence.
-
-**Q: How to order multiple dependencies?**
-Use `After=` for ordering and `Requires=` or `Wants=` for strength. For migration tasks, make the migration a `Type=oneshot` unit and have the main service declare `After=` on it. Use `PartOf=` when you want linked restarts.
-
-**Q: Why do edits not take effect?**
-systemd caches unit files. After any change to `/etc/systemd/system/*.service`, run `sudo systemctl daemon-reload` and confirm with `systemctl cat` before `restart`.
+In daily work, [Keyword Highlight](/usage/terminal-keyword-highlight) and [Local Encryption and Data Recovery](/usage/local-encryption) can make `journalctl` output easier to scan in remote sessions, and if a service must survive SSH disconnects, see [After SSH Disconnects: Is Your Program Still Running?](/blog/ssh-session-persistence) for the `systemd` vs `tmux` trade-offs. On boot-time and keepalive issues, though, reliability comes from the unit file itself — write it correctly, set up dependencies and restart policy, and you do not need any external keepalive tool.
 
 ## References
 
