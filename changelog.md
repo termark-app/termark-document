@@ -9,6 +9,28 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.6.5 (2026-09-02)
+
+### Added
+
+- Added sorting for the SFTP file list in workspaces.
+- Added a one-click reconnect for detached terminals on the batch-execution page.
+- Added a terminal password-credential hint, with focus-restore fix.
+
+### Fixed
+
+- Fixed inconsistent terminal background transparency in batch execution.
+- Fixed corrupted data being persisted when a size-based resume was interrupted by an error.
+- Fixed transparent background rendering in the SFTP workspace.
+- Fixed the transfer list still showing a spinner after small-file uploads complete, and canceling incorrectly reporting "task already done".
+
+### Changed
+
+- Windows updates now install silently and auto-relaunch the new version after restart.
+- Renamed the AI assistant back to "AI 助手" and removed duplicate compactHint copy.
+- Optimized the terminal password-credential overlay styling and transparency.
+- File transfers no longer sync file permissions; both overwrite and create use the target's default semantics.
+
 ## v1.6.2 (2026-08-30)
 
 ### Added
