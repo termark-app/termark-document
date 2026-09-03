@@ -177,6 +177,7 @@ export default defineConfig({
                                 {text: 'OpenWrt SFTP Not Working', link: '/usage/openwrt-sftp'},
                                 {text: 'Data Storage Path', link: '/usage/data-storage-path'},
                                 {text: 'Port Forwarding', link: '/usage/port-forwarding'},
+                                {text: 'Automatic OTP Interactive Auth', link: '/usage/otp-interactive-auth'},
                             ]
                         }
                     ],
@@ -261,6 +262,7 @@ export default defineConfig({
                                 {text: 'OpenWrt 无法使用 SFTP', link: '/zh/usage/openwrt-sftp'},
                                 {text: '数据存储路径', link: '/zh/usage/data-storage-path'},
                                 {text: '端口转发', link: '/zh/usage/port-forwarding'},
+                                {text: '自动 OTP 交互认证', link: '/zh/usage/otp-interactive-auth'},
                             ]
                         }
                     ],
