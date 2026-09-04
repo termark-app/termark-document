@@ -79,4 +79,4 @@ description: 面向开发者和运维的 SSH 实用指南，涵盖 SSH 客户端
 
 ---
 
-想先体验产品，可以查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/#download)；具体配置和更新记录见 [中文使用文档](/zh/)。
+想先体验产品，可以查看 [Termark 跨平台 SSH 客户端](https://www.termark.app/zh-cn/#download)；具体配置和更新记录见 [中文使用文档](/zh/)，端口转发配置见 [端口转发使用指南](/zh/usage/port-forwarding)，自动 OTP 认证见 [OTP 交互认证](/zh/usage/otp-interactive-auth)。

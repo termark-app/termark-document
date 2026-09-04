@@ -35,10 +35,22 @@ Why useful AI assistance depends on explicit context, observable evidence, and c
 
 An overview of the practical workflow problems Termark aims to solve.
 
+## Choosing an SSH client
+
+### [Linux SSH Client Guide: OpenSSH, AppImage, and DEB](/blog/linux-ssh-client-guide)
+
+How to pick a Linux SSH client and install Termark on Ubuntu/Debian via AppImage or DEB, on x64 and ARM64.
+
+### [SSH Port Forwarding Guide: Local, Remote, and Dynamic](/blog/ssh-port-forwarding-guide)
+
+How `ssh -L`, `-R`, and `-D` work, with listening addresses, GatewayPorts, security, and troubleshooting.
+
 ## Product resources
 
 - [Termark website](https://www.termark.app/)
 - [Download Termark](https://www.termark.app/#download)
 - [Documentation](/)
 - [Desktop and mobile changelog](/changelog)
+- [SSH port forwarding usage](/usage/port-forwarding)
+- [Automatic OTP interactive auth](/usage/otp-interactive-auth)
 - [GitHub Discussions](https://github.com/termark-app/termark/discussions)
