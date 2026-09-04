@@ -158,7 +158,7 @@ A compact decision guide, based on everything above:
 
 ## Final thoughts
 
-The honest summary of the 2026 SSH client landscape: OpenSSH remains unbeatable as a foundation and is, by itself, enough for a large share of users. Termius is the best all-around commercial experience if its subscription and cloud model fit you. WindTerm is the strongest free desktop terminal, with the usual caveats of a single-maintainer project. Solar-PuTTY and Royal TS serve specific Windows-centric niches well. And Termark is our attempt to combine the desktop-workflow depth of the GUI clients with mobile apps and sync that never sends plaintext credentials anywhere — useful if that combination matches your work, and entirely skippable if OpenSSH plus a terminal already covers you.
+The honest summary of the 2026 SSH client landscape: OpenSSH remains unbeatable as a foundation and is, by itself, enough for a large share of users. Termius is the best all-around commercial experience if its subscription and cloud model fit you. WindTerm is the strongest free desktop terminal, with the usual caveats of a single-maintainer project. Solar-PuTTY and Royal TS serve specific Windows-centric niches well. And Termark is our take on combining desktop-workflow depth with mobile apps and client-side encrypted sync — skippable if OpenSSH plus a terminal already covers you.
 
 Whichever you pick, most of the value comes from setup discipline — a clean `~/.ssh/config` or asset tree, keys instead of passwords, and passphrases on private keys. See [Lost or Leaked SSH Keys? Generate, Manage, and Rotate Them](/blog/ssh-key-rotation) for the server-side half of that.
 
