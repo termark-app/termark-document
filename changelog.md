@@ -9,6 +9,25 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.6.6 (2026-09-04)
+
+### Added
+
+- Added SFTP concurrent transfer settings with a task queue for parallel uploads/downloads.
+- Added a file-selection counter in the SFTP workspace.
+- Added two new terminal themes: Termius Dark and Termius Light.
+
+### Fixed
+
+- Fixed tmux session detection failures from breaking the session list; older tmux versions now fall back to writing the switch command directly to the terminal.
+- Fixed the file transfer list rendering items out of order.
+
+### Changed
+
+- The WebDAV sync client now sends Basic auth up front, eliminating a duplicate first request per sync session.
+- Refactored cloud-sync remote probing with cached connection state for faster, more stable sync status detection.
+- Updated the default AI assistant endpoint.
+
 ## v1.6.5 (2026-09-02)
 
 ### Added
