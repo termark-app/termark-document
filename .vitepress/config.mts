@@ -49,6 +49,7 @@ export default defineConfig({
         transformItems(items) {
             return items.map(({links, ...item}) => ({
                 ...item,
+                lastmod: new Date().toISOString().slice(0, 10),
                 url: item.url.replace(/\.html$/, '')
             }))
         }

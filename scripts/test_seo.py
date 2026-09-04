@@ -399,7 +399,7 @@ if zh_home.exists():
 else:
     errors.append("generated Chinese index is missing")
 
-untranslated = DIST / "zh" / "blog" / "can-you-ssh-on-a-phone.html"
+untranslated = DIST / "zh" / "blog" / "ssh-jump-host-guide.html"
 if untranslated.exists():
     body = untranslated.read_text(encoding="utf-8")
     if re.search(r'<link[^>]+hreflang=', body):

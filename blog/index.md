@@ -37,6 +37,26 @@ An overview of the practical workflow problems Termark aims to solve.
 
 ## Choosing an SSH client
 
+### [Best SSH Clients in 2026: OpenSSH, Termius, WindTerm, Solar-PuTTY, and Termark Compared](/blog/best-ssh-clients-2026)
+
+An honest comparison of five SSH clients — platforms, sync, SFTP, port forwarding, AI assistance, pricing — with picks for Windows, macOS, and Android.
+
+### [How to Choose an SSH Client: A Tool Selection Guide](/blog/ssh-client-recommendation)
+
+A checklist based on system support, terminal experience, SFTP, jump hosts, credential security, mobile support, and AI boundaries.
+
+### [How to Choose an Android SSH Client](/blog/android-ssh-client-guide)
+
+Foreground services, battery optimization, network switches, APK sources, and the limits of phone-based incident response.
+
+### [How to Choose an iPhone and iPad SSH Client](/blog/ios-ssh-client-guide)
+
+iOS background limits, keys and app lock, SFTP, external keyboards, and cellular networks.
+
+### [Can You SSH From a Phone?](/blog/can-you-ssh-on-a-phone)
+
+What iOS and Android SSH are good for — alert response, log reading, restarts — and where they stop replacing a desktop.
+
 ### [Linux SSH Client Guide: OpenSSH, AppImage, and DEB](/zh/blog/linux-ssh-client-guide) (中文)
 
 How to pick a Linux SSH client and install Termark on Ubuntu/Debian via AppImage or DEB, on x64 and ARM64.
