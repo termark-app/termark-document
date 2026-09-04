@@ -37,11 +37,11 @@ An overview of the practical workflow problems Termark aims to solve.
 
 ## Choosing an SSH client
 
-### [Linux SSH Client Guide: OpenSSH, AppImage, and DEB](/blog/linux-ssh-client-guide)
+### [Linux SSH Client Guide: OpenSSH, AppImage, and DEB](/zh/blog/linux-ssh-client-guide) (中文)
 
 How to pick a Linux SSH client and install Termark on Ubuntu/Debian via AppImage or DEB, on x64 and ARM64.
 
-### [SSH Port Forwarding Guide: Local, Remote, and Dynamic](/blog/ssh-port-forwarding-guide)
+### [SSH Port Forwarding Guide: Local, Remote, and Dynamic](/zh/blog/ssh-port-forwarding-guide) (中文)
 
 How `ssh -L`, `-R`, and `-D` work, with listening addresses, GatewayPorts, security, and troubleshooting.
 
