@@ -1,6 +1,6 @@
 ---
 title: "Make SFTP Follow the Terminal Working Directory"
-description: "Configure Bash, Zsh, or Fish so the Termark SFTP panel automatically follows the terminal working directory."
+description: "Configure Bash, Zsh, or Fish so the Termark SFTP panel automatically follows the SSH terminal working directory (SFTP CWD tracking)."
 outline: deep
 ---
 
@@ -43,3 +43,8 @@ After adding the configuration, sign in again or run `source` on the correspondi
 ## Notes
 
 If you already use `PROMPT_COMMAND` in Bash or define `precmd()` in Zsh, merge the snippet into the existing logic instead of overwriting it.
+
+## Related pages
+
+- [SSH Port Forwarding](/usage/port-forwarding)
+- [OpenWrt SFTP Not Working](/usage/openwrt-sftp)

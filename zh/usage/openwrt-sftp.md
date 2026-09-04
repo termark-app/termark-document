@@ -101,3 +101,6 @@ opkg install openssh-server openssh-sftp-server
 
 对于 OpenWrt 路由器 / NAS / 软路由，**方案一是最佳平衡**：一条 `opkg install`（约 1 MB）即可让 Termark 及其他 SFTP 客户端恢复文件管理能力，无需替换轻量 SSH 服务。
 
+## 相关页面
+
+- [SFTP 目录跟随](/zh/usage/sftp-cwd-tracking)

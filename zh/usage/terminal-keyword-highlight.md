@@ -67,3 +67,8 @@ Termark 的关键字高亮和它们不是同一类功能。
 [https://github.com/termark-app/termark/tree/main/highlights](https://github.com/termark-app/termark/tree/main/highlights)
 
 建议从少量规则开始，只高亮真正需要你注意的内容。规则太多、颜色太杂时，反而会降低输出的可读性。
+
+## 相关页面
+
+- [端口转发](/zh/usage/port-forwarding)
+- [PowerShell 浅色模式](/zh/usage/powershell-light-theme)

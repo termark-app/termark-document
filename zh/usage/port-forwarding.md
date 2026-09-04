@@ -78,3 +78,9 @@ SSH 主机在 `0.0.0.0:9090` 监听并转发到本机 `8080` 端口。
 - 端口和地址有合法性校验（1–65535），填写非法值时无法保存。
 - 修改或删除规则前必须先将规则停止。
 - 错误状态会显示具体原因，可据此排查端口占用、远端不可达等问题。
+
+## 相关页面
+
+- [自动 OTP 交互认证](/zh/usage/otp-interactive-auth)
+- [SFTP 目录跟随](/zh/usage/sftp-cwd-tracking)
+- [关键字高亮](/zh/usage/terminal-keyword-highlight)

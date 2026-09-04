@@ -1,6 +1,6 @@
 ---
-title: "Port Forwarding"
-description: "Use Termark's port forwarding: local, remote, and dynamic forwarding, plus auto-start and active-connection management."
+title: "SSH Port Forwarding: Local, Remote, and Dynamic Tunnels"
+description: "Use Termark's SSH port forwarding: local (-L), remote (-R), and dynamic SOCKS5 (-D) tunnels, auto-start, and active connection management."
 outline: deep
 ---
 
@@ -78,3 +78,9 @@ Point your system or browser proxy to `127.0.0.1:1080` to reach the target netwo
 - Ports and addresses are validated (1–65535); invalid values cannot be saved.
 - You must stop a rule before modifying or deleting it.
 - Error status shows the specific reason, useful for troubleshooting port conflicts or unreachable remote ends.
+
+## Related pages
+
+- [Automatic OTP Interactive Auth](/usage/otp-interactive-auth)
+- [SFTP CWD Tracking](/usage/sftp-cwd-tracking)
+- [Keyword Highlight](/usage/terminal-keyword-highlight)

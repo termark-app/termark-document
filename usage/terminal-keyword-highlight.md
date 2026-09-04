@@ -67,3 +67,8 @@ You can refer to the example rules in the Termark repository:
 [https://github.com/termark-app/termark/tree/main/highlights](https://github.com/termark-app/termark/tree/main/highlights)
 
 Start with a small number of rules and highlight only what truly needs attention. Too many rules and colors can make output harder to read.
+
+## Related pages
+
+- [SSH Port Forwarding](/usage/port-forwarding)
+- [Powershell Light Mode](/usage/powershell-light-theme)

@@ -1,6 +1,6 @@
 ---
-title: "Automatic OTP Interactive Authentication"
-description: "Configure the host OTP secret and interactive prompt match so Termark automatically matches the SSH interactive auth prompt and submits the verification code."
+title: "Automatic OTP Interactive Authentication for SSH"
+description: "Configure the host OTP secret and interactive prompt match text so Termark auto-detects SSH keyboard-interactive challenges and submits the TOTP code."
 outline: deep
 ---
 
@@ -48,3 +48,8 @@ If these conditions are not met, no code is submitted and the connection will pr
 - **Configuration not working**: auto-submission stays disabled if either the OTP secret or the prompt match is empty.
 - **No auto-submit**: check whether the match text actually hits the server prompt wording, and confirm this challenge is the one-time code step (a single question).
 - For multi-hop (Jump Host) setups, each host that needs OTP must be configured separately.
+
+## Related pages
+
+- [SSH Port Forwarding](/usage/port-forwarding)
+- [Local Encryption and Data Recovery](/usage/local-encryption)

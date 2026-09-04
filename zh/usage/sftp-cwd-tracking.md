@@ -43,3 +43,8 @@ end
 ## 注意事项
 
 如果你已经在 Bash 中使用了 `PROMPT_COMMAND`，或在 Zsh 中定义了 `precmd()`，需要把上面的逻辑合并到现有配置里，避免覆盖原有提示符行为。
+
+## 相关页面
+
+- [端口转发](/zh/usage/port-forwarding)
+- [OpenWrt 无法使用 SFTP](/zh/usage/openwrt-sftp)

@@ -101,3 +101,6 @@ Cost: ~5–6 MB more flash and higher RAM. Most users should prefer Option 1.
 
 For OpenWrt routers / NAS / soft-routers, **Option 1 is the best balance**: one `opkg install` (~1 MB) fixes SFTP for Termark and any other SFTP client, without replacing the lightweight SSH server.
 
+## Related pages
+
+- [SFTP CWD Tracking](/usage/sftp-cwd-tracking)
