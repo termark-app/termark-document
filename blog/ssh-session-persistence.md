@@ -184,3 +184,8 @@ As for an SSH/SFTP client such as [Termark](https://termark.app), it is not mean
 [4] [systemd.service manual](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
 
 [5] [GNU Bash Signals](https://www.gnu.org/software/bash/manual/html_node/Signals.html)
+
+## Related reading
+
+- [How to Choose an SSH Client](/blog/ssh-client-recommendation) — a selection checklist covering terminal experience and session management.
+- [Best SSH Clients in 2026 Compared](/blog/best-ssh-clients-2026) — where the terminal multiplexers and GUI clients fit.

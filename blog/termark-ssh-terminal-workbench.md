@@ -248,3 +248,8 @@ Termark is still being iterated on.
 If you work with servers often, feel free to try it, and feel free to share your real usage scenarios. Many features were not invented out of thin air; they grew out of daily work, one piece at a time.
 
 Website: <https://termark.app>
+
+## Related reading
+
+- [Best SSH Clients in 2026 Compared](/blog/best-ssh-clients-2026)
+- [Can You SSH From a Phone?](/blog/can-you-ssh-on-a-phone) — how the mobile apps complement the desktop workspace.
