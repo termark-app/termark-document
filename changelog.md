@@ -9,6 +9,28 @@ This page records Termark product updates, bug fixes, and behavior changes.
 
 For earlier releases, see the [changelog archive (v1.0.47 and earlier)](/changelog-archive).
 
+## v1.6.7 (2026-09-09)
+
+### Added
+
+- Added SFTP column-header filtering, with unified filter-selection logic across file lists.
+- Added SFTP path breadcrumbs with toggleable manual path input, unifying address-bar editing and favorite styling.
+
+### Fixed
+
+- Fixed portable-version encryption audit issues: leftover backups, missing "forgot password" entry, first-run atomicity, and copy scope.
+- Fixed the encryption password submit experience: unlocking no longer reloads the whole page, and settings dialogs accept Enter to submit.
+- Fixed sync downloads overwriting local changes, version rollback, and corrupt-data recovery.
+- Fixed host CSV import with UTF-8 BOM.
+
+### Changed
+
+- The portable version no longer asks to set an encryption key at first launch; encryption is now enabled on demand in Settings.
+- PTY terminal types now negotiate a graceful fallback.
+- Simplified sync file writes by removing the temp-file and rename flow.
+- Optimized SFTP performance for large directories with a virtualized list and cached filter/sort.
+- Improved the favorite-path management dialog: transparent background, editing, and save feedback.
+
 ## v1.6.6 (2026-09-04)
 
 ### Added
