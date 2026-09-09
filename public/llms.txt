@@ -30,6 +30,7 @@
 ## Usage documentation
 
 - [Local encryption](https://docs.termark.app/usage/local-encryption): Local encryption and recovery considerations.
+- [Cloud sync](https://docs.termark.app/usage/cloud-sync): Supported sync channels, sync passphrase encryption, and why self-hosted channels are reconfigured on each device.
 - [SFTP directory following](https://docs.termark.app/usage/sftp-cwd-tracking): Keep the SFTP panel aligned with the terminal working directory.
 - [Terminal keyword highlighting](https://docs.termark.app/usage/terminal-keyword-highlight): Highlight important text without changing shell behavior.
 

@@ -6,7 +6,11 @@ outline: deep
 
 # Local Encryption and Data Recovery
 
-Termark stores hosts, credentials, sync settings, and other data on your device. To avoid writing sensitive information to disk as plaintext, Termark encrypts sensitive fields locally.
+::: tip Cloud sync is covered in a separate page
+This page only covers **local** data encryption and recovery. For sync channels (WebDAV, S3, Git, etc.) and the sync passphrase, see [Cloud Sync](/usage/cloud-sync).
+:::
+
+Termark stores hosts, credentials, and other data on your device. To avoid writing sensitive information to disk as plaintext, Termark encrypts sensitive fields locally.
 
 Regular installed builds store the local data key required for decryption in the operating system's secure storage. The Windows portable build asks you to set a local encryption passphrase and derives the local data key directly from that passphrase.
 
@@ -52,30 +56,18 @@ Local field-level encryption currently covers sensitive connection and credentia
 
 Regular configuration used for display and management, such as host names, addresses, ports, groups, remarks, and terminal preferences, remains stored in a readable configuration form. This keeps lists, search, sorting, and management features working while encrypting the actual passwords and key material at rest.
 
-## How sync data is encrypted
-
-If you enable data sync, synced data uses a separate encryption flow.
-
-The sync passphrase is set by you. Termark uses PBKDF2-SHA256 to derive a 32-byte key from your sync passphrase and a random salt, then encrypts the data that will be uploaded with AES-256-GCM. The data stored on the sync server or third-party storage is ciphertext.
-
-The sync passphrase is not uploaded to the server. The server only stores and transfers ciphertext, and cannot decrypt your hosts, credentials, private keys, or other synced information.
-
-If you choose to remember the sync passphrase, Termark stores it in the system keychain. It uses the same service name, `termark.app`, but a different entry name: `sync-passphrase`. This is separate from the regular installed build's local data key entry, `local-data-key`; the two entries do not replace each other.
-
 ## Why we cannot decrypt your data
 
 Termark's encryption design keeps decryption capability on your device and with you:
 
 - Sensitive fields in the local database require the local data key to decrypt.
 - In regular installed builds, `local-data-key` is stored in your device's system keychain and is not uploaded to Termark's server.
-- In the Windows portable build, the local data key is derived from your local encryption passphrase and the KDF parameters in the database. The `portable-local-data-key` entry in the system keychain is only a local cache and is not uploaded to Termark's server.
-- Synced data requires the sync passphrase you set.
-- The sync passphrase is not uploaded to the server; if remembered, it is only stored in your device's system keychain.
-- AES-GCM includes integrity checks. With the wrong key or wrong sync passphrase, decryption fails instead of producing readable data.
+- The Windows portable build's local data key is derived from your local encryption passphrase and the KDF parameters in the database. The `portable-local-data-key` entry in the system keychain is only a local cache and is not uploaded to Termark's server.
+- AES-GCM includes integrity checks. With the wrong key, decryption fails instead of producing readable data.
 
-As a result, if you only provide the database file, sync ciphertext, or server-side data, we cannot restore your passwords, private keys, or other sensitive fields from it. If a regular installed build does not have the corresponding system keychain entry, the Windows portable build does not have the local encryption passphrase, or synced data does not have the sync passphrase, the ciphertext is unreadable to us as well.
+As a result, if you only provide the database file, we cannot restore your passwords, private keys, or other sensitive fields from it. If a regular installed build does not have the corresponding system keychain entry, or the Windows portable build does not have the local encryption passphrase, the ciphertext is unreadable to us as well.
 
-## What happens if the key or passphrase is lost
+## What happens if the local key is lost
 
 The following situations can make existing sensitive data impossible to decrypt:
 
@@ -84,12 +76,9 @@ The following situations can make existing sensitive data impossible to decrypt:
 - When using a regular installed build, a local database file is copied directly to another device without the corresponding local data key.
 - When using the Windows portable build, the local encryption passphrase set on first launch is forgotten.
 - When using the Windows portable build, the portable KDF parameters or local data key check value in the database are deleted or damaged.
-- The sync passphrase is forgotten and no accessible device still has it.
 - The operating system keychain is damaged, removed by cleanup tools, or inaccessible to the current user.
 
 If the local data key is lost, Termark cannot decrypt sensitive fields in the original database. You may still be able to see some non-sensitive configuration, but encrypted fields such as passwords, private keys, and proxy passwords cannot be recovered.
-
-If the sync passphrase is lost, Termark cannot decrypt cloud sync data. We also cannot reset or recover the sync passphrase from server-side data.
 
 ## Backup recommendations
 
@@ -97,8 +86,8 @@ To avoid losing access during cleanup or migration:
 
 - When migrating data from a regular installed build, do not copy only the Termark data directory. Use the operating system's migration tools to migrate the keychain as well.
 - When migrating data from the Windows portable build, copy the full `data` directory under the program directory and keep the local encryption passphrase safe. If the new device does not have a `portable-local-data-key` cache, you can unlock the data again with this passphrase. Also make sure the current user on the new device can access the system keychain.
-- If you enable sync, store the sync passphrase safely, such as in a password manager you trust.
-- Keep the old device available until the new device has signed in and sync has been confirmed.
-- For long-term archival, confirm that the local data, the corresponding key source, and the sync passphrase are all available. Regular installed builds require the system keychain; the Windows portable build requires the complete data directory and the local encryption passphrase.
+- Enable sync when needed: store the sync passphrase safely, such as in a password manager you trust. See [Cloud Sync](/usage/cloud-sync) for sync-channel details.
+- Keep the old device available until the new device has unlocked the data successfully.
+- For long-term archival, confirm that the local data and the corresponding key source are all available. Regular installed builds require the system keychain; the Windows portable build requires the complete data directory and the local encryption passphrase.
 
-Termark does not host your local data key or sync passphrase for you. This has an important consequence: we cannot recover lost sensitive data on your behalf, and the server or staff do not have the ability to decrypt user data.
+Termark does not host your local data key for you. This has an important consequence: we cannot recover lost sensitive data on your behalf, and the server or staff do not have the ability to decrypt user data.
