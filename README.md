@@ -13,4 +13,6 @@
 
 构建脚本仅复制 `redirect-site/_redirects` 和 `404.html`。也可以把构建命令清空，直接使用 `redirect-site` 作为输出目录。
 
+`public/_redirects` 同步保留同一套规则，兼容 Pages 直接执行 `vitepress build` 的既有构建配置。更新跳转时两个文件须保持一致。
+
 具体重定向优先，最后才是保留路径的兜底规则。不要把这些规则部署到 `www.termark.app`。请长期保留旧域名和 HTTPS，部署后检查 301 与目标页面的 200 状态。
